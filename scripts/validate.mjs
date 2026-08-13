@@ -30,6 +30,7 @@ const index = readJson(join(REGIONS_DIR, 'index.json'))
 const indexedFiles = new Set((index.regions ?? []).map((r) => r.file))
 
 for (const file of files) {
+  const errorsBefore = errorCount
   const data = readJson(join(REGIONS_DIR, file))
 
   // 1. JSON Schema
@@ -92,7 +93,9 @@ for (const file of files) {
     }
   }
 
-  if (errorCount === 0) console.log(`  ✓ ${file} (${data.features.length} facilities, ${subs.length} sub-regions)`)
+  if (errorCount === errorsBefore) {
+    console.log(`  ✓ ${file} (${data.features.length} facilities, ${subs.length} sub-regions)`)
+  }
 }
 
 if (errorCount > 0) {
