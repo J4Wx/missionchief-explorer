@@ -57,5 +57,11 @@ anything structural:
 
 ## Current state
 
-Phase 0 complete (plan, schema, fixture). Phase 1 (app scaffold + validation script + CI)
-is the next work — see `docs/07-roadmap.md`.
+Phase 0 (plan, schema, fixture) and Phase 1 (Vite/React/TS/Tailwind scaffold, validation
+script + CI, schema→TS type generation, region list UI with region picker & sub-region
+filter) are complete. **Phase 2** (MapLibre map + facility detail panel) is next — see
+`docs/07-roadmap.md`.
+
+Dev commands: `npm run dev` · `npm run validate` · `npm run typecheck` · `npm run lint` ·
+`npm run build` (build regenerates types first). Types in `src/types/schema.ts` are
+generated — run `npm run gen:types` after editing the schemas, never hand-edit them.
