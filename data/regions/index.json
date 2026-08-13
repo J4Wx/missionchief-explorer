@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "regions": [
+    {
+      "region_id": "us-il-springfield",
+      "name": "Springfield, IL (example)",
+      "country": "US",
+      "file": "example-springfield.geojson",
+      "status": "published",
+      "note": "Illustrative FICTIONAL fixture demonstrating the schema — not real data."
+    }
+  ]
+}
