@@ -1,0 +1,26 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
+{
+	"name": "CS Project - Rename Me (NodeJS)",
+	// Use Docker Compose to define the service and named-volume mounts.
+	// More info: https://containers.dev/guide/dockerfile
+	"dockerComposeFile": "docker-compose.yaml",
+	"service": "app",
+	"workspaceFolder": "/workspaces/project",
+	"features": {
+		// Provides sudo/root access inside the container, configured for the 'sail' user.
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"username": "sail"
+		},
+		"ghcr.io/devcontainers-extra/features/claude-code:2": {}
+	},
+	// Ensure the mounted config volumes are owned by the 'sail' user.
+	"postCreateCommand": "sudo chown 1000:1000 /home/node/.claude /home/node/.config/gh",
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Configure tool-specific properties.
+	// "customizations": {},
+	"containerEnv": {
+		"CLAUDE_CONFIG_DIR": "/home/node/.claude"
+	}
+}

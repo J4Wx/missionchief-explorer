@@ -1,0 +1,27 @@
+services:
+  app:
+    user: node
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Keep the container running for the dev container lifecycle.
+    command: sleep infinity
+    volumes:
+      # Mount the project source into the container.
+      - ..:/workspaces/project:cached
+      # Persist Claude Code config across rebuilds.
+      - source: claude-code-config
+        target: /home/node/.claude
+        type: volume
+      # Persist GitHub CLI config across rebuilds.
+      - source: gh-cli-config
+        target: /home/node/.config/gh
+        type: volume
+
+volumes:
+  claude-code-config:
+    name: claude-code-config
+    external: true
+  gh-cli-config:
+    name: gh-cli-config
+    external: true
