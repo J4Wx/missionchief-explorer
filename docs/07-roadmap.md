@@ -31,12 +31,20 @@ validated state.
       selection flies to its `center`/`bbox`.
 - **Exit:** ✅ browse a region on the map and inspect any facility.
 
-## Phase 3 — Filtering, search & sharing
+## Phase 3 — Filtering, search & sharing ✅
 
-- [ ] Category/agency/specialty/staffing/status filters with counts.
-- [ ] Fuse.js fuzzy search.
-- [ ] URL-encoded region/filter/selection state (deep links).
-- **Exit:** a player can slice the data to answer planning questions and share the view.
+- [x] Category/agency/specialty/staffing/status filters with counts
+      (`src/lib/filters.ts`, `src/ui/FilterPanel.tsx`). Facets AND across
+      dimensions, OR within; empty = no constraint (except status, which hides
+      closed/planned by default), so the cleared view has a clean URL. Facet
+      options are cross-filtered by the current selection, so choices ruled out
+      by the rest of the filters drop away.
+- [x] Fuse.js fuzzy search over name/agency/designation/specialties/subtype
+      (`src/lib/search.ts`, `src/ui/SearchBox.tsx`).
+- [x] URL-encoded region/sub-region/filter/search/selection state via
+      `replaceState` (`src/lib/url.ts`); deep links open the shared view.
+- **Exit:** ✅ a player can slice the data to answer planning questions and share
+  the view.
 
 ## Phase 4 — First real region via the agent
 
