@@ -31,7 +31,7 @@ contribute via ordinary pull requests.
 | UI | **React** | Ubiquitous, good map-library support, easy for future contributors. |
 | Styling | **Tailwind CSS** | Fast, consistent styling without bespoke CSS sprawl. |
 | Map | **MapLibre GL JS** | Open-source, vector tiles, built-in GeoJSON **clustering** & styling — key for dense urban data. |
-| Base map tiles | **OpenFreeMap** or **MapTiler** (free tier), OSM raster fallback | No/low cost; swap via one config/env value. |
+| Base map tiles | **OpenFreeMap** (default, no API key) or **MapTiler** (free tier) | No/low cost; swap the style URL via the `VITE_MAP_STYLE` env var. |
 | Client search | **Fuse.js** | Lightweight fuzzy search over names/agencies/specialties. |
 | Data validation | **ajv** (JSON Schema 2020-12) | Enforces the schema in `npm run validate` and CI. |
 | Types from schema | **json-schema-to-typescript** | Single source of truth: types generated from `facility.schema.json`. |

@@ -57,11 +57,17 @@ anything structural:
 
 ## Current state
 
-Phase 0 (plan, schema, fixture) and Phase 1 (Vite/React/TS/Tailwind scaffold, validation
+Phase 0 (plan, schema, fixture), Phase 1 (Vite/React/TS/Tailwind scaffold, validation
 script + CI, schema→TS type generation, region list UI with region picker & sub-region
-filter) are complete. **Phase 2** (MapLibre map + facility detail panel) is next — see
-`docs/07-roadmap.md`.
+filter) and Phase 2 (MapLibre clustered map + legend, facility detail panel, map ⇄ list
+selection/hover sync) are complete. **Phase 3** (filters, Fuse.js search, URL-encoded
+state) is next — see `docs/07-roadmap.md`.
 
 Dev commands: `npm run dev` · `npm run validate` · `npm run typecheck` · `npm run lint` ·
 `npm run build` (build regenerates types first). Types in `src/types/schema.ts` are
 generated — run `npm run gen:types` after editing the schemas, never hand-edit them.
+Basemap style: `VITE_MAP_STYLE` (defaults to OpenFreeMap Liberty, no API key).
+
+Marker/legend colors encode the **service group**, with a per-category code badge as the
+non-color half of the encoding (`src/lib/categories.ts`). Changing those colors means
+re-running the **dataviz** skill's `validate_palette.js` — don't eyeball them.

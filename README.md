@@ -42,9 +42,9 @@ The platform lets you:
 - **`data/regions/example-springfield.geojson`** — an illustrative (fictional) sample
   showing the shape of real data.
 
-## Quickstart (once implemented)
+## Quickstart
 
-The chosen stack is **Vite + React + TypeScript + Tailwind + MapLibre GL**, deployed as a
+The stack is **Vite + React + TypeScript + Tailwind + MapLibre GL**, deployed as a
 static site. Data ships as static per-region GeoJSON files — there is no backend to run.
 
 ```bash
@@ -53,5 +53,8 @@ npm run dev        # local dev server
 npm run validate   # validate all data files against the JSON Schema
 npm run build      # produce static site in dist/
 ```
+
+The basemap defaults to [OpenFreeMap](https://openfreemap.org/) (no API key). Point
+`VITE_MAP_STYLE` at any other MapLibre style URL to swap it.
 
 See [04 — Architecture](docs/04-architecture.md) for the rationale behind these choices.
