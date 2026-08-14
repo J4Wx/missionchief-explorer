@@ -3,12 +3,24 @@ import { loadIndex, loadRegion } from './data/regions'
 import type { Facility, RegionFeatureCollection } from './types/app'
 import { RegionPicker } from './ui/RegionPicker'
 import { SubregionFilter } from './ui/SubregionFilter'
+import { SearchBox } from './ui/SearchBox'
+import { FilterPanel } from './ui/FilterPanel'
 import { FacilityList } from './ui/FacilityList'
 import { FacilityDetail } from './ui/FacilityDetail'
 import { MapView, type MapCamera } from './map/MapView'
 import { Legend } from './map/Legend'
 import { bboxOf, toPosition, type Position } from './lib/geo'
 import { subtreeIds } from './lib/subregions'
+import {
+  computeFacets,
+  EMPTY_FILTERS,
+  matchesFacets,
+  toggleFacet,
+  type FacetKey,
+  type Filters,
+} from './lib/filters'
+import { useSearch } from './lib/search'
+import { parseUrl, writeUrl } from './lib/url'
 
 const FALLBACK_CENTER: Position = [-98.58, 39.83]
 const FALLBACK_ZOOM = 4
@@ -20,10 +32,34 @@ export default function App() {
     [index],
   )
 
-  const [regionId, setRegionId] = useState(regions[0]?.region_id ?? '')
-  const [rawSubregionId, setSubregionId] = useState('all')
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+  // Initial state comes from the URL so deep links open the shared view.
+  const initial = useMemo(() => parseUrl(), [])
+
+  const [regionId, setRegionId] = useState(() =>
+    initial.regionId && regions.some((r) => r.region_id === initial.regionId)
+      ? initial.regionId
+      : (regions[0]?.region_id ?? ''),
+  )
+  const [rawSubregionId, setSubregionId] = useState(initial.subregionId ?? 'all')
+  const [filters, setFilters] = useState<Filters>(initial.filters)
+  const [selectedId, setSelectedId] = useState<string | null>(initial.selectedId)
   const [hoveredId, setHoveredId] = useState<string | null>(null)
+
+  // Switching region resets the region-specific narrowing (agencies, sub-region
+  // and selection differ per region); deep-link init above is preserved.
+  const changeRegion = useCallback((id: string) => {
+    setRegionId(id)
+    setSubregionId('all')
+    setFilters(EMPTY_FILTERS)
+    setSelectedId(null)
+  }, [])
+
+  const toggleFilter = useCallback(
+    (key: FacetKey, value: string) => setFilters((f) => toggleFacet(f, key, value)),
+    [],
+  )
+  const clearFilters = useCallback(() => setFilters(EMPTY_FILTERS), [])
+  const setQuery = useCallback((query: string) => setFilters((f) => ({ ...f, query })), [])
 
   const entry = regions.find((r) => r.region_id === regionId)
   const file = entry?.file
@@ -77,7 +113,8 @@ export default function App() {
     return totals
   }, [region, subregions])
 
-  const visible = useMemo(() => {
+  // Sub-region narrowing: the set the facet options and map framing describe.
+  const narrowed = useMemo(() => {
     const features = region?.features ?? []
     if (subregionId === 'all') return features
     const ids = subtreeIds(subregions, subregionId)
@@ -87,14 +124,26 @@ export default function App() {
     })
   }, [region, subregions, subregionId])
 
+  // Facet options + counts, cross-filtered by the current selection: each
+  // dimension counts against the *other* active filters, so options that the
+  // rest of the selection has ruled out drop away.
+  const facets = useMemo(() => computeFacets(narrowed, filters), [narrowed, filters])
+
+  // The final view: facet filters, then fuzzy search. Feeds map + list + legend.
+  const facetFiltered = useMemo(
+    () => narrowed.filter((f) => matchesFacets(f.properties, filters)),
+    [narrowed, filters],
+  )
+  const results = useSearch(facetFiltered, filters.query)
+
   const categoryCounts = useMemo(() => {
     const c: Partial<Record<Facility['category'], number>> = {}
-    for (const f of visible) {
+    for (const f of results) {
       const cat = f.properties.category
       c[cat] = (c[cat] ?? 0) + 1
     }
     return c
-  }, [visible])
+  }, [results])
 
   // Where the map sits: the region's declared view, or the selected
   // sub-region's own center/bbox when it has one.
@@ -114,16 +163,21 @@ export default function App() {
       center: subCenter ?? regionCenter,
       zoom: sub?.zoom ?? Math.max(regionZoom, 12),
       // Prefer a declared bbox; otherwise frame whatever is in the sub-region.
-      bbox: sub?.bbox ?? (subCenter ? null : bboxOf(visible)),
+      bbox: sub?.bbox ?? (subCenter ? null : bboxOf(narrowed)),
     }
-  }, [region, regionId, subregions, subregionId, visible])
+  }, [region, regionId, subregions, subregionId, narrowed])
 
   const selected = useMemo(
-    () => visible.find((f) => f.properties.id === selectedId) ?? null,
-    [visible, selectedId],
+    () => results.find((f) => f.properties.id === selectedId) ?? null,
+    [results, selectedId],
   )
 
   const clearSelection = useCallback(() => setSelectedId(null), [])
+
+  // Reflect the current view into the URL for deep links / sharing.
+  useEffect(() => {
+    writeUrl({ regionId, subregionId, filters, selectedId })
+  }, [regionId, subregionId, filters, selectedId])
 
   return (
     <div className="flex h-screen flex-col bg-slate-100 text-slate-900">
@@ -131,7 +185,7 @@ export default function App() {
         <div className="flex flex-wrap items-center gap-4 px-4 py-3">
           <h1 className="text-lg font-bold text-slate-900">Dispatch Atlas</h1>
           {regions.length > 0 && (
-            <RegionPicker regions={regions} value={regionId} onChange={setRegionId} />
+            <RegionPicker regions={regions} value={regionId} onChange={changeRegion} />
           )}
           <SubregionFilter
             subregions={subregions}
@@ -142,9 +196,10 @@ export default function App() {
               setSelectedId(null)
             }}
           />
+          {region && <SearchBox value={filters.query} onChange={setQuery} />}
           {region && (
             <span className="ml-auto text-sm text-slate-500">
-              {visible.length} facilit{visible.length === 1 ? 'y' : 'ies'}
+              {results.length} facilit{results.length === 1 ? 'y' : 'ies'}
             </span>
           )}
         </div>
@@ -164,9 +219,17 @@ export default function App() {
             <div className="border-b border-slate-200 px-4 py-2 text-sm font-medium text-slate-600">
               {region.metadata.name}
             </div>
+            <FilterPanel
+              facets={facets}
+              filters={filters}
+              resultCount={results.length}
+              totalCount={narrowed.length}
+              onToggle={toggleFilter}
+              onClear={clearFilters}
+            />
             <div className="min-h-0 flex-1 overflow-y-auto">
               <FacilityList
-                features={visible}
+                features={results}
                 subregionName={subregionName}
                 selectedId={selectedId}
                 hoveredId={hoveredId}
@@ -178,7 +241,7 @@ export default function App() {
 
           <div className="relative min-h-0 flex-1">
             <MapView
-              features={visible}
+              features={results}
               camera={camera}
               selectedId={selectedId}
               hoveredId={hoveredId}
