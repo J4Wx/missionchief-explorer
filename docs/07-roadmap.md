@@ -21,12 +21,15 @@ validated state.
 - **Exit:** ✅ app builds, `validate`/`typecheck`/`lint`/`build` all pass and run in CI, the
   example region renders as a list.
 
-## Phase 2 — Map & detail
+## Phase 2 — Map & detail ✅
 
-- [ ] MapLibre GL map with clustered, category-colored markers + legend.
-- [ ] Facility detail panel (units, specialties, attributes, `game` block, sources).
-- [ ] Map ⇄ list selection sync; region picker.
-- **Exit:** browse a region on the map and inspect any facility.
+- [x] MapLibre GL map with clustered, category-colored markers + legend
+      (`src/map/MapView.tsx`, `src/map/Legend.tsx`).
+- [x] Facility detail panel (units, specialties, attributes, `game` block, sources)
+      (`src/ui/FacilityDetail.tsx`).
+- [x] Map ⇄ list selection/hover sync; region picker recenters the map, sub-region
+      selection flies to its `center`/`bbox`.
+- **Exit:** ✅ browse a region on the map and inspect any facility.
 
 ## Phase 3 — Filtering, search & sharing
 

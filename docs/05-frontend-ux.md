@@ -43,11 +43,19 @@ A three-region, map-centric layout (responsive → stacked on mobile):
 
 ### Map (`MapView`)
 - MapLibre GL with a **clustered** GeoJSON source.
-- **Category-colored** markers with distinct icons (fire, police, hospital, jail, tow…).
+- Markers are **colored by service group** and **badged with a per-category code**
+  (`FD`, `EM`, `PD`, `JL`, `TW`…). Fourteen simultaneously distinguishable hues don't
+  exist, so color carries the group (fire / medical / law enforcement / corrections /
+  support) and the badge carries the category — identity never rests on color alone.
+  Group colors live in `src/lib/categories.ts` and are validated with the **dataviz**
+  skill's checker on the all-pairs pairlist.
 - Cluster bubbles show counts; clicking a cluster zooms to expand.
 - Clicking a marker selects the facility (opens detail, highlights list row).
 - Popups on hover show name + category + designation.
-- A legend maps colors/icons → categories.
+- A legend maps group colors + category badges → categories, with counts for the
+  current view.
+- Basemap style is configurable via `VITE_MAP_STYLE` (defaults to OpenFreeMap
+  Liberty); if it fails to load the list stays usable and the map says so.
 
 ### Filter bar / rail (`FilterBar`)
 - **Category** multi-select (with counts).
@@ -104,6 +112,7 @@ A three-region, map-centric layout (responsive → stacked on mobile):
 
 ## Visual language
 
-- One icon + one accessible color per `category`; specialties shown as text/badges.
+- One accessible color per **service group** + a short code badge per `category`
+  (see Map above); specialties shown as text/badges.
 - Neutral, map-forward UI chrome so the data and markers dominate.
 - Density-friendly typography — players scan a lot of stations at once.
