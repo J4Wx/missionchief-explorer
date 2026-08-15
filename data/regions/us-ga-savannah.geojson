@@ -1,0 +1,4114 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "region_id": "us-ga-savannah",
+    "name": "Savannah, GA (Chatham County)",
+    "country": "US",
+    "center": [
+      -81.1,
+      32.05
+    ],
+    "zoom": 11,
+    "subregions": [
+      {
+        "id": "downtown-savannah",
+        "name": "Downtown / Historic District",
+        "level": "district",
+        "parent": null,
+        "center": [
+          -81.091,
+          32.076
+        ],
+        "zoom": 14
+      },
+      {
+        "id": "midtown-savannah",
+        "name": "Midtown Savannah",
+        "level": "district",
+        "parent": null,
+        "center": [
+          -81.095,
+          32.03
+        ],
+        "zoom": 13
+      },
+      {
+        "id": "southside-savannah",
+        "name": "Southside Savannah",
+        "level": "district",
+        "parent": null,
+        "center": [
+          -81.115,
+          31.995
+        ],
+        "zoom": 12
+      },
+      {
+        "id": "westside-savannah",
+        "name": "Westside / Airport",
+        "level": "district",
+        "parent": null,
+        "center": [
+          -81.18,
+          32.09
+        ],
+        "zoom": 12
+      },
+      {
+        "id": "savannah-islands",
+        "name": "Eastern Islands (Wilmington / Whitemarsh / Skidaway / Isle of Hope)",
+        "level": "district",
+        "parent": null,
+        "center": [
+          -81.01,
+          32.01
+        ],
+        "zoom": 12
+      },
+      {
+        "id": "pooler",
+        "name": "Pooler",
+        "level": "municipality",
+        "parent": null,
+        "center": [
+          -81.25,
+          32.115
+        ],
+        "zoom": 12
+      },
+      {
+        "id": "garden-city",
+        "name": "Garden City",
+        "level": "municipality",
+        "parent": null,
+        "center": [
+          -81.165,
+          32.1
+        ],
+        "zoom": 13
+      },
+      {
+        "id": "port-wentworth",
+        "name": "Port Wentworth",
+        "level": "municipality",
+        "parent": null,
+        "center": [
+          -81.165,
+          32.15
+        ],
+        "zoom": 13
+      },
+      {
+        "id": "thunderbolt",
+        "name": "Thunderbolt",
+        "level": "municipality",
+        "parent": null,
+        "center": [
+          -81.052,
+          32.033
+        ],
+        "zoom": 14
+      },
+      {
+        "id": "tybee-island",
+        "name": "Tybee Island",
+        "level": "municipality",
+        "parent": null,
+        "center": [
+          -80.848,
+          32.005
+        ],
+        "zoom": 13
+      },
+      {
+        "id": "unincorporated-chatham",
+        "name": "Unincorporated Chatham County",
+        "level": "other",
+        "parent": null,
+        "center": [
+          -81.18,
+          32.01
+        ],
+        "zoom": 11
+      }
+    ],
+    "generated_by": "agent",
+    "generated_at": "2026-08-14",
+    "schema_version": 1
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.0971,
+          32.0331
+        ]
+      },
+      "properties": {
+        "id": "sfd-station-1",
+        "name": "Savannah Fire Station 1",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "midtown-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Fire & Emergency Services",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 1",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "535 E 63rd St",
+          "postal_code": "31405"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "engine",
+            "designation": "Engine 1",
+            "count": 1
+          },
+          {
+            "type": "ladder",
+            "designation": "Truck 1",
+            "count": 1
+          },
+          {
+            "type": "rehab",
+            "designation": "Rehab 1",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Midtown career house with an engine + truck; solid all-round early build."
+        },
+        "significance": "Midtown first-due engine/truck company.",
+        "sources": [
+          {
+            "title": "Savannah Fire stations & apparatus — GeorgiaFireSource",
+            "url": "https://www.georgiafiresource.com/SavannahFD.htm",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Fire & Emergency Services — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Savannah_Fire_%26_Emergency_Services",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.1279,
+          31.9881
+        ]
+      },
+      "properties": {
+        "id": "sfd-station-2",
+        "name": "Savannah Fire Station 2",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "southside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Fire & Emergency Services",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 2",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "5 Skyline Dr",
+          "postal_code": "31406"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "engine",
+            "designation": "Engine 2",
+            "count": 1
+          },
+          {
+            "type": "ladder",
+            "designation": "Truck 2",
+            "count": 1
+          },
+          {
+            "type": "rescue",
+            "designation": "Rescue 2",
+            "count": 1
+          },
+          {
+            "type": "brush",
+            "designation": "Brush 1",
+            "count": 1
+          }
+        ],
+        "specialties": [
+          "technical_rescue"
+        ],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Engine + truck + rescue + brush — a heavy southside house good for varied missions."
+        },
+        "significance": "Southside house with a rescue company and brush unit.",
+        "sources": [
+          {
+            "title": "Savannah Fire stations & apparatus — GeorgiaFireSource",
+            "url": "https://www.georgiafiresource.com/SavannahFD.htm",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Fire & Emergency Services — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Savannah_Fire_%26_Emergency_Services",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.0908,
+          32.0745
+        ]
+      },
+      "properties": {
+        "id": "sfd-station-3-hq",
+        "name": "Savannah Fire Station 3 (Headquarters)",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "downtown-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Fire & Emergency Services",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 3 / HQ",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "121 E Oglethorpe Ave",
+          "postal_code": "31401"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "engine",
+            "designation": "Engine 3",
+            "count": 1
+          },
+          {
+            "type": "rescue",
+            "designation": "Rescue 1",
+            "count": 1
+          },
+          {
+            "type": "marine",
+            "designation": "Marine 1 (fireboat)",
+            "count": 1,
+            "attributes": {
+              "fireboat": true
+            }
+          }
+        ],
+        "specialties": [
+          "technical_rescue",
+          "marine_rescue"
+        ],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Department HQ in the Historic District; hosts a heavy rescue and the river fireboat. Priority build for downtown and waterfront missions."
+        },
+        "significance": "Departmental headquarters in the National Historic Landmark District; home of Rescue 1 and fireboat Marine 1 on the Savannah River.",
+        "sources": [
+          {
+            "title": "Savannah Fire Station 3 (Headquarters) — City of Savannah",
+            "url": "https://www.savannahga.gov/facilities/Facility/Details/128",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Marine 1 (Savannah fireboat) — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Marine_1_(Savannah_fireboat)",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Fire stations & apparatus — GeorgiaFireSource",
+            "url": "https://www.georgiafiresource.com/SavannahFD.htm",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Fire & Emergency Services — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Savannah_Fire_%26_Emergency_Services",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.1294,
+          32.0902
+        ]
+      },
+      "properties": {
+        "id": "sfd-station-4",
+        "name": "Savannah Fire Station 4",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "westside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Fire & Emergency Services",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 4",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "2402 Augusta Ave",
+          "postal_code": "31408"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "engine",
+            "designation": "Engine 4",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station",
+            "Small Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Single-engine westside house; a small build covers the district."
+        },
+        "significance": "Single-engine company on the west side. Street address differs between city and registry listings.",
+        "sources": [
+          {
+            "title": "Savannah Fire stations & apparatus — GeorgiaFireSource",
+            "url": "https://www.georgiafiresource.com/SavannahFD.htm",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Fire & Emergency Services — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Savannah_Fire_%26_Emergency_Services",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.09968,
+          32.0609
+        ]
+      },
+      "properties": {
+        "id": "sfd-station-5",
+        "name": "Savannah Fire Station 5",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "midtown-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Fire & Emergency Services",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 5",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "10 W 33rd St",
+          "postal_code": "31401"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "engine",
+            "designation": "Engine 5",
+            "count": 1
+          },
+          {
+            "type": "ladder",
+            "designation": "Truck 5 (tiller)",
+            "count": 1,
+            "attributes": {
+              "tiller": true
+            }
+          },
+          {
+            "type": "battalion",
+            "designation": "Battalion 1",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Battalion 1 command house with the city’s only tractor-drawn (tiller) aerial. Good for tight Victorian/Historic District access."
+        },
+        "significance": "Battalion 1 HQ; operates the department’s only tiller ladder.",
+        "sources": [
+          {
+            "title": "Savannah Fire stations & apparatus — GeorgiaFireSource",
+            "url": "https://www.georgiafiresource.com/SavannahFD.htm",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Fire & Emergency Services — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Savannah_Fire_%26_Emergency_Services",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.13534,
+          32.05422
+        ]
+      },
+      "properties": {
+        "id": "sfd-station-6",
+        "name": "Savannah Fire Station 6 (HazMat)",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "midtown-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Fire & Emergency Services",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 6",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "3000 Liberty Pkwy",
+          "postal_code": "31405"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "engine",
+            "designation": "Engine 6",
+            "count": 1
+          },
+          {
+            "type": "hazmat",
+            "designation": "HazMat",
+            "count": 4
+          }
+        ],
+        "specialties": [
+          "hazmat"
+        ],
+        "attributes": {
+          "decon_trailer": true
+        },
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "The department’s HazMat station (FEMA Type II team, 4 hazmat units + decon). Build the hazmat expansion here to unlock hazardous-materials missions."
+        },
+        "significance": "Home of the Hazardous Materials Response Team (FEMA Type II) and decon trailer for the whole city.",
+        "sources": [
+          {
+            "title": "Hazardous Materials Response Team — City of Savannah",
+            "url": "https://www.savannahga.gov/679/Hazardous-Materials-Response-Team",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Fire stations & apparatus — GeorgiaFireSource",
+            "url": "https://www.georgiafiresource.com/SavannahFD.htm",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Fire & Emergency Services — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Savannah_Fire_%26_Emergency_Services",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.0905,
+          32.0012
+        ]
+      },
+      "properties": {
+        "id": "sfd-station-7",
+        "name": "Savannah Fire Station 7",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "southside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Fire & Emergency Services",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 7",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "6902 Sallie Mood Dr",
+          "postal_code": "31406"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "engine",
+            "designation": "Engine 7",
+            "count": 1
+          },
+          {
+            "type": "ladder",
+            "designation": "Truck 7",
+            "count": 1
+          },
+          {
+            "type": "battalion",
+            "designation": "Battalion 2",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Battalion 2 command house on the southside with engine + truck."
+        },
+        "significance": "Battalion 2 HQ covering the southside.",
+        "sources": [
+          {
+            "title": "Savannah Fire stations & apparatus — GeorgiaFireSource",
+            "url": "https://www.georgiafiresource.com/SavannahFD.htm",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Fire & Emergency Services — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Savannah_Fire_%26_Emergency_Services",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.077,
+          32.04402
+        ]
+      },
+      "properties": {
+        "id": "sfd-station-8",
+        "name": "Savannah Fire Station 8",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "midtown-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Fire & Emergency Services",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 8",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "2824 Bee Rd",
+          "postal_code": "31404"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "engine",
+            "designation": "Engine 8",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Small Fire Station",
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Single-engine house off Bee Road."
+        },
+        "significance": "Single-engine company in the Bee Road corridor.",
+        "sources": [
+          {
+            "title": "Savannah Fire stations & apparatus — GeorgiaFireSource",
+            "url": "https://www.georgiafiresource.com/SavannahFD.htm",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Fire & Emergency Services — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Savannah_Fire_%26_Emergency_Services",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.0545,
+          32.0638
+        ]
+      },
+      "properties": {
+        "id": "sfd-station-9",
+        "name": "Savannah Fire Station 9",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "midtown-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Fire & Emergency Services",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 9",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "2235 Capital St",
+          "postal_code": "31404"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "engine",
+            "designation": "Engine 9",
+            "count": 1
+          },
+          {
+            "type": "rescue",
+            "designation": "GSAR 5 (Georgia Search & Rescue)",
+            "count": 1
+          }
+        ],
+        "specialties": [
+          "technical_rescue"
+        ],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Hosts a Georgia Search & Rescue (GSAR) technical-rescue asset and the training unit."
+        },
+        "significance": "Houses the GSAR technical-rescue trailer/team.",
+        "sources": [
+          {
+            "title": "Savannah Fire stations & apparatus — GeorgiaFireSource",
+            "url": "https://www.georgiafiresource.com/SavannahFD.htm",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Fire & Emergency Services — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Savannah_Fire_%26_Emergency_Services",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.14303,
+          31.95565
+        ]
+      },
+      "properties": {
+        "id": "sfd-station-10",
+        "name": "Savannah Fire Station 10",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "southside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Fire & Emergency Services",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 10",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "13710 Coffee Bluff Rd",
+          "postal_code": "31419"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "engine",
+            "designation": "Engine 10",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Small Fire Station",
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Remote single-engine house covering Coffee Bluff on the far southside."
+        },
+        "significance": "Covers the isolated Coffee Bluff peninsula.",
+        "sources": [
+          {
+            "title": "Savannah Fire stations & apparatus — GeorgiaFireSource",
+            "url": "https://www.georgiafiresource.com/SavannahFD.htm",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Fire & Emergency Services — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Savannah_Fire_%26_Emergency_Services",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.166,
+          31.9895
+        ]
+      },
+      "properties": {
+        "id": "sfd-station-11",
+        "name": "Savannah Fire Station 11",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "southside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Fire & Emergency Services",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 11",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "11844 Apache Ave",
+          "postal_code": "31419"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "engine",
+            "designation": "Engine 11",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Small Fire Station",
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Single-engine house near the Savannah Mall / Abercorn corridor."
+        },
+        "significance": "Southside single-engine company. Address differs between city and registry listings.",
+        "sources": [
+          {
+            "title": "Savannah Fire stations & apparatus — GeorgiaFireSource",
+            "url": "https://www.georgiafiresource.com/SavannahFD.htm",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Fire & Emergency Services — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Savannah_Fire_%26_Emergency_Services",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.27163,
+          31.99056
+        ]
+      },
+      "properties": {
+        "id": "sfd-station-12",
+        "name": "Savannah Fire Station 12",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "southside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Fire & Emergency Services",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 12",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "1216 Bradley Blvd",
+          "postal_code": "31419"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "engine",
+            "designation": "Engine 12",
+            "count": 1
+          },
+          {
+            "type": "ladder",
+            "designation": "Truck 12",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Engine + truck house serving the southwest (Berwick) area."
+        },
+        "significance": "Southwest engine/truck company. Address differs between city and registry listings.",
+        "sources": [
+          {
+            "title": "Savannah Fire stations & apparatus — GeorgiaFireSource",
+            "url": "https://www.georgiafiresource.com/SavannahFD.htm",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Fire & Emergency Services — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Savannah_Fire_%26_Emergency_Services",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.2262,
+          32.13893
+        ]
+      },
+      "properties": {
+        "id": "sfd-station-13",
+        "name": "Savannah Fire Station 13",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "westside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Fire & Emergency Services",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 13",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "11 McKenna Dr",
+          "postal_code": "31407"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "engine",
+            "designation": "Engine 13",
+            "count": 1
+          },
+          {
+            "type": "ladder",
+            "designation": "Truck 13",
+            "count": 1
+          },
+          {
+            "type": "battalion",
+            "designation": "Battalion 3",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Battalion 3 command house in the Godley Station / airport growth area; engine + truck."
+        },
+        "significance": "Battalion 3 HQ and Special Operations chief; covers the fast-growing airport/Godley Station annex.",
+        "sources": [
+          {
+            "title": "Savannah Fire stations & apparatus — GeorgiaFireSource",
+            "url": "https://www.georgiafiresource.com/SavannahFD.htm",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Fire & Emergency Services — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Savannah_Fire_%26_Emergency_Services",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.26,
+          32.005
+        ]
+      },
+      "properties": {
+        "id": "sfd-station-14",
+        "name": "Savannah Fire Station 14",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "southside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Fire & Emergency Services",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 14",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "480 Highlands Blvd",
+          "postal_code": "31419"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "engine",
+            "designation": "Engine 14",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Small Fire Station",
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Single-engine house for the New Hampstead / Highlands growth area (approximate location)."
+        },
+        "significance": "Serves the New Hampstead / Highlands development in west-southwest Chatham. Coordinates approximate (geocoded).",
+        "sources": [
+          {
+            "title": "Savannah Fire stations & apparatus — GeorgiaFireSource",
+            "url": "https://www.georgiafiresource.com/SavannahFD.htm",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Fire & Emergency Services — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Savannah_Fire_%26_Emergency_Services",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "low",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.2419,
+          31.9655
+        ]
+      },
+      "properties": {
+        "id": "sfd-station-15",
+        "name": "Savannah Fire Station 15",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "southside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Fire & Emergency Services",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 15",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "740 Chevis Rd",
+          "postal_code": "31419"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "engine",
+            "designation": "Engine 15",
+            "count": 1
+          },
+          {
+            "type": "ladder",
+            "designation": "Truck 15",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Engine + truck house in the far southwest."
+        },
+        "significance": "Far-southwest engine/truck company. Address differs between city and registry listings.",
+        "sources": [
+          {
+            "title": "Savannah Fire stations & apparatus — GeorgiaFireSource",
+            "url": "https://www.georgiafiresource.com/SavannahFD.htm",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Fire & Emergency Services — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Savannah_Fire_%26_Emergency_Services",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "low",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.197,
+          32.13117
+        ]
+      },
+      "properties": {
+        "id": "sav-airport-arff-165aw",
+        "name": "165th Airlift Wing Fire Department (SAV ARFF)",
+        "category": "fire",
+        "subtype": "arff",
+        "subregion_id": "westside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "165th Airlift Wing, Georgia Air National Guard",
+          "type": "state_agency",
+          "level": "state",
+          "parent": "Georgia Department of Defense"
+        },
+        "designation": "Fire & Emergency Services Flight",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "Savannah/Hilton Head Intl Airport, 400 Airways Ave",
+          "postal_code": "31408"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [
+          "arff"
+        ],
+        "attributes": {
+          "arff_index": "C"
+        },
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Aircraft Rescue & Firefighting for Savannah/Hilton Head International (FAA ARFF Index C), provided by the co-located Air National Guard fire department. Specific crash apparatus not publicly documented."
+        },
+        "significance": "Provides ARFF coverage for the joint civil/military airfield (SAV); no separate civilian airport fire department. Apparatus roster not publicly documented.",
+        "sources": [
+          {
+            "title": "165th Airlift Wing — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/165th_Airlift_Wing",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah/Hilton Head International Airport — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Savannah/Hilton_Head_International_Airport",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "KSAV airport data (ARFF Index) — AirNav",
+            "url": "https://www.airnav.com/airport/KSAV",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.20877,
+          32.06113
+        ]
+      },
+      "properties": {
+        "id": "ccfd-station-1",
+        "name": "Chatham County Fire Station 1 (HQ)",
+        "category": "fire",
+        "subtype": "combination",
+        "subregion_id": "unincorporated-chatham",
+        "status": "active",
+        "agency": {
+          "name": "Chatham County Fire Department",
+          "type": "fire_department",
+          "level": "county",
+          "parent": null
+        },
+        "designation": "Station 1 (HQ)",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "1399 Dean Forest Rd",
+          "postal_code": "31408"
+        },
+        "staffing_model": "combination",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Unincorporated-county combination fire house. Apparatus not publicly documented (units left empty rather than guessed)."
+        },
+        "significance": "County fire services transferred from Chatham Emergency Services (Southside) to Chatham County Fire Dept on 2024-07-01; apparatus rosters not publicly documented.",
+        "sources": [
+          {
+            "title": "Chatham County Fire Department — About",
+            "url": "https://fire.chathamcountyga.gov/AboutUs",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "CES / county fire station divisions",
+            "url": "https://chathames.org/volunteer/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "History & Stations — Chatham Emergency Services",
+            "url": "https://chathames.org/history/",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.0852,
+          31.9903
+        ]
+      },
+      "properties": {
+        "id": "ccfd-station-2",
+        "name": "Chatham County Fire Station 2",
+        "category": "fire",
+        "subtype": "combination",
+        "subregion_id": "southside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Chatham County Fire Department",
+          "type": "fire_department",
+          "level": "county",
+          "parent": null
+        },
+        "designation": "Station 2",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "1831 E Montgomery Cross Rd",
+          "postal_code": "31406"
+        },
+        "staffing_model": "combination",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Unincorporated-county combination fire house. Apparatus not publicly documented (units left empty rather than guessed)."
+        },
+        "significance": "County fire services transferred from Chatham Emergency Services (Southside) to Chatham County Fire Dept on 2024-07-01; apparatus rosters not publicly documented.",
+        "sources": [
+          {
+            "title": "Chatham County Fire Department — About",
+            "url": "https://fire.chathamcountyga.gov/AboutUs",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "CES / county fire station divisions",
+            "url": "https://chathames.org/volunteer/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "History & Stations — Chatham Emergency Services",
+            "url": "https://chathames.org/history/",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.2166,
+          31.9565
+        ]
+      },
+      "properties": {
+        "id": "ccfd-station-3",
+        "name": "Chatham County Fire Station 3",
+        "category": "fire",
+        "subtype": "combination",
+        "subregion_id": "unincorporated-chatham",
+        "status": "active",
+        "agency": {
+          "name": "Chatham County Fire Department",
+          "type": "fire_department",
+          "level": "county",
+          "parent": null
+        },
+        "designation": "Station 3",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "2009 Grove Point Rd",
+          "postal_code": "31419"
+        },
+        "staffing_model": "combination",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Unincorporated-county combination fire house. Apparatus not publicly documented (units left empty rather than guessed)."
+        },
+        "significance": "County fire services transferred from Chatham Emergency Services (Southside) to Chatham County Fire Dept on 2024-07-01; apparatus rosters not publicly documented.",
+        "sources": [
+          {
+            "title": "Chatham County Fire Department — About",
+            "url": "https://fire.chathamcountyga.gov/AboutUs",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "CES / county fire station divisions",
+            "url": "https://chathames.org/volunteer/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "History & Stations — Chatham Emergency Services",
+            "url": "https://chathames.org/history/",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.9537,
+          32.0234
+        ]
+      },
+      "properties": {
+        "id": "ccfd-station-4",
+        "name": "Chatham County Fire Station 4 (Islands)",
+        "category": "fire",
+        "subtype": "combination",
+        "subregion_id": "savannah-islands",
+        "status": "active",
+        "agency": {
+          "name": "Chatham County Fire Department",
+          "type": "fire_department",
+          "level": "county",
+          "parent": null
+        },
+        "designation": "Station 4 (Islands)",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "155 Wilmington Island Rd",
+          "postal_code": "31410"
+        },
+        "staffing_model": "combination",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Unincorporated-county combination fire house. Apparatus not publicly documented (units left empty rather than guessed)."
+        },
+        "significance": "County fire services transferred from Chatham Emergency Services (Southside) to Chatham County Fire Dept on 2024-07-01; apparatus rosters not publicly documented.",
+        "sources": [
+          {
+            "title": "Chatham County Fire Department — About",
+            "url": "https://fire.chathamcountyga.gov/AboutUs",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "CES / county fire station divisions",
+            "url": "https://chathames.org/volunteer/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "History & Stations — Chatham Emergency Services",
+            "url": "https://chathames.org/history/",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.046,
+          31.964
+        ]
+      },
+      "properties": {
+        "id": "ccfd-station-5",
+        "name": "Chatham County Fire Station 5 (Skidaway)",
+        "category": "fire",
+        "subtype": "combination",
+        "subregion_id": "savannah-islands",
+        "status": "active",
+        "agency": {
+          "name": "Chatham County Fire Department",
+          "type": "fire_department",
+          "level": "county",
+          "parent": null
+        },
+        "designation": "Station 5 (Skidaway)",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "553 McWhorter Dr",
+          "postal_code": "31411"
+        },
+        "staffing_model": "combination",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Unincorporated-county combination fire house. Apparatus not publicly documented (units left empty rather than guessed)."
+        },
+        "significance": "County fire services transferred from Chatham Emergency Services (Southside) to Chatham County Fire Dept on 2024-07-01; apparatus rosters not publicly documented.",
+        "sources": [
+          {
+            "title": "Chatham County Fire Department — About",
+            "url": "https://fire.chathamcountyga.gov/AboutUs",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "CES / county fire station divisions",
+            "url": "https://chathames.org/volunteer/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "History & Stations — Chatham Emergency Services",
+            "url": "https://chathames.org/history/",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "low",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.125,
+          31.99
+        ]
+      },
+      "properties": {
+        "id": "ccfd-station-6",
+        "name": "Chatham County Fire Station 6",
+        "category": "fire",
+        "subtype": "combination",
+        "subregion_id": "southside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Chatham County Fire Department",
+          "type": "fire_department",
+          "level": "county",
+          "parent": null
+        },
+        "designation": "Station 6",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "214 Shipyard Rd",
+          "postal_code": "31419"
+        },
+        "staffing_model": "combination",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Unincorporated-county combination fire house. Apparatus not publicly documented (units left empty rather than guessed)."
+        },
+        "significance": "County fire services transferred from Chatham Emergency Services (Southside) to Chatham County Fire Dept on 2024-07-01; apparatus rosters not publicly documented.",
+        "sources": [
+          {
+            "title": "Chatham County Fire Department — About",
+            "url": "https://fire.chathamcountyga.gov/AboutUs",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "CES / county fire station divisions",
+            "url": "https://chathames.org/volunteer/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "History & Stations — Chatham Emergency Services",
+            "url": "https://chathames.org/history/",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "low",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.2085,
+          32.0615
+        ]
+      },
+      "properties": {
+        "id": "ces-ems",
+        "name": "Chatham Emergency Services — EMS (countywide 911 ambulance)",
+        "category": "ems",
+        "subtype": "third_service",
+        "subregion_id": "unincorporated-chatham",
+        "status": "active",
+        "agency": {
+          "name": "Chatham Emergency Services",
+          "type": "ems_agency",
+          "level": "private",
+          "parent": null
+        },
+        "designation": "CES EMS",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "1399 Dean Forest Rd (admin)",
+          "postal_code": "31408"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "ems_als",
+            "designation": "ALS ambulances (fleet size not published)",
+            "attributes": {
+              "level": "ALS"
+            }
+          },
+          {
+            "type": "medic_chase",
+            "designation": "Tactical/EMS supervisors",
+            "attributes": {}
+          }
+        ],
+        "specialties": [
+          "swat"
+        ],
+        "attributes": {
+          "caas_accredited": true
+        },
+        "game": {
+          "building_types": [
+            "Rescue Station"
+          ],
+          "recommended": true,
+          "notes": "The exclusive countywide 911 ALS ambulance provider — every transport in Chatham County is CES. Build rescue/ambulance stations to mirror. Exact fleet size not publicly enumerated."
+        },
+        "significance": "Community-owned nonprofit; the sole 911 emergency ambulance service for all of Chatham County (~75,000 EMS calls/yr, CAAS-accredited, tactical-medic and infectious-disease transport teams). Operates a single citywide catalog entry here.",
+        "sources": [
+          {
+            "title": "Chatham Emergency Services (countywide 911 EMS)",
+            "url": "https://chathames.org/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "History & Stations — Chatham Emergency Services",
+            "url": "https://chathames.org/history/",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.25252,
+          32.10752
+        ]
+      },
+      "properties": {
+        "id": "pooler-fire-1",
+        "name": "Pooler Fire-Rescue Station 1 (HQ)",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "pooler",
+        "status": "active",
+        "agency": {
+          "name": "Pooler Fire-Rescue",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 1 (HQ)",
+        "address": {
+          "street": "1093 S Rogers St",
+          "city": "Pooler",
+          "county": "Chatham",
+          "state": "GA",
+          "postal_code": "31322",
+          "country": "US"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Career municipal fire house serving fast-growing west-Chatham Pooler (I-16/I-95 corridor). Per-station apparatus not officially published."
+        },
+        "significance": "Headquarters of Pooler’s career fire department covering the I-95/I-16 interchange and Savannah Quarters.",
+        "sources": [
+          {
+            "title": "Pooler Fire-Rescue Services — City of Pooler",
+            "url": "https://www.pooler-ga.gov/departments/fire-rescue-services/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.26263,
+          32.1275
+        ]
+      },
+      "properties": {
+        "id": "pooler-fire-2",
+        "name": "Pooler Fire-Rescue Station 2",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "pooler",
+        "status": "active",
+        "agency": {
+          "name": "Pooler Fire-Rescue",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 2",
+        "address": {
+          "street": "912 Pooler Pkwy",
+          "city": "Pooler",
+          "county": "Chatham",
+          "state": "GA",
+          "postal_code": "31322",
+          "country": "US"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Career municipal fire house serving fast-growing west-Chatham Pooler (I-16/I-95 corridor). Per-station apparatus not officially published."
+        },
+        "significance": "Career municipal fire house in Pooler.",
+        "sources": [
+          {
+            "title": "Pooler Fire-Rescue Services — City of Pooler",
+            "url": "https://www.pooler-ga.gov/departments/fire-rescue-services/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.23531,
+          32.0895
+        ]
+      },
+      "properties": {
+        "id": "pooler-fire-3",
+        "name": "Pooler Fire-Rescue Station 3",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "pooler",
+        "status": "active",
+        "agency": {
+          "name": "Pooler Fire-Rescue",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 3",
+        "address": {
+          "street": "105 Barrow Dr",
+          "city": "Pooler",
+          "county": "Chatham",
+          "state": "GA",
+          "postal_code": "31322",
+          "country": "US"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Career municipal fire house serving fast-growing west-Chatham Pooler (I-16/I-95 corridor). Per-station apparatus not officially published."
+        },
+        "significance": "Career municipal fire house in Pooler.",
+        "sources": [
+          {
+            "title": "Pooler Fire-Rescue Services — City of Pooler",
+            "url": "https://www.pooler-ga.gov/departments/fire-rescue-services/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.2729,
+          32.06557
+        ]
+      },
+      "properties": {
+        "id": "pooler-fire-4",
+        "name": "Pooler Fire-Rescue Station 4",
+        "category": "fire",
+        "subtype": "career",
+        "subregion_id": "pooler",
+        "status": "active",
+        "agency": {
+          "name": "Pooler Fire-Rescue",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 4",
+        "address": {
+          "street": "1750 Quacco Rd",
+          "city": "Pooler",
+          "county": "Chatham",
+          "state": "GA",
+          "postal_code": "31322",
+          "country": "US"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Career municipal fire house serving fast-growing west-Chatham Pooler (I-16/I-95 corridor). Per-station apparatus not officially published."
+        },
+        "significance": "Career municipal fire house in Pooler.",
+        "sources": [
+          {
+            "title": "Pooler Fire-Rescue Services — City of Pooler",
+            "url": "https://www.pooler-ga.gov/departments/fire-rescue-services/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.17495,
+          32.08816
+        ]
+      },
+      "properties": {
+        "id": "garden-city-fire-1",
+        "name": "Garden City Fire Department Station 1",
+        "category": "fire",
+        "subtype": "combination",
+        "subregion_id": "garden-city",
+        "status": "active",
+        "agency": {
+          "name": "Garden City Fire Department",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Station 1",
+        "address": {
+          "street": "160 Main St",
+          "city": "Garden City",
+          "county": "Chatham",
+          "state": "GA",
+          "postal_code": "31408",
+          "country": "US"
+        },
+        "staffing_model": "combination",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Municipal fire house covering Garden City and part of the Georgia Ports Authority Garden City Terminal. Apparatus not officially published."
+        },
+        "significance": "Municipal department covering Garden City, including port/industrial risk near the Garden City Terminal.",
+        "sources": [
+          {
+            "title": "Garden City Fire Department",
+            "url": "https://www.gardencity-ga.gov/Departments/Fire",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.16354,
+          32.14521
+        ]
+      },
+      "properties": {
+        "id": "port-wentworth-fire-1",
+        "name": "Port Wentworth Fire Department",
+        "category": "fire",
+        "subtype": "combination",
+        "subregion_id": "port-wentworth",
+        "status": "active",
+        "agency": {
+          "name": "Port Wentworth Fire Department",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Fire Station",
+        "address": {
+          "street": "Port Wentworth",
+          "city": "Port Wentworth",
+          "county": "Chatham",
+          "state": "GA",
+          "postal_code": "31407",
+          "country": "US"
+        },
+        "staffing_model": "combination",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Municipal fire station for Port Wentworth (multiple stations exist; apparatus not officially published)."
+        },
+        "significance": "Covers Port Wentworth and industrial/port risk in north Chatham. One representative station mapped.",
+        "sources": [
+          {
+            "title": "Port Wentworth Fire Department",
+            "url": "https://portwentworthga.gov/dept-fire-about/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.05272,
+          32.03365
+        ]
+      },
+      "properties": {
+        "id": "thunderbolt-fire",
+        "name": "Thunderbolt Fire Department",
+        "category": "fire",
+        "subtype": "volunteer",
+        "subregion_id": "thunderbolt",
+        "status": "active",
+        "agency": {
+          "name": "Thunderbolt Fire Department",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Fire Station",
+        "address": {
+          "street": "2702 Mechanics Ave",
+          "city": "Thunderbolt",
+          "county": "Chatham",
+          "state": "GA",
+          "postal_code": "31404",
+          "country": "US"
+        },
+        "staffing_model": "volunteer",
+        "operating_hours": "on_call",
+        "units": [],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Small Fire Station",
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Small volunteer town department on the Wilmington River. A small build fits."
+        },
+        "significance": "Volunteer department for the riverside town of Thunderbolt.",
+        "sources": [
+          {
+            "title": "Thunderbolt Fire Department",
+            "url": "https://www.thunderboltga.org/departments/fire_department/index.php",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.8451,
+          32.00767
+        ]
+      },
+      "properties": {
+        "id": "tybee-island-fire",
+        "name": "Tybee Island Fire Department",
+        "category": "fire",
+        "subtype": "combination",
+        "subregion_id": "tybee-island",
+        "status": "active",
+        "agency": {
+          "name": "Tybee Island Fire Department",
+          "type": "fire_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Fire Station",
+        "address": {
+          "street": "512 Jones Ave",
+          "city": "Tybee Island",
+          "county": "Chatham",
+          "state": "GA",
+          "postal_code": "31328",
+          "country": "US"
+        },
+        "staffing_model": "combination",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [
+          "marine_rescue",
+          "swiftwater"
+        ],
+        "attributes": {
+          "ocean_rescue": true
+        },
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Barrier-island department with a seasonal Ocean Rescue (lifeguard) division and 24/7 water-rescue response; pairs with USCG Station Tybee."
+        },
+        "significance": "Serves the Tybee Island beach resort; runs Ocean Rescue and coastal water-rescue, partnering with the Coast Guard.",
+        "sources": [
+          {
+            "title": "Tybee Island Fire Department",
+            "url": "https://www.cityoftybee.org/215/Fire",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Tybee Island Ocean Rescue",
+            "url": "https://www.cityoftybee.org/493/Ocean-Rescue",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.0593,
+          31.98102
+        ]
+      },
+      "properties": {
+        "id": "isle-of-hope-fire",
+        "name": "Isle of Hope Volunteer Fire Department",
+        "category": "fire",
+        "subtype": "volunteer",
+        "subregion_id": "savannah-islands",
+        "status": "active",
+        "agency": {
+          "name": "Isle of Hope Volunteer Fire Department",
+          "type": "fire_department",
+          "level": "other",
+          "parent": null
+        },
+        "designation": "Fire Station",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "409 Parkersburg Rd",
+          "postal_code": "31406"
+        },
+        "staffing_model": "volunteer",
+        "operating_hours": "on_call",
+        "units": [],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Small Fire Station"
+          ],
+          "recommended": false,
+          "notes": "Independent nonprofit volunteer department (not part of the county dept). A small build fits."
+        },
+        "significance": "Independent volunteer department for the Isle of Hope community; remained independent under a 2026 county funding contract. In-house EMS was disbanded in 2021 (CES now transports).",
+        "sources": [
+          {
+            "title": "Isle of Hope, Georgia — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Isle_of_Hope,_Georgia",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Isle of Hope Volunteer Fire Dept — ProPublica Nonprofit Explorer",
+            "url": "https://projects.propublica.org/nonprofits/organizations/581441909",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.08885,
+          32.07547
+        ]
+      },
+      "properties": {
+        "id": "spd-hq",
+        "name": "Savannah Police Department — Headquarters",
+        "category": "police_local",
+        "subtype": "headquarters",
+        "subregion_id": "downtown-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Police Department",
+          "type": "police_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "HQ",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "201 Habersham St",
+          "postal_code": "31401"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "patrol",
+            "designation": "Patrol",
+            "count": 1
+          },
+          {
+            "type": "swat",
+            "designation": "SWAT",
+            "count": 1
+          },
+          {
+            "type": "k9",
+            "designation": "K9",
+            "count": 1
+          }
+        ],
+        "specialties": [
+          "swat",
+          "k9"
+        ],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": true,
+          "notes": "City police HQ. Build SWAT and K9 expansions to unlock those mission types. (Special-unit presence attributed to the department generally.)"
+        },
+        "significance": "Headquarters of the City of Savannah’s police department after the 2018 de-merger from the Savannah-Chatham Metro PD.",
+        "sources": [
+          {
+            "title": "Savannah Police Department",
+            "url": "https://savannahpd.org/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.1114,
+          32.087
+        ]
+      },
+      "properties": {
+        "id": "spd-northwest-precinct",
+        "name": "SPD — Northwest Precinct",
+        "category": "police_local",
+        "subtype": "precinct",
+        "subregion_id": "westside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Police Department",
+          "type": "police_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Northwest Precinct",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "602 E Lathrop Ave",
+          "postal_code": "31415"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "patrol",
+            "designation": "Patrol",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": true,
+          "notes": "One of SPD’s four patrol precincts — natural anchor for a police station in this district."
+        },
+        "significance": "Savannah PD patrol precinct.",
+        "sources": [
+          {
+            "title": "SPD precinct locations & boundaries",
+            "url": "https://savannahpd.org/metro-announces-new-savannah-police-precinct-locations-boundaries/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Police Department",
+            "url": "https://savannahpd.org/",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.10387,
+          32.06141
+        ]
+      },
+      "properties": {
+        "id": "spd-central-precinct",
+        "name": "SPD — Central Precinct",
+        "category": "police_local",
+        "subtype": "precinct",
+        "subregion_id": "midtown-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Police Department",
+          "type": "police_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Central Precinct",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "1710 Martin Luther King Jr Blvd",
+          "postal_code": "31401"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "patrol",
+            "designation": "Patrol",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": true,
+          "notes": "One of SPD’s four patrol precincts — natural anchor for a police station in this district."
+        },
+        "significance": "Savannah PD patrol precinct.",
+        "sources": [
+          {
+            "title": "SPD precinct locations & boundaries",
+            "url": "https://savannahpd.org/metro-announces-new-savannah-police-precinct-locations-boundaries/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Police Department",
+            "url": "https://savannahpd.org/",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.118,
+          32.0036
+        ]
+      },
+      "properties": {
+        "id": "spd-southside-precinct",
+        "name": "SPD — Southside Precinct",
+        "category": "police_local",
+        "subtype": "precinct",
+        "subregion_id": "southside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Police Department",
+          "type": "police_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Southside Precinct",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "7804 Abercorn St",
+          "postal_code": "31406"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "patrol",
+            "designation": "Patrol",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": true,
+          "notes": "One of SPD’s four patrol precincts — natural anchor for a police station in this district."
+        },
+        "significance": "Savannah PD patrol precinct.",
+        "sources": [
+          {
+            "title": "SPD precinct locations & boundaries",
+            "url": "https://savannahpd.org/metro-announces-new-savannah-police-precinct-locations-boundaries/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Police Department",
+            "url": "https://savannahpd.org/",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.0592,
+          32.0382
+        ]
+      },
+      "properties": {
+        "id": "spd-eastside-precinct",
+        "name": "SPD — Eastside Precinct",
+        "category": "police_local",
+        "subtype": "precinct",
+        "subregion_id": "midtown-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Police Department",
+          "type": "police_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "Eastside Precinct",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "2250 E Victory Dr",
+          "postal_code": "31404"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "patrol",
+            "designation": "Patrol",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": true,
+          "notes": "One of SPD’s four patrol precincts — natural anchor for a police station in this district."
+        },
+        "significance": "Savannah PD patrol precinct.",
+        "sources": [
+          {
+            "title": "SPD precinct locations & boundaries",
+            "url": "https://savannahpd.org/metro-announces-new-savannah-police-precinct-locations-boundaries/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Savannah Police Department",
+            "url": "https://savannahpd.org/",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.16674,
+          32.05991
+        ]
+      },
+      "properties": {
+        "id": "ccpd-hq-west-chatham",
+        "name": "Chatham County Police Department — HQ / West Chatham Precinct",
+        "category": "police_local",
+        "subtype": "headquarters",
+        "subregion_id": "unincorporated-chatham",
+        "status": "active",
+        "agency": {
+          "name": "Chatham County Police Department",
+          "type": "police_department",
+          "level": "county",
+          "parent": null
+        },
+        "designation": "HQ / West Chatham",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "295 Police Memorial Dr",
+          "postal_code": "31405"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "patrol",
+            "designation": "Patrol",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": true,
+          "notes": "County police (re-established 2018) covering unincorporated Chatham; HQ co-located with the West Chatham precinct."
+        },
+        "significance": "Headquarters of the re-established county police department serving unincorporated Chatham County.",
+        "sources": [
+          {
+            "title": "Chatham County Police Department",
+            "url": "https://police.chathamcountyga.gov/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "CCPD — Find your Precinct",
+            "url": "https://police.chathamcountyga.gov/Crime/Precinct",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.0075,
+          32.03552
+        ]
+      },
+      "properties": {
+        "id": "ccpd-islands-precinct",
+        "name": "Chatham County Police Department — Islands Precinct",
+        "category": "police_local",
+        "subtype": "precinct",
+        "subregion_id": "savannah-islands",
+        "status": "active",
+        "agency": {
+          "name": "Chatham County Police Department",
+          "type": "police_department",
+          "level": "county",
+          "parent": null
+        },
+        "designation": "Islands Precinct",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "54 Johnny Mercer Blvd",
+          "postal_code": "31410"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "patrol",
+            "designation": "Patrol",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "County police precinct covering Wilmington Island and the eastern islands."
+        },
+        "significance": "County police precinct for the eastern islands.",
+        "sources": [
+          {
+            "title": "Chatham County Police Department",
+            "url": "https://police.chathamcountyga.gov/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "CCPD — Find your Precinct",
+            "url": "https://police.chathamcountyga.gov/Crime/Precinct",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.1685,
+          32.067
+        ]
+      },
+      "properties": {
+        "id": "ccso-hq",
+        "name": "Chatham County Sheriff’s Office",
+        "category": "sheriff",
+        "subtype": "hq",
+        "subregion_id": "unincorporated-chatham",
+        "status": "active",
+        "agency": {
+          "name": "Chatham County Sheriff’s Office",
+          "type": "sheriff_office",
+          "level": "county",
+          "parent": null
+        },
+        "designation": "Sheriff HQ",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "1050 Carl Griffin Dr",
+          "postal_code": "31405"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "patrol",
+            "designation": "Deputies / court & jail operations",
+            "count": 1
+          }
+        ],
+        "specialties": [
+          "booking"
+        ],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Sheriff’s office; primarily runs the county jail, courts security, and civil process. Co-located with the Chatham County Detention Center."
+        },
+        "significance": "Operates the Chatham County Detention Center and provides court/jail security and civil process countywide.",
+        "sources": [
+          {
+            "title": "Chatham County Sheriff’s Office",
+            "url": "https://sheriff.chathamcountyga.gov/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "CCSO Corrections Overview (Detention Center)",
+            "url": "https://sheriff.chathamcountyga.gov/Corrections/Overview",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.25018,
+          32.11602
+        ]
+      },
+      "properties": {
+        "id": "pooler-pd",
+        "name": "Pooler Police Department",
+        "category": "police_local",
+        "subtype": "headquarters",
+        "subregion_id": "pooler",
+        "status": "active",
+        "agency": {
+          "name": "Pooler Police Department",
+          "type": "police_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "HQ",
+        "address": {
+          "street": "Pooler",
+          "city": "Pooler",
+          "county": "Chatham",
+          "state": "GA",
+          "postal_code": "31322",
+          "country": "US"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "patrol",
+            "designation": "Patrol",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Municipal police for Pooler."
+        },
+        "significance": "Municipal police department for Pooler.",
+        "sources": [
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.84953,
+          32.02343
+        ]
+      },
+      "properties": {
+        "id": "tybee-island-pd",
+        "name": "Tybee Island Police Department",
+        "category": "police_local",
+        "subtype": "headquarters",
+        "subregion_id": "tybee-island",
+        "status": "active",
+        "agency": {
+          "name": "Tybee Island Police Department",
+          "type": "police_department",
+          "level": "municipal",
+          "parent": null
+        },
+        "designation": "HQ",
+        "address": {
+          "street": "78 Van Horne Ave",
+          "city": "Tybee Island",
+          "county": "Chatham",
+          "state": "GA",
+          "postal_code": "31328",
+          "country": "US"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "patrol",
+            "designation": "Patrol",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Beach-resort municipal police; also runs its own 911 answering point."
+        },
+        "significance": "Municipal police for Tybee Island; operates its own PSAP separate from county 911.",
+        "sources": [
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.2099,
+          32.1372
+        ]
+      },
+      "properties": {
+        "id": "savannah-airport-pd",
+        "name": "Savannah/Hilton Head International Airport Police",
+        "category": "police_local",
+        "subtype": "airport",
+        "subregion_id": "westside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Savannah Airport Commission Police",
+          "type": "police_department",
+          "level": "other",
+          "parent": null
+        },
+        "designation": "Airport Police",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "400 Airways Ave",
+          "postal_code": "31408"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "patrol",
+            "designation": "Patrol",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Dedicated airport police force at SAV."
+        },
+        "significance": "Law enforcement for Savannah/Hilton Head International Airport.",
+        "sources": [
+          {
+            "title": "Savannah/Hilton Head International Airport — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Savannah/Hilton_Head_International_Airport",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.15969,
+          31.97898
+        ]
+      },
+      "properties": {
+        "id": "georgia-southern-armstrong-pd",
+        "name": "Georgia Southern University Police (Armstrong Campus)",
+        "category": "police_local",
+        "subtype": "university",
+        "subregion_id": "southside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Georgia Southern University Police Department",
+          "type": "police_department",
+          "level": "state",
+          "parent": null
+        },
+        "designation": "Armstrong Campus",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "11935 Abercorn St (Armstrong Campus)",
+          "postal_code": "31419"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "patrol",
+            "designation": "Campus patrol",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "University police on the Armstrong campus (southside)."
+        },
+        "significance": "Campus police for Georgia Southern’s Armstrong (Savannah) campus.",
+        "sources": [
+          {
+            "title": "Georgia Southern University Police",
+            "url": "https://police.georgiasouthern.edu/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.1483,
+          32.11703
+        ]
+      },
+      "properties": {
+        "id": "gpa-police",
+        "name": "Georgia Ports Authority Police Department",
+        "category": "state_le",
+        "subtype": "special_jurisdiction",
+        "subregion_id": "garden-city",
+        "status": "active",
+        "agency": {
+          "name": "Georgia Ports Authority Police",
+          "type": "state_agency",
+          "level": "state",
+          "parent": "Georgia Ports Authority"
+        },
+        "designation": "GPA Police",
+        "address": {
+          "street": "100 Main St (Garden City Terminal)",
+          "city": "Garden City",
+          "county": "Chatham",
+          "state": "GA",
+          "postal_code": "31408",
+          "country": "US"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "patrol",
+            "designation": "Port patrol",
+            "count": 1
+          }
+        ],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Police Station",
+            "State Police Station"
+          ],
+          "recommended": false,
+          "notes": "State-agency police securing the Port of Savannah (Garden City Terminal, the largest single-terminal container facility in North America). No Georgia State Patrol post lies inside Chatham County (nearest is Post 42 in Rincon)."
+        },
+        "significance": "POST-certified state-agency police force securing the Port of Savannah. Stands in for state law-enforcement presence, as the nearest Georgia State Patrol post (Post 42) is in Rincon, outside the county.",
+        "sources": [
+          {
+            "title": "Georgia Ports Authority — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Georgia_Ports_Authority",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.15612,
+          32.0698
+        ]
+      },
+      "properties": {
+        "id": "fbi-savannah-ra",
+        "name": "FBI Savannah Resident Agency",
+        "category": "federal_le",
+        "subtype": "resident_agency",
+        "subregion_id": "westside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Federal Bureau of Investigation",
+          "type": "federal_agency",
+          "level": "federal",
+          "parent": "FBI Atlanta Field Office"
+        },
+        "designation": "Resident Agency",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "postal_code": "31405"
+        },
+        "staffing_model": "career",
+        "operating_hours": "daytime",
+        "units": [],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Federal Building"
+          ],
+          "recommended": false,
+          "notes": "FBI resident agency (satellite of the Atlanta Field Office). Supports high-tier federal missions. Exact street address not published; location per OSM."
+        },
+        "significance": "FBI resident agency covering the Savannah area under the Atlanta Field Office.",
+        "sources": [
+          {
+            "title": "FBI Atlanta Field Office (Savannah Resident Agency)",
+            "url": "https://www.fbi.gov/contact-us/field-offices/atlanta",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.09101,
+          32.08062
+        ]
+      },
+      "properties": {
+        "id": "cbp-hsi-savannah-port",
+        "name": "CBP / HSI — Port of Savannah",
+        "category": "federal_le",
+        "subtype": "port_of_entry",
+        "subregion_id": "downtown-savannah",
+        "status": "active",
+        "agency": {
+          "name": "U.S. Customs and Border Protection",
+          "type": "federal_agency",
+          "level": "federal",
+          "parent": "U.S. Department of Homeland Security"
+        },
+        "designation": "Port of Savannah",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "1 East Bay St",
+          "postal_code": "31401"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Federal Building"
+          ],
+          "recommended": false,
+          "notes": "CBP port-of-entry presence for the Port of Savannah; ICE Homeland Security Investigations (HSI) also operates a Savannah office working port/cargo cases (no separate public street address)."
+        },
+        "significance": "Federal border/customs enforcement at one of the busiest container ports in the U.S.; HSI conducts port-related investigations in the area.",
+        "sources": [
+          {
+            "title": "CBP Port of Savannah",
+            "url": "https://www.cbp.gov/contact/ports/savannah",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "HSI operations at the Port of Savannah — ICE",
+            "url": "https://www.ice.gov/hsi",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.08906,
+          32.02988
+        ]
+      },
+      "properties": {
+        "id": "memorial-health-umc",
+        "name": "Memorial Health University Medical Center",
+        "category": "hospital",
+        "subtype": "trauma_center",
+        "subregion_id": "midtown-savannah",
+        "status": "active",
+        "agency": {
+          "name": "HCA Healthcare (Memorial Health)",
+          "type": "hospital_system",
+          "level": "private",
+          "parent": null
+        },
+        "designation": null,
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "4700 Waters Ave",
+          "postal_code": "31404"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [
+          "trauma_level_1",
+          "stroke_center",
+          "cardiac_center",
+          "pediatric"
+        ],
+        "attributes": {
+          "trauma_level": 1,
+          "stroke_center": true,
+          "cardiac_center": true,
+          "childrens_hospital": "Dwaine & Cynthia Willett Children’s Hospital of Savannah",
+          "beds_approx": 600
+        },
+        "game": {
+          "building_types": [
+            "Hospital"
+          ],
+          "recommended": true,
+          "notes": "The region’s only Level I trauma center and only children’s hospital — destination for the most critical patients. Top-priority hospital build. Helipad not confirmed in a citable public source."
+        },
+        "significance": "Southeast Georgia’s only ACS-verified Level I trauma center; comprehensive stroke center, Level I cardiac center, and the region’s only children’s hospital. Owned by HCA Healthcare.",
+        "sources": [
+          {
+            "title": "Memorial Health University Medical Center",
+            "url": "https://www.memorialhealth.com/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Memorial Health Level I trauma center — WTOC",
+            "url": "https://www.wtoc.com/2025/01/17/importance-memorial-healths-trauma-center/",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.09983,
+          32.028
+        ]
+      },
+      "properties": {
+        "id": "candler-hospital",
+        "name": "Candler Hospital",
+        "category": "hospital",
+        "subtype": "community",
+        "subregion_id": "midtown-savannah",
+        "status": "active",
+        "agency": {
+          "name": "St. Joseph’s/Candler Health System",
+          "type": "hospital_system",
+          "level": "private",
+          "parent": null
+        },
+        "designation": null,
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "5353 Reynolds St",
+          "postal_code": "31405"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {
+          "beds": 384,
+          "ed": true,
+          "trauma_level": null
+        },
+        "game": {
+          "building_types": [
+            "Hospital"
+          ],
+          "recommended": true,
+          "notes": "Full ED but not a trauma center — a good general-patient destination. One of the two St. Joseph’s/Candler anchor hospitals."
+        },
+        "significance": "384-bed acute-care hospital with an emergency department; hosts the Mary Telfair Women’s Hospital and the Lewis Cancer & Research Pavilion. Founded 1804.",
+        "sources": [
+          {
+            "title": "Candler Hospital (Savannah) — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Candler_Hospital_(Savannah)",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "St. Joseph’s/Candler Health System",
+            "url": "https://www.sjchs.org/",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.15557,
+          31.98551
+        ]
+      },
+      "properties": {
+        "id": "st-josephs-hospital",
+        "name": "St. Joseph’s Hospital",
+        "category": "hospital",
+        "subtype": "community",
+        "subregion_id": "southside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "St. Joseph’s/Candler Health System",
+          "type": "hospital_system",
+          "level": "private",
+          "parent": null
+        },
+        "designation": null,
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "11705 Mercy Blvd",
+          "postal_code": "31419"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [
+          "cardiac_center",
+          "helipad"
+        ],
+        "attributes": {
+          "beds_approx": 270,
+          "ed": true,
+          "helipad": true,
+          "cardiac_center": true,
+          "trauma_level": null
+        },
+        "game": {
+          "building_types": [
+            "Hospital"
+          ],
+          "recommended": true,
+          "notes": "Full ED with a helipad and the region’s main open-heart program. Good southside hospital destination."
+        },
+        "significance": "Southside acute-care hospital with an emergency department, air-ambulance helipad, and The Heart Hospital (region’s primary cardiovascular/open-heart program).",
+        "sources": [
+          {
+            "title": "St. Joseph’s/Candler Health System",
+            "url": "https://www.sjchs.org/",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.08232,
+          31.99974
+        ]
+      },
+      "properties": {
+        "id": "georgia-regional-hospital",
+        "name": "Georgia Regional Hospital at Savannah",
+        "category": "hospital",
+        "subtype": "psychiatric",
+        "subregion_id": "southside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Georgia Dept. of Behavioral Health & Developmental Disabilities",
+          "type": "state_agency",
+          "level": "state",
+          "parent": null
+        },
+        "designation": null,
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "1915 Eisenhower Dr",
+          "postal_code": "31406"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {
+          "ed": false,
+          "psychiatric": true
+        },
+        "game": {
+          "building_types": [
+            "Hospital"
+          ],
+          "recommended": false,
+          "notes": "State psychiatric hospital (no general ED) — relevant for behavioral-health / psych-transport missions rather than trauma."
+        },
+        "significance": "State-run psychiatric hospital; a destination for behavioral-health patients, not general emergencies.",
+        "sources": [
+          {
+            "title": "Georgia Regional Hospital at Savannah — DBHDD",
+            "url": "https://dbhdd.georgia.gov/locations/georgia-regional-hospital-savannah",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.16811,
+          32.06664
+        ]
+      },
+      "properties": {
+        "id": "chatham-county-detention-center",
+        "name": "Chatham County Detention Center",
+        "category": "jail",
+        "subtype": "county",
+        "subregion_id": "unincorporated-chatham",
+        "status": "active",
+        "agency": {
+          "name": "Chatham County Sheriff’s Office",
+          "type": "sheriff_office",
+          "level": "county",
+          "parent": null
+        },
+        "designation": null,
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "1050 Carl Griffin Dr",
+          "postal_code": "31405"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [
+          "booking"
+        ],
+        "attributes": {
+          "inmate_capacity": 2433,
+          "security_level": "maximum"
+        },
+        "game": {
+          "building_types": [
+            "Prison"
+          ],
+          "recommended": false,
+          "notes": "Large county jail (booking + pretrial + short sentences) run by the Sheriff. Supports prisoner-transport and jail-disturbance missions. Capacity figures vary by source (~1,650–2,433 design; ~2,000 average population)."
+        },
+        "significance": "The county’s primary jail, operated by the Chatham County Sheriff’s Office; one of the larger detention centers in coastal Georgia.",
+        "sources": [
+          {
+            "title": "CCSO Corrections Overview (Detention Center)",
+            "url": "https://sheriff.chathamcountyga.gov/Corrections/Overview",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.16572,
+          32.06045
+        ]
+      },
+      "properties": {
+        "id": "savannah-rydc",
+        "name": "Savannah Regional Youth Detention Center",
+        "category": "jail",
+        "subtype": "juvenile",
+        "subregion_id": "unincorporated-chatham",
+        "status": "active",
+        "agency": {
+          "name": "Georgia Department of Juvenile Justice",
+          "type": "state_agency",
+          "level": "state",
+          "parent": null
+        },
+        "designation": null,
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "191 Carl Griffin Dr",
+          "postal_code": "31405"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {
+          "inmate_capacity": null,
+          "security_level": null
+        },
+        "game": {
+          "building_types": [
+            "Prison"
+          ],
+          "recommended": false,
+          "notes": "State juvenile detention center. Capacity/security not publicly documented (left null rather than guessed)."
+        },
+        "significance": "State-run juvenile detention center serving Chatham, Effingham and McIntosh counties; adjacent to the adult jail.",
+        "sources": [
+          {
+            "title": "Savannah RYDC — Georgia Dept. of Juvenile Justice",
+            "url": "https://djj.georgia.gov/locations/savannah-rydc",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "OpenStreetMap (Overpass API discovery)",
+            "url": "https://www.openstreetmap.org/copyright",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.18653,
+          32.1376
+        ]
+      },
+      "properties": {
+        "id": "coastal-state-prison",
+        "name": "Coastal State Prison",
+        "category": "prison",
+        "subtype": "state",
+        "subregion_id": "garden-city",
+        "status": "active",
+        "agency": {
+          "name": "Georgia Department of Corrections",
+          "type": "corrections",
+          "level": "state",
+          "parent": null
+        },
+        "designation": null,
+        "address": {
+          "street": "200 Gulfstream Rd",
+          "city": "Garden City",
+          "county": "Chatham",
+          "state": "GA",
+          "postal_code": "31418",
+          "country": "US"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {
+          "inmate_capacity": 1836,
+          "security_level": "medium"
+        },
+        "game": {
+          "building_types": [
+            "Prison"
+          ],
+          "recommended": false,
+          "notes": "State medium-security prison (~1,836 beds, adult male). Supports prisoner-transport and prison-disturbance missions."
+        },
+        "significance": "Georgia DOC medium-security state prison for adult male felons; opened 1981, ~1,836 beds.",
+        "sources": [
+          {
+            "title": "Coastal State Prison — Georgia Dept. of Corrections",
+            "url": "https://gdc.georgia.gov/locations/coastal-state-prison",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "Coastal State Prison — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Coastal_State_Prison",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.1866,
+          32.1652
+        ]
+      },
+      "properties": {
+        "id": "sapps-wrecker",
+        "name": "Sapp’s Wrecker Service",
+        "category": "tow",
+        "subtype": "heavy",
+        "subregion_id": "port-wentworth",
+        "status": "active",
+        "agency": {
+          "name": "Sapp’s Wrecker Service, Inc.",
+          "type": "private",
+          "level": "private",
+          "parent": null
+        },
+        "designation": null,
+        "address": {
+          "street": "176 Godley Rd",
+          "city": "Port Wentworth",
+          "county": "Chatham",
+          "state": "GA",
+          "postal_code": "31407",
+          "country": "US"
+        },
+        "staffing_model": "unknown",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Tow"
+          ],
+          "recommended": false,
+          "notes": "Long-established local wrecker/impound operator associated with the police tow rotation. Contract status and fleet not authoritatively confirmed — low confidence."
+        },
+        "significance": "Representative heavy-recovery/impound operator; public tow-rotation data for the county is sparse, so this is one documented example rather than an exhaustive list.",
+        "sources": [
+          {
+            "title": "Chatham County PD wrecker/towing policy",
+            "url": "https://public.powerdms.com/ChathamPD/documents/1195862",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "low",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.0919,
+          32.0777
+        ]
+      },
+      "properties": {
+        "id": "cema-eoc",
+        "name": "Chatham Emergency Management Agency (CEMA) / EOC",
+        "category": "dispatch",
+        "subtype": "eoc",
+        "subregion_id": "downtown-savannah",
+        "status": "active",
+        "agency": {
+          "name": "Chatham Emergency Management Agency",
+          "type": "other",
+          "level": "county",
+          "parent": null
+        },
+        "designation": "EOC",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "124 Bull St, Rm 140",
+          "postal_code": "31401"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [],
+        "specialties": [],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Dispatch Center"
+          ],
+          "recommended": false,
+          "notes": "County Emergency Operations Center / coordination hub. The primary 911 PSAP is run by Chatham County Emergency Communications (except Tybee Island, which runs its own) — its physical address is not publicly documented, so the EOC is mapped here as the dispatch/coordination anchor."
+        },
+        "significance": "Coordinates countywide emergency management and hosts the primary Emergency Operations Center on Bull Street.",
+        "sources": [
+          {
+            "title": "CEMA — Contact / Office",
+            "url": "https://www.chathamemergency.org/About/Contact",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "CEMA — Emergency Operations Center",
+            "url": "https://www.chathamemergency.org/About/Eoc",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.89,
+          32.0333
+        ]
+      },
+      "properties": {
+        "id": "uscg-station-tybee",
+        "name": "U.S. Coast Guard Station Tybee",
+        "category": "coast_guard",
+        "subtype": "station",
+        "subregion_id": "tybee-island",
+        "status": "active",
+        "agency": {
+          "name": "U.S. Coast Guard",
+          "type": "federal_agency",
+          "level": "federal",
+          "parent": "USCG Seventh District"
+        },
+        "designation": "Station Tybee",
+        "address": {
+          "street": "Cockspur Island",
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "postal_code": "31410",
+          "country": "US"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "marine",
+            "designation": "45-ft Response Boat–Medium (RB-M)",
+            "count": 1
+          }
+        ],
+        "specialties": [
+          "marine_rescue"
+        ],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Coast Guard Station"
+          ],
+          "recommended": false,
+          "notes": "Small-boat search-and-rescue / law-enforcement station guarding the Savannah River entrance. Coordinates approximate (Cockspur Island)."
+        },
+        "significance": "One of only two Coast Guard small-boat stations in Georgia; covers the Savannah River mouth and coastal waters with a 45-ft Response Boat–Medium.",
+        "sources": [
+          {
+            "title": "Cockspur Island / USCG Station Tybee — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Cockspur_Island_Light",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "45-foot Response Boat–Medium — U.S. Coast Guard",
+            "url": "https://www.uscg.mil/Assets/Display/Article/1825025/45-foot-response-boat-medium/",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.1417,
+          32.025
+        ]
+      },
+      "properties": {
+        "id": "uscg-air-station-savannah",
+        "name": "Coast Guard Air Station Savannah",
+        "category": "coast_guard",
+        "subtype": "air_station",
+        "subregion_id": "southside-savannah",
+        "status": "active",
+        "agency": {
+          "name": "U.S. Coast Guard",
+          "type": "federal_agency",
+          "level": "federal",
+          "parent": "USCG Seventh District"
+        },
+        "designation": "Air Station Savannah",
+        "address": {
+          "city": "Savannah",
+          "county": "Chatham",
+          "state": "GA",
+          "country": "US",
+          "street": "Hunter Army Airfield",
+          "postal_code": "31409"
+        },
+        "staffing_model": "career",
+        "operating_hours": "24_7",
+        "units": [
+          {
+            "type": "air_support",
+            "designation": "MH-65 Dolphin helicopters",
+            "count": 5
+          }
+        ],
+        "specialties": [
+          "air_support",
+          "marine_rescue"
+        ],
+        "attributes": {},
+        "game": {
+          "building_types": [
+            "Coast Guard Station",
+            "Helicopter Base"
+          ],
+          "recommended": false,
+          "notes": "Coast Guard air search-and-rescue base flying MH-65 Dolphin helicopters from Hunter Army Airfield."
+        },
+        "significance": "Provides 24/7 rotary-wing search-and-rescue and law-enforcement air support for the Georgia/South Carolina coast (~450 miles of shoreline) with five MH-65 Dolphin helicopters.",
+        "sources": [
+          {
+            "title": "Coast Guard Air Station Savannah — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Coast_Guard_Air_Station_Savannah",
+            "retrieved": "2026-08-14"
+          },
+          {
+            "title": "CGAS Savannah at Hunter Army Airfield — army.mil",
+            "url": "https://www.army.mil/article/85283/US_Coast_Guard_s_Air_Station_Savannah_celebrates_its_222nd_birthday_at_Hunter/",
+            "retrieved": "2026-08-14"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-14"
+      }
+    }
+  ]
+}
