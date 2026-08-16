@@ -105,10 +105,35 @@ jobs:
             if [ -z "$SITE_ID" ] || [ "$SITE_ID" = "null" ]; then
               echo "::error::Site creation failed"; exit 1
             fi
-            echo "Created site id=$SITE_ID; waiting for provisioning…"
-            wait_until '.status' installed
+            echo "Created site id=$SITE_ID"
+          else
+            echo "Found existing site id=$SITE_ID"
+          fi
 
-            # Attach the PR branch from GitHub.
+          # --- Reconcile the site's configuration --------------------------
+          # Runs for new AND pre-existing sites. This workflow cancels older
+          # runs for the same PR, so a site can easily be left created but
+          # unconfigured (no repository, no deploy script). Re-asserting the
+          # whole configuration every run lets such a site heal itself, rather
+          # than being reused as-is and deployed empty.
+
+          echo "Waiting for site provisioning…"
+          wait_until '.status' installed
+
+          # Attach the PR branch from GitHub. POST /git fails when a repository
+          # is already installed, so only install when one is missing — and
+          # replace it if it points somewhere other than this PR's branch.
+          CURRENT_REPO=$(site_field '.repository')
+          CURRENT_BRANCH=$(site_field '.repository_branch')
+          if [ "$CURRENT_REPO" = "$REPO" ] && [ "$CURRENT_BRANCH" = "$PR_BRANCH" ]; then
+            echo "Git repository already set ($CURRENT_REPO @ $CURRENT_BRANCH)"
+            wait_until '.repository_status' installed
+          else
+            if [ "$CURRENT_REPO" != "null" ]; then
+              echo "Git repository points at $CURRENT_REPO @ $CURRENT_BRANCH — removing…"
+              api DELETE "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}/git" >/dev/null
+              wait_until '.repository' null
+            fi
             echo "Installing git repository ($REPO @ $PR_BRANCH)…"
             GIT_BODY=$(jq -n --arg r "$REPO" --arg b "$PR_BRANCH" '{
               provider: "github",
@@ -118,21 +143,34 @@ jobs:
             }')
             api POST "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}/git" "$GIT_BODY" >/dev/null
             wait_until '.repository_status' installed
+          fi
 
-            # Build the static site on the Forge server after each pull.
-            echo "Setting deployment script…"
-            SCRIPT=$'cd $FORGE_SITE_PATH\ngit pull origin $FORGE_SITE_BRANCH\nnpm ci\nnpm run build\n'
-            SCRIPT_BODY=$(jq -n --arg s "$SCRIPT" '{content: $s, auto_source: true}')
-            api PUT "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}/deployment/script" "$SCRIPT_BODY" >/dev/null
+          # Build the static site on the Forge server after each pull. PUT
+          # replaces the script wholesale, so this is safe to re-assert.
+          echo "Setting deployment script…"
+          SCRIPT=$'cd $FORGE_SITE_PATH\ngit pull origin $FORGE_SITE_BRANCH\nnpm ci\nnpm run build\n'
+          SCRIPT_BODY=$(jq -n --arg s "$SCRIPT" '{content: $s, auto_source: true}')
+          api PUT "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}/deployment/script" "$SCRIPT_BODY" >/dev/null
 
-            # Enable Forge "Quick Deploy" so pushes to the branch redeploy even
-            # outside this workflow. (This workflow also deploys explicitly.)
+          # Enable Forge "Quick Deploy" so pushes to the branch redeploy even
+          # outside this workflow. (This workflow also deploys explicitly.)
+          if [ "$(site_field '.quick_deploy')" = "true" ]; then
+            echo "Quick Deploy already enabled."
+          else
+            echo "Enabling Quick Deploy…"
             api POST "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}/deployment" >/dev/null || true
+          fi
 
-            # Request a Let's Encrypt certificate for the preview domain.
-            # Best-effort: HTTP-01 issuance needs the domain's DNS to already
-            # resolve to this server, so a failure here must not fail the
-            # deploy — the cert can also be (re)issued later from the dashboard.
+          # Request a Let's Encrypt certificate for the preview domain, unless
+          # one is already active — re-requesting would pile up duplicates.
+          # Best-effort: HTTP-01 issuance needs the domain's DNS to already
+          # resolve to this server, so a failure here must not fail the
+          # deploy — the cert can also be (re)issued later from the dashboard.
+          ACTIVE_CERTS=$(api GET "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}/certificates" \
+            | jq -r '[.certificates[]? | select(.active)] | length')
+          if [ "${ACTIVE_CERTS:-0}" -gt 0 ]; then
+            echo "Certificate already active."
+          else
             echo "Requesting Let's Encrypt certificate…"
             CERT_BODY=$(jq -n --arg d "$DOMAIN" '{domains: [$d]}')
             if api POST "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}/certificates/letsencrypt" "$CERT_BODY" >/dev/null; then
@@ -140,8 +178,6 @@ jobs:
             else
               echo "::warning::Let's Encrypt request failed — check that $DOMAIN resolves to the server. HTTPS may be unavailable until a cert is issued."
             fi
-          else
-            echo "Reusing existing site id=$SITE_ID"
           fi
 
           # --- Deploy the current branch tip ------------------------------
