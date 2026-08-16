@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
 {
-	"name": "CS Project - Rename Me (NodeJS)",
+	"name": "CS Project - Dispatch Atlas (NodeJS)",
 	// Use Docker Compose to define the service and named-volume mounts.
 	// More info: https://containers.dev/guide/dockerfile
 	"dockerComposeFile": "docker-compose.yaml",
