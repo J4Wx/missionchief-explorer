@@ -147,9 +147,12 @@ jobs:
 
           # Build the static site on the Forge server after each pull. PUT
           # replaces the script wholesale, so this is safe to re-assert.
+          # auto_source must stay false: it makes Forge inject a `source
+          # <site>/.env` into the wrapper around this script, which aborts the
+          # deploy on a static site that has no .env to source.
           echo "Setting deployment script…"
           SCRIPT=$'cd $FORGE_SITE_PATH\ngit pull origin $FORGE_SITE_BRANCH\nnpm ci\nnpm run build\n'
-          SCRIPT_BODY=$(jq -n --arg s "$SCRIPT" '{content: $s, auto_source: true}')
+          SCRIPT_BODY=$(jq -n --arg s "$SCRIPT" '{content: $s, auto_source: false}')
           api PUT "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}/deployment/script" "$SCRIPT_BODY" >/dev/null
 
           # Enable Forge "Quick Deploy" so pushes to the branch redeploy even
