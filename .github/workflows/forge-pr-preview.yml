@@ -50,20 +50,22 @@ jobs:
           api() {
             local method="$1" path="$2" body="${3:-}"
             if [ -n "$body" ]; then
-              curl -sS -X "$method" \
+              curl -sS --connect-timeout 10 --max-time 60 -X "$method" \
                 -H "Authorization: Bearer $FORGE_API_TOKEN" \
                 -H "Accept: application/json" \
                 -H "Content-Type: application/json" \
                 -d "$body" "${FORGE_API}${path}"
             else
-              curl -sS -X "$method" \
+              curl -sS --connect-timeout 10 --max-time 60 -X "$method" \
                 -H "Authorization: Bearer $FORGE_API_TOKEN" \
                 -H "Accept: application/json" "${FORGE_API}${path}"
             fi
           }
 
+          # Forge wraps a single site as {"site": {...}}, so unwrap before
+          # applying the caller's filter (callers pass e.g. '.status').
           site_field() { # site_field <jq-filter>
-            api GET "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}" | jq -r "$1"
+            api GET "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}" | jq -r ".site | $1"
           }
 
           wait_until() { # wait_until <jq-filter> <accepted value...>
@@ -115,7 +117,7 @@ jobs:
               composer: false
             }')
             api POST "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}/git" "$GIT_BODY" >/dev/null
-            wait_until '.repository_status' installed null
+            wait_until '.repository_status' installed
 
             # Build the static site on the Forge server after each pull.
             echo "Setting deployment script…"
@@ -145,17 +147,18 @@ jobs:
           # --- Deploy the current branch tip ------------------------------
           echo "Triggering deployment…"
           api POST "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}/deployment/deploy" >/dev/null
-          # The site object reports deploy state via `app_status` (values seen:
-          # "installing"/"deploying" while running, "installed" when done,
-          # "failed" on error). Give Forge a moment to flip into the running
-          # state, then wait for it to settle.
+          # The site object reports deploy state via `deployment_status`:
+          # "deploying" while running, "failed" on error, and null once the
+          # deploy has settled. (`app_status` tracks Forge's one-click app
+          # installer instead, and stays null for a git-deployed site.) Give
+          # Forge a moment to flip into "deploying", then wait for it to clear.
           sleep 5
           for _ in $(seq 1 120); do
-            STATUS=$(site_field '.app_status')
+            STATUS=$(site_field '.deployment_status')
             case "$STATUS" in
               deploying|installing) sleep 5 ;;
               failed) echo "::error::Deployment failed"; exit 1 ;;
-              *) echo "  app_status = $STATUS"; break ;;
+              *) echo "  deployment_status = $STATUS"; break ;;
             esac
           done
 

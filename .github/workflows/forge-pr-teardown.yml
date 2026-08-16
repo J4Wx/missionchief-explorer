@@ -40,7 +40,7 @@ jobs:
 
           api() {
             local method="$1" path="$2"
-            curl -sS -X "$method" \
+            curl -sS --connect-timeout 10 --max-time 60 -X "$method" \
               -H "Authorization: Bearer $FORGE_API_TOKEN" \
               -H "Accept: application/json" "${FORGE_API}${path}"
           }
