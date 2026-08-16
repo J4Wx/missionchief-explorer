@@ -46,18 +46,22 @@ validated state.
 - **Exit:** ✅ a player can slice the data to answer planning questions and share
   the view.
 
-## Phase 4 — First real region via the agent
+## Phase 4 — First real region via the agent ✅
 
-- [ ] Run the data-generation agent on one real city end-to-end.
-- [ ] Review + merge the region PR; verify it renders and validates.
-- **Exit:** one real, well-sourced region published.
+- [x] Run the data-generation agent on one real city end-to-end
+      (Savannah, GA / Chatham County).
+- [x] Review + merge the region PR (#4); verify it renders and validates
+      (`data/regions/us-ga-savannah.geojson`, listed in `index.json`).
+- **Exit:** ✅ one real, well-sourced region published.
 
 ## Phase 5 — Polish & scale
 
 - [ ] Accessibility/theming pass (light/dark, color-vision-safe categories).
 - [ ] `new-region.mjs` scaffold helper + batch region requests via `index.json`.
 - [ ] About/data-provenance page; contribution guide.
-- [ ] Deploy to static host with PR previews.
+- [x] Deploy with per-PR previews — GitHub Actions provisions and tears down an
+      ephemeral Laravel Forge site per PR (`.github/workflows/forge-pr-preview.yml`,
+      `forge-pr-teardown.yml`, `docs/forge-preview-deploys.md`).
 - **Exit:** publicly usable; adding regions is routine.
 
 ## Later / stretch
