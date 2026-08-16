@@ -9,6 +9,9 @@ export interface UrlState {
   subregionId: string | null
   filters: Filters
   selectedId: string | null
+  /** Whether the About/provenance dialog is open — shareable as an answer to
+   *  "where is this data from?". */
+  about: boolean
 }
 
 /** URL param name for each multi-valued facet (repeated key per value). */
@@ -29,6 +32,7 @@ export function parseUrl(search: string = window.location.search): UrlState {
     subregionId: p.get('sub'),
     filters,
     selectedId: p.get('sel'),
+    about: p.get('about') === '1',
   }
 }
 
@@ -42,6 +46,7 @@ export function serializeState(state: UrlState): string {
   const q = state.filters.query.trim()
   if (q) p.set('q', q)
   if (state.selectedId) p.set('sel', state.selectedId)
+  if (state.about) p.set('about', '1')
   return p.toString()
 }
 

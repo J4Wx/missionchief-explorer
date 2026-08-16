@@ -54,15 +54,28 @@ validated state.
       (`data/regions/us-ga-savannah.geojson`, listed in `index.json`).
 - **Exit:** ✅ one real, well-sourced region published.
 
-## Phase 5 — Polish & scale
+## Phase 5 — Polish & scale ✅
 
-- [ ] Accessibility/theming pass (light/dark, color-vision-safe categories).
-- [ ] `new-region.mjs` scaffold helper + batch region requests via `index.json`.
-- [ ] About/data-provenance page; contribution guide.
+- [x] Accessibility/theming pass. Light/dark themes on CSS role tokens
+      (`src/index.css`) driven by a `data-theme` attribute, with a three-way
+      light/system/dark control (`src/ui/ThemeToggle.tsx`, `src/lib/theme.ts`),
+      no-flash boot script, and a per-theme basemap style. The five service-group
+      colors were **re-picked** as a mode-invariant palette that clears every
+      dataviz gate on the all-pairs pairlist in *both* themes — worst CVD ΔE 9.1,
+      worst normal-vision ΔE 16.5, no contrast relief (`src/lib/categories.ts`).
+      Plus skip link, focus-visible ring, focus management on the detail/About
+      panels, and `prefers-reduced-motion` on camera moves.
+- [x] `scripts/new-region.mjs` (`npm run new-region`) registers a region,
+      optionally scaffolds a schema-valid empty file, and queues batches from a
+      JSON list; `index.json` carries `requested | in_progress | published`, and
+      `validate.mjs` now checks the registry in both directions.
+- [x] About/data-provenance panel (`src/ui/AboutPanel.tsx`, deep-linkable via
+      `?about=1`) — sources, confidence model, coverage/queue, per-region
+      provenance, attribution; plus `CONTRIBUTING.md`.
 - [x] Deploy with per-PR previews — GitHub Actions provisions and tears down an
       ephemeral Laravel Forge site per PR (`.github/workflows/forge-pr-preview.yml`,
       `forge-pr-teardown.yml`, `docs/forge-preview-deploys.md`).
-- **Exit:** publicly usable; adding regions is routine.
+- **Exit:** ✅ publicly usable; adding regions is routine.
 
 ## Later / stretch
 

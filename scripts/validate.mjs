@@ -8,6 +8,8 @@ import addFormats from 'ajv-formats'
 
 const REGIONS_DIR = 'data/regions'
 const SCHEMAS_DIR = 'schemas'
+// Mirrors scripts/new-region.mjs and the RegionIndexEntry type in src/types/app.ts.
+const VALID_STATUSES = new Set(['requested', 'in_progress', 'published'])
 
 const readJson = (p) => JSON.parse(readFileSync(p, 'utf8'))
 
@@ -25,9 +27,33 @@ const fail = (file, msg) => {
 const files = readdirSync(REGIONS_DIR).filter((f) => f.endsWith('.geojson'))
 if (files.length === 0) console.warn('No .geojson region files found in', REGIONS_DIR)
 
-// index.json referential check
+// index.json referential check. The registry is also the request queue, so an
+// entry may legitimately have no `file` yet (status `requested`/`in_progress`);
+// what must never happen is an entry pointing at a file that isn't there, a
+// published region with no data, or a data file nobody registered.
 const index = readJson(join(REGIONS_DIR, 'index.json'))
-const indexedFiles = new Set((index.regions ?? []).map((r) => r.file))
+const entries = index.regions ?? []
+const indexedFiles = new Set(entries.map((r) => r.file).filter(Boolean))
+
+const seenRegionIds = new Set()
+for (const entry of entries) {
+  const where = `index.json:${entry.region_id ?? '?'}`
+  if (!entry.region_id) {
+    fail(where, 'entry has no region_id')
+    continue
+  }
+  if (seenRegionIds.has(entry.region_id)) fail(where, 'duplicate region_id in the registry')
+  seenRegionIds.add(entry.region_id)
+
+  if (!VALID_STATUSES.has(entry.status)) {
+    fail(where, `status "${entry.status}" must be one of: ${[...VALID_STATUSES].join(', ')}`)
+  }
+  if (entry.file) {
+    if (!files.includes(entry.file)) fail(where, `points at missing file "${entry.file}"`)
+  } else if (entry.status === 'published') {
+    fail(where, 'is published but has no `file`')
+  }
+}
 
 for (const file of files) {
   const errorsBefore = errorCount

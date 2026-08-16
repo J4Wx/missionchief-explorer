@@ -21,11 +21,16 @@ import {
 } from './lib/filters'
 import { useSearch } from './lib/search'
 import { parseUrl, writeUrl } from './lib/url'
+import { useTheme } from './lib/theme'
+import { ThemeToggle } from './ui/ThemeToggle'
+import { AboutPanel } from './ui/AboutPanel'
 
 const FALLBACK_CENTER: Position = [-98.58, 39.83]
 const FALLBACK_ZOOM = 4
 
 export default function App() {
+  const { preference: themePreference, resolved: theme, setPreference: setTheme } = useTheme()
+
   const index = useMemo(() => loadIndex(), [])
   const regions = useMemo(
     () => index.regions.filter((r) => r.status === 'published'),
@@ -44,6 +49,7 @@ export default function App() {
   const [filters, setFilters] = useState<Filters>(initial.filters)
   const [selectedId, setSelectedId] = useState<string | null>(initial.selectedId)
   const [hoveredId, setHoveredId] = useState<string | null>(null)
+  const [aboutOpen, setAboutOpen] = useState(initial.about)
 
   // Switching region resets the region-specific narrowing (agencies, sub-region
   // and selection differ per region); deep-link init above is preserved.
@@ -176,14 +182,22 @@ export default function App() {
 
   // Reflect the current view into the URL for deep links / sharing.
   useEffect(() => {
-    writeUrl({ regionId, subregionId, filters, selectedId })
-  }, [regionId, subregionId, filters, selectedId])
+    writeUrl({ regionId, subregionId, filters, selectedId, about: aboutOpen })
+  }, [regionId, subregionId, filters, selectedId, aboutOpen])
 
   return (
-    <div className="flex h-screen flex-col bg-slate-100 text-slate-900">
-      <header className="z-30 border-b border-slate-200 bg-white">
+    <div className="flex h-screen flex-col bg-page text-ink">
+      {/* The map isn't reachable without a pointer; the results list is its
+          equivalent (docs/05), so that is where the skip link lands. */}
+      <a
+        href="#facility-results"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded focus:bg-accent-strong focus:px-3 focus:py-2 focus:text-sm focus:text-accent-ink"
+      >
+        Skip to facility results
+      </a>
+      <header className="z-30 border-b border-hairline bg-surface">
         <div className="flex flex-wrap items-center gap-4 px-4 py-3">
-          <h1 className="text-lg font-bold text-slate-900">Dispatch Atlas</h1>
+          <h1 className="text-lg font-bold text-ink">Dispatch Atlas</h1>
           {regions.length > 0 && (
             <RegionPicker regions={regions} value={regionId} onChange={changeRegion} />
           )}
@@ -197,26 +211,43 @@ export default function App() {
             }}
           />
           {region && <SearchBox value={filters.query} onChange={setQuery} />}
-          {region && (
-            <span className="ml-auto text-sm text-slate-500">
-              {results.length} facilit{results.length === 1 ? 'y' : 'ies'}
-            </span>
-          )}
+          <div className="ml-auto flex items-center gap-3">
+            {region && (
+              <span className="text-sm text-ink-faint">
+                {results.length} facilit{results.length === 1 ? 'y' : 'ies'}
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={() => setAboutOpen(true)}
+              className="rounded-md border border-hairline-strong px-2 py-1 text-sm text-ink hover:bg-surface-3"
+            >
+              About
+            </button>
+            <ThemeToggle value={themePreference} onChange={setTheme} />
+          </div>
         </div>
       </header>
 
       {error && (
-        <div className="m-4 rounded-md bg-red-50 p-4 text-red-700">
+        <div
+          role="alert"
+          className="m-4 rounded-md bg-rose-50 p-4 text-rose-800 dark:bg-rose-950 dark:text-rose-200"
+        >
           Failed to load region: {error}
         </div>
       )}
 
-      {!error && !region && <p className="p-6 text-slate-500">Loading…</p>}
+      {!error && !region && (
+        <p role="status" className="p-6 text-ink-faint">
+          Loading…
+        </p>
+      )}
 
       {region && (
         <main className="flex min-h-0 flex-1 flex-col-reverse lg:flex-row">
-          <aside className="flex min-h-0 basis-2/5 flex-col border-t border-slate-200 bg-white lg:w-96 lg:shrink-0 lg:grow-0 lg:basis-auto lg:border-r lg:border-t-0">
-            <div className="border-b border-slate-200 px-4 py-2 text-sm font-medium text-slate-600">
+          <aside className="flex min-h-0 basis-2/5 flex-col border-t border-hairline bg-surface lg:w-96 lg:shrink-0 lg:grow-0 lg:basis-auto lg:border-r lg:border-t-0">
+            <div className="border-b border-hairline px-4 py-2 text-sm font-medium text-ink-muted">
               {region.metadata.name}
             </div>
             <FilterPanel
@@ -227,7 +258,12 @@ export default function App() {
               onToggle={toggleFilter}
               onClear={clearFilters}
             />
-            <div className="min-h-0 flex-1 overflow-y-auto">
+            <div
+              id="facility-results"
+              tabIndex={-1}
+              aria-label="Facility results"
+              className="min-h-0 flex-1 overflow-y-auto focus:outline-none"
+            >
               <FacilityList
                 features={results}
                 subregionName={subregionName}
@@ -245,12 +281,13 @@ export default function App() {
               camera={camera}
               selectedId={selectedId}
               hoveredId={hoveredId}
+              theme={theme}
               onSelect={setSelectedId}
               onHover={setHoveredId}
             />
             <Legend counts={categoryCounts} />
             {selected && (
-              <div className="fixed inset-0 z-30 lg:absolute lg:inset-y-0 lg:left-auto lg:right-0 lg:z-20 lg:w-96 lg:border-l lg:border-slate-200 lg:shadow-xl">
+              <div className="fixed inset-0 z-30 lg:absolute lg:inset-y-0 lg:left-auto lg:right-0 lg:z-20 lg:w-96 lg:border-l lg:border-hairline lg:shadow-xl">
                 {/* Keyed so per-facility panel state starts fresh on each selection. */}
                 <FacilityDetail
                   key={selected.properties.id}
@@ -262,6 +299,14 @@ export default function App() {
             )}
           </div>
         </main>
+      )}
+
+      {aboutOpen && (
+        <AboutPanel
+          regions={index.regions}
+          region={region}
+          onClose={() => setAboutOpen(false)}
+        />
       )}
     </div>
   )

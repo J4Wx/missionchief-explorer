@@ -117,3 +117,21 @@ Useful OSM tags to read: `name`, `operator`, `operator:type`, `emergency`, `amen
 - A batch runner can fan out over a list of regions, but each still validates
   independently and merges on its own.
 - Track requested/queued regions in `index.json` (`status: requested | in_progress | published`).
+  `scripts/new-region.mjs` owns that file — don't hand-edit it:
+
+  ```bash
+  # queue one for later
+  npm run new-region -- --id us-ny-buffalo --name "Buffalo, NY (Erie County)"
+
+  # queue a batch from a JSON array of the same fields
+  npm run new-region -- --batch regions-wanted.json
+
+  # claim one and scaffold an empty, already-valid file to fill in
+  npm run new-region -- --id us-ny-buffalo --name "Buffalo, NY" \
+    --center -78.8784,42.8864 --zoom 11 --status in_progress --scaffold --force
+
+  npm run new-region -- --list      # what's queued, in progress, published
+  ```
+
+  A queued entry has no `file` until one exists; `npm run validate` enforces that a
+  `published` entry has data and that no entry points at a missing file.

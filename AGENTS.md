@@ -57,17 +57,35 @@ anything structural:
 
 ## Current state
 
-Phase 0 (plan, schema, fixture), Phase 1 (Vite/React/TS/Tailwind scaffold, validation
-script + CI, schema→TS type generation, region list UI with region picker & sub-region
-filter) and Phase 2 (MapLibre clustered map + legend, facility detail panel, map ⇄ list
-selection/hover sync) are complete. **Phase 3** (filters, Fuse.js search, URL-encoded
-state) is next — see `docs/07-roadmap.md`.
+**Phases 0–5 are complete** — see `docs/07-roadmap.md`. The app scaffold, validation +
+CI, map/legend/detail, filters/search/URL state, the first real region (Savannah, GA),
+PR preview deploys, light/dark theming, the About/provenance panel and the
+`new-region` helper are all in. Remaining work is the "Later / stretch" list.
 
 Dev commands: `npm run dev` · `npm run validate` · `npm run typecheck` · `npm run lint` ·
-`npm run build` (build regenerates types first). Types in `src/types/schema.ts` are
-generated — run `npm run gen:types` after editing the schemas, never hand-edit them.
-Basemap style: `VITE_MAP_STYLE` (defaults to OpenFreeMap Liberty, no API key).
+`npm run build` (build regenerates types first) · `npm run new-region -- --help`.
+Types in `src/types/schema.ts` are generated — run `npm run gen:types` after editing the
+schemas, never hand-edit them.
 
-Marker/legend colors encode the **service group**, with a per-category code badge as the
-non-color half of the encoding (`src/lib/categories.ts`). Changing those colors means
-re-running the **dataviz** skill's `validate_palette.js` — don't eyeball them.
+Env: `VITE_MAP_STYLE` / `VITE_MAP_STYLE_DARK` (basemap per theme; default OpenFreeMap
+Liberty/Dark, no API key), `VITE_REPO_URL` (links in the About panel), `BASE_PATH`.
+
+### Two things that are computed, not chosen
+
+- **Service-group colors** (`src/lib/categories.ts`). Marker/legend color encodes the
+  service group, with a per-category code badge as the non-color half of the encoding.
+  The five colors are one **mode-invariant** set validated with the **dataviz** skill's
+  `validate_palette.js` on the `--pairs all` pairlist against *both* surfaces. Changing
+  one means re-running the checker in both modes — don't eyeball it, and don't add a
+  sixth group without re-deriving the set.
+- **UI chrome** uses the role tokens in `src/index.css` (`bg-surface`, `text-ink`,
+  `border-hairline`, `text-accent`, …), never raw Tailwind palette classes — that is
+  what keeps both themes in step. Every ink level clears 4.5:1 on every surface it can
+  sit on. Adding a token means checking its contrast in both themes.
+
+### Region registry
+
+`data/regions/index.json` is both the published list and the **request queue**:
+`status: requested | in_progress | published`. Queued entries have no `file` until one
+exists. Use `npm run new-region` rather than hand-editing it; `npm run validate` checks
+the registry against the files in both directions.

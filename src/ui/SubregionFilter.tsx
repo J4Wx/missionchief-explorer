@@ -29,9 +29,11 @@ export function SubregionFilter({ subregions, counts, value, onChange }: Props) 
 
   return (
     <label className="flex items-center gap-2 text-sm">
-      <span className="font-medium text-slate-600">Sub-region</span>
+      <span className="font-medium text-ink-muted">Sub-region</span>
+      {/* Width capped so a region with long sub-region names can't stretch the
+          select far enough to wrap the header onto a second row. */}
       <select
-        className="rounded-md border border-slate-300 bg-white px-2 py-1 text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none"
+        className="max-w-52 truncate rounded-md border border-hairline-strong bg-surface px-2 py-1 text-ink shadow-sm focus:border-accent-strong focus:outline-none"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       >

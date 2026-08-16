@@ -5,16 +5,28 @@
 // distinguishable hues do not exist. Each category then carries its own short
 // code badge, so identity is never conveyed by color alone (see docs/05).
 //
-// The five group colors are taken from the dataviz skill's documented palette
-// and validated with its checker on the *all-pairs* pairlist (any two markers
-// can sit side by side on a map):
-//   validate_palette.js "#e34948,#008300,#2a78d6,#4a3aa7,#eda100" \
-//     --mode light --pairs all   → all checks pass
-// Two WARNs are relieved by the per-category code badge and the legend labels:
-// the fire↔medical CVD pair sits in the 6–8 floor band, and the support yellow
-// is below 3:1 on a light surface. Dark-mode steps are deliberately deferred to
-// the Phase 5 theming pass — the dark column of the same palette does not clear
-// all-pairs for five slots, so that pass has to re-pick, not just flip.
+// The five group colors are a **mode-invariant** palette: one set of steps that
+// clears every gate on both surfaces, so a marker means the same thing in light
+// and dark. That is possible because the dark lightness band (OKLCH L
+// 0.485–0.665) sits inside the light one — steps chosen for dark satisfy both.
+// Validated with the dataviz skill's checker on the *all-pairs* pairlist (any
+// two markers can sit side by side on a map), against this app's own surfaces:
+//   validate_palette.js "#be384f,#b38007,#09a773,#3a7deb,#a158b9" \
+//     --mode light --surface "#ffffff" --pairs all   → all 6 checks PASS
+//   validate_palette.js "#be384f,#b38007,#09a773,#3a7deb,#a158b9" \
+//     --mode dark  --surface "#0f172a" --pairs all   → all 6 checks PASS
+// Worst all-pairs CVD ΔE 9.1 (deutan, medical↔fire) — above the ≥8 target, not
+// merely in the 6–8 floor band; worst normal-vision ΔE 16.5 (≥15 floor); every
+// step ≥3:1 on both surfaces, so no contrast relief is being leaned on. The
+// code badge is still the non-color half of the encoding, not a mitigation.
+//
+// Re-picked in the Phase 5 theming pass: the previous palette was light-only
+// and its dark column collapsed violet↔blue (ΔE 1.9). No five-hue subset of the
+// skill's documented eight passes all-pairs in dark, so these steps were
+// derived by constrained search inside the dark band — each group holding its
+// semantic hue (fire red, medical green, law blue, corrections purple, support
+// amber) — and then validated as a set. Changing any of them means re-running
+// the checker on both modes; don't eyeball it.
 import type { Facility } from '../types/app'
 
 type Category = Facility['category']
@@ -23,18 +35,22 @@ export type CategoryGroup = 'fire' | 'medical' | 'law' | 'corrections' | 'suppor
 
 export interface GroupMeta {
   label: string
-  /** Marker/swatch fill. */
+  /** Marker/swatch fill. Same value in both themes — see the note above. */
   color: string
-  /** Text color that meets contrast on `color`. */
+  /**
+   * Badge/marker text color on top of `color`. Whichever of the two neutrals
+   * scores higher; each pairing clears 4.5:1, since the code badge is small
+   * bold text carrying real meaning.
+   */
   ink: string
 }
 
 export const GROUP_META: Record<CategoryGroup, GroupMeta> = {
-  fire: { label: 'Fire', color: '#e34948', ink: '#ffffff' },
-  medical: { label: 'Medical', color: '#008300', ink: '#ffffff' },
-  law: { label: 'Law enforcement', color: '#2a78d6', ink: '#ffffff' },
-  corrections: { label: 'Corrections', color: '#4a3aa7', ink: '#ffffff' },
-  support: { label: 'Support', color: '#eda100', ink: '#1a1a19' },
+  fire: { label: 'Fire', color: '#be384f', ink: '#ffffff' }, //       5.43:1
+  medical: { label: 'Medical', color: '#09a773', ink: '#0f172a' }, // 5.77:1
+  law: { label: 'Law enforcement', color: '#3a7deb', ink: '#0f172a' }, // 4.52:1
+  corrections: { label: 'Corrections', color: '#a158b9', ink: '#ffffff' }, // 4.55:1
+  support: { label: 'Support', color: '#b38007', ink: '#0f172a' }, //  5.11:1
 }
 
 /** Group order for the legend — matches GROUP_META insertion order. */
@@ -73,6 +89,10 @@ export const CATEGORY_META: Record<Category, CategoryMeta> = {
 /** Category order for the legend, grouped by service group. */
 export const CATEGORY_ORDER = Object.keys(CATEGORY_META) as Category[]
 
+// Out-of-vocabulary categories only (the schema enum should make this
+// unreachable) — a deliberate neutral rather than a sixth group color, so a
+// record with a bad `category` looks unclassified instead of misclassified.
+// Clears 3:1 on both surfaces (4.83 light / 3.69 dark) with white ink at 4.83.
 const FALLBACK: GroupMeta = { label: 'Other', color: '#6b7280', ink: '#ffffff' }
 
 export function categoryLabel(category: Category): string {

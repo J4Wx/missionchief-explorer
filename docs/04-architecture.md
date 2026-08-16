@@ -31,7 +31,7 @@ contribute via ordinary pull requests.
 | UI | **React** | Ubiquitous, good map-library support, easy for future contributors. |
 | Styling | **Tailwind CSS** | Fast, consistent styling without bespoke CSS sprawl. |
 | Map | **MapLibre GL JS** | Open-source, vector tiles, built-in GeoJSON **clustering** & styling — key for dense urban data. |
-| Base map tiles | **OpenFreeMap** (default, no API key) or **MapTiler** (free tier) | No/low cost; swap the style URL via the `VITE_MAP_STYLE` env var. |
+| Base map tiles | **OpenFreeMap** (default, no API key) or **MapTiler** (free tier) | No/low cost; swap the style URLs via `VITE_MAP_STYLE` / `VITE_MAP_STYLE_DARK`. |
 | Client search | **Fuse.js** | Lightweight fuzzy search over names/agencies/specialties. |
 | Data validation | **ajv** (JSON Schema 2020-12) | Enforces the schema in `npm run validate` and CI. |
 | Types from schema | **json-schema-to-typescript** | Single source of truth: types generated from `facility.schema.json`. |
@@ -57,14 +57,17 @@ contribute via ordinary pull requests.
 │     └─ <region_id>.geojson     # one file per region
 ├─ scripts/
 │  ├─ validate.mjs               # ajv validation of all data files
-│  └─ new-region.mjs             # scaffold a blank region file (optional helper)
+│  ├─ gen-types.mjs              # schema → src/types/schema.ts
+│  └─ new-region.mjs             # register/scaffold a region; queue batches
 ├─ src/                          # app (added in Phase 1)
 │  ├─ main.tsx
-│  ├─ types/facility.ts          # generated from schema
-│  ├─ data/loadRegion.ts
-│  ├─ map/MapView.tsx
-│  ├─ ui/{RegionPicker,FilterBar,FacilityList,FacilityDetail}.tsx
-│  └─ lib/{search.ts,filters.ts,gameMapping.ts}
+│  ├─ index.css                  # Tailwind + light/dark role tokens
+│  ├─ types/schema.ts            # generated from schema
+│  ├─ data/regions.ts
+│  ├─ map/{MapView,Legend}.tsx
+│  ├─ ui/{RegionPicker,SubregionFilter,SearchBox,FilterPanel,FacilityList,
+│  │      FacilityDetail,AboutPanel,ThemeToggle}.tsx
+│  └─ lib/{search,filters,categories,url,theme,geo,format,subregions,links}.ts
 ├─ index.html
 ├─ package.json
 ├─ tsconfig.json
