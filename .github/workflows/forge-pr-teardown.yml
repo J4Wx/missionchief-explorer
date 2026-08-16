@@ -1,0 +1,88 @@
+name: Forge PR Teardown
+
+# Deletes the per-PR preview site on Laravel Forge when the PR is closed
+# (whether merged or not).
+on:
+  pull_request:
+    types: [closed]
+
+concurrency:
+  group: forge-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  teardown-preview:
+    # Fork PRs never had a preview (no secrets), so there is nothing to remove.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    env:
+      FORGE_API: https://forge.laravel.com/api/v1
+      FORGE_API_TOKEN: ${{ secrets.FORGE_API_TOKEN }}
+      FORGE_SERVER_ID: ${{ secrets.FORGE_SERVER_ID }}
+      BASE_DOMAIN: ${{ vars.PREVIEW_BASE_DOMAIN }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+    steps:
+      - name: Delete Forge site
+        id: forge
+        run: |
+          set -euo pipefail
+
+          : "${FORGE_API_TOKEN:?Set the FORGE_API_TOKEN secret}"
+          : "${FORGE_SERVER_ID:?Set the FORGE_SERVER_ID secret}"
+          : "${BASE_DOMAIN:?Set the PREVIEW_BASE_DOMAIN repository variable}"
+
+          DOMAIN="pr-${PR_NUMBER}.${BASE_DOMAIN}"
+          echo "Looking for preview site: $DOMAIN"
+
+          api() {
+            local method="$1" path="$2"
+            curl -sS -X "$method" \
+              -H "Authorization: Bearer $FORGE_API_TOKEN" \
+              -H "Accept: application/json" "${FORGE_API}${path}"
+          }
+
+          SITE_ID=$(api GET "/servers/${FORGE_SERVER_ID}/sites" \
+            | jq -r --arg d "$DOMAIN" 'first(.sites[] | select(.name == $d) | .id) // empty')
+
+          if [ -z "$SITE_ID" ]; then
+            echo "No preview site found for $DOMAIN — nothing to delete."
+            echo "deleted=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "Deleting site id=$SITE_ID ($DOMAIN)…"
+          api DELETE "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}" >/dev/null
+          echo "deleted=true" >> "$GITHUB_OUTPUT"
+          echo "Deleted preview site $DOMAIN (id=$SITE_ID)" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment teardown on the PR
+        if: steps.forge.outputs.deleted == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const marker = '<!-- forge-preview -->';
+            const body = `${marker}\n### 🧹 Forge preview removed\n\n`
+              + `The preview environment for this PR has been torn down.`;
+
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+
+            const comments = await github.paginate(
+              github.rest.issues.listComments,
+              { owner, repo, issue_number },
+            );
+            const existing = comments.find(c => c.body?.includes(marker));
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner, repo, comment_id: existing.id, body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner, repo, issue_number, body,
+              });
+            }

@@ -1,0 +1,202 @@
+name: Forge PR Preview
+
+# Creates (once) and deploys a per-PR preview site on Laravel Forge.
+# - On "opened"/"reopened": provisions the Forge site, wires it to the PR
+#   branch, sets the deploy script, then deploys.
+# - On "synchronize" (new commits pushed to the PR branch): re-deploys the
+#   existing site so the preview always tracks the latest branch commit.
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+# Never run two deploys for the same PR at once; cancel the older one.
+concurrency:
+  group: forge-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  deploy-preview:
+    # Repository secrets are NOT exposed to pull_request runs from forks, so a
+    # fork PR could never authenticate to Forge anyway. Skip them explicitly.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    env:
+      FORGE_API: https://forge.laravel.com/api/v1
+      FORGE_API_TOKEN: ${{ secrets.FORGE_API_TOKEN }}
+      FORGE_SERVER_ID: ${{ secrets.FORGE_SERVER_ID }}
+      # e.g. "preview.dispatch-atlas.example" -> sites become pr-123.preview...
+      BASE_DOMAIN: ${{ vars.PREVIEW_BASE_DOMAIN }}
+      REPO: ${{ github.repository }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+    steps:
+      - name: Provision & deploy Forge site
+        id: forge
+        run: |
+          set -euo pipefail
+
+          : "${FORGE_API_TOKEN:?Set the FORGE_API_TOKEN secret}"
+          : "${FORGE_SERVER_ID:?Set the FORGE_SERVER_ID secret}"
+          : "${BASE_DOMAIN:?Set the PREVIEW_BASE_DOMAIN repository variable}"
+
+          DOMAIN="pr-${PR_NUMBER}.${BASE_DOMAIN}"
+          echo "Preview domain: $DOMAIN"
+
+          # --- Forge API helpers -------------------------------------------
+          api() {
+            local method="$1" path="$2" body="${3:-}"
+            if [ -n "$body" ]; then
+              curl -sS -X "$method" \
+                -H "Authorization: Bearer $FORGE_API_TOKEN" \
+                -H "Accept: application/json" \
+                -H "Content-Type: application/json" \
+                -d "$body" "${FORGE_API}${path}"
+            else
+              curl -sS -X "$method" \
+                -H "Authorization: Bearer $FORGE_API_TOKEN" \
+                -H "Accept: application/json" "${FORGE_API}${path}"
+            fi
+          }
+
+          site_field() { # site_field <jq-filter>
+            api GET "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}" | jq -r "$1"
+          }
+
+          wait_until() { # wait_until <jq-filter> <accepted value...>
+            local filter="$1"; shift
+            local v=""
+            for _ in $(seq 1 60); do
+              v=$(site_field "$filter")
+              for want in "$@"; do
+                if [ "$v" = "$want" ]; then
+                  echo "  $filter = $v"
+                  return 0
+                fi
+              done
+              sleep 5
+            done
+            echo "::error::Timed out waiting for $filter (last value: $v)"
+            return 1
+          }
+
+          # --- Find an existing preview site for this PR -------------------
+          SITE_ID=$(api GET "/servers/${FORGE_SERVER_ID}/sites" \
+            | jq -r --arg d "$DOMAIN" 'first(.sites[] | select(.name == $d) | .id) // empty')
+
+          CREATED=false
+          if [ -z "$SITE_ID" ]; then
+            echo "No existing site found — creating $DOMAIN"
+            CREATED=true
+
+            CREATE_BODY=$(jq -n --arg d "$DOMAIN" '{
+              domain: $d,
+              project_type: "html",
+              directory: "/dist",
+              php_version: "php83"
+            }')
+            SITE_ID=$(api POST "/servers/${FORGE_SERVER_ID}/sites" "$CREATE_BODY" \
+              | jq -r '.site.id')
+            if [ -z "$SITE_ID" ] || [ "$SITE_ID" = "null" ]; then
+              echo "::error::Site creation failed"; exit 1
+            fi
+            echo "Created site id=$SITE_ID; waiting for provisioning…"
+            wait_until '.status' installed
+
+            # Attach the PR branch from GitHub.
+            echo "Installing git repository ($REPO @ $PR_BRANCH)…"
+            GIT_BODY=$(jq -n --arg r "$REPO" --arg b "$PR_BRANCH" '{
+              provider: "github",
+              repository: $r,
+              branch: $b,
+              composer: false
+            }')
+            api POST "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}/git" "$GIT_BODY" >/dev/null
+            wait_until '.repository_status' installed null
+
+            # Build the static site on the Forge server after each pull.
+            echo "Setting deployment script…"
+            SCRIPT=$'cd $FORGE_SITE_PATH\ngit pull origin $FORGE_SITE_BRANCH\nnpm ci\nnpm run build\n'
+            SCRIPT_BODY=$(jq -n --arg s "$SCRIPT" '{content: $s, auto_source: true}')
+            api PUT "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}/deployment/script" "$SCRIPT_BODY" >/dev/null
+
+            # Enable Forge "Quick Deploy" so pushes to the branch redeploy even
+            # outside this workflow. (This workflow also deploys explicitly.)
+            api POST "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}/deployment" >/dev/null || true
+
+            # Request a Let's Encrypt certificate for the preview domain.
+            # Best-effort: HTTP-01 issuance needs the domain's DNS to already
+            # resolve to this server, so a failure here must not fail the
+            # deploy — the cert can also be (re)issued later from the dashboard.
+            echo "Requesting Let's Encrypt certificate…"
+            CERT_BODY=$(jq -n --arg d "$DOMAIN" '{domains: [$d]}')
+            if api POST "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}/certificates/letsencrypt" "$CERT_BODY" >/dev/null; then
+              echo "  Certificate requested (issuance may take a minute)."
+            else
+              echo "::warning::Let's Encrypt request failed — check that $DOMAIN resolves to the server. HTTPS may be unavailable until a cert is issued."
+            fi
+          else
+            echo "Reusing existing site id=$SITE_ID"
+          fi
+
+          # --- Deploy the current branch tip ------------------------------
+          echo "Triggering deployment…"
+          api POST "/servers/${FORGE_SERVER_ID}/sites/${SITE_ID}/deployment/deploy" >/dev/null
+          # The site object reports deploy state via `app_status` (values seen:
+          # "installing"/"deploying" while running, "installed" when done,
+          # "failed" on error). Give Forge a moment to flip into the running
+          # state, then wait for it to settle.
+          sleep 5
+          for _ in $(seq 1 120); do
+            STATUS=$(site_field '.app_status')
+            case "$STATUS" in
+              deploying|installing) sleep 5 ;;
+              failed) echo "::error::Deployment failed"; exit 1 ;;
+              *) echo "  app_status = $STATUS"; break ;;
+            esac
+          done
+
+          echo "site_id=$SITE_ID" >> "$GITHUB_OUTPUT"
+          echo "domain=$DOMAIN" >> "$GITHUB_OUTPUT"
+          echo "url=https://$DOMAIN" >> "$GITHUB_OUTPUT"
+          echo "created=$CREATED" >> "$GITHUB_OUTPUT"
+
+          {
+            echo "### 🚀 Forge preview deployed"
+            echo ""
+            echo "- **URL:** https://$DOMAIN"
+            echo "- **Branch:** \`$PR_BRANCH\`"
+            echo "- **Site id:** $SITE_ID"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment preview URL on the PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const url = ${{ toJSON(steps.forge.outputs.url) }};
+            const marker = '<!-- forge-preview -->';
+            const body = `${marker}\n### 🚀 Forge preview\n\n`
+              + `Your changes are deployed at ${url}\n\n`
+              + `_Updated automatically on every push to this PR._`;
+
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+
+            const comments = await github.paginate(
+              github.rest.issues.listComments,
+              { owner, repo, issue_number },
+            );
+            const existing = comments.find(c => c.body?.includes(marker));
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner, repo, comment_id: existing.id, body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner, repo, issue_number, body,
+              });
+            }
