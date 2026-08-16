@@ -29,15 +29,16 @@ export function Legend({ counts }: Props) {
   })).filter((g) => g.categories.length > 0)
 
   return (
-    <div className="absolute bottom-6 left-3 z-10 max-w-[15rem] rounded-md border border-slate-200 bg-white/95 text-xs shadow-lg backdrop-blur">
+    // Sits above MapLibre's scale bar, which owns the bottom-left corner.
+    <div className="absolute bottom-10 left-3 z-10 max-w-[15rem] rounded-md border border-hairline bg-surface/95 text-xs shadow-lg backdrop-blur">
       <button
         type="button"
-        className="flex w-full items-center justify-between gap-2 px-3 py-2 font-semibold text-slate-700"
+        className="flex w-full items-center justify-between gap-2 px-3 py-2 font-semibold text-ink"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
       >
         Legend
-        <span aria-hidden="true" className="text-slate-400">
+        <span aria-hidden="true" className="text-ink-faint">
           {open ? '▾' : '▸'}
         </span>
       </button>
@@ -45,9 +46,9 @@ export function Legend({ counts }: Props) {
         <div className="max-h-64 overflow-y-auto px-3 pb-3">
           {groups.map(({ group, categories }) => (
             <div key={group} className="mb-2 last:mb-0">
-              <div className="mb-1 flex items-center gap-1.5 font-medium text-slate-600">
+              <div className="mb-1 flex items-center gap-1.5 font-medium text-ink-muted">
                 <span
-                  className="h-2.5 w-2.5 rounded-full ring-1 ring-white"
+                  className="h-2.5 w-2.5 rounded-full ring-1 ring-surface"
                   style={{ backgroundColor: GROUP_META[group].color }}
                   aria-hidden="true"
                 />
@@ -55,9 +56,9 @@ export function Legend({ counts }: Props) {
               </div>
               <ul className="space-y-1 pl-1">
                 {categories.map((c) => (
-                  <li key={c} className="flex items-center gap-1.5 text-slate-700">
+                  <li key={c} className="flex items-center gap-1.5 text-ink">
                     <span
-                      className="inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[9px] font-bold ring-1 ring-white"
+                      className="inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[9px] font-bold ring-1 ring-surface"
                       style={{
                         backgroundColor: GROUP_META[group].color,
                         color: categoryInk(c),
@@ -67,7 +68,7 @@ export function Legend({ counts }: Props) {
                       {categoryCode(c)}
                     </span>
                     <span>{CATEGORY_META[c].label}</span>
-                    <span className="ml-auto tabular-nums text-slate-500">{counts[c]}</span>
+                    <span className="ml-auto tabular-nums text-ink-faint">{counts[c]}</span>
                   </li>
                 ))}
               </ul>

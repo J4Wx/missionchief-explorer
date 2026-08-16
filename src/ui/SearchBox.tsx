@@ -19,7 +19,7 @@ export function SearchBox({ value, onChange }: Props) {
     <div className="relative">
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 left-2 flex items-center text-slate-400"
+        className="pointer-events-none absolute inset-y-0 left-2 flex items-center text-ink-faint"
       >
         {/* magnifying glass */}
         <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
@@ -34,14 +34,14 @@ export function SearchBox({ value, onChange }: Props) {
         onKeyDown={onKeyDown}
         placeholder="Search facilities…"
         aria-label="Search facilities"
-        className="w-44 rounded-md border border-slate-300 bg-white py-1 pl-7 pr-7 text-sm text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none sm:w-56"
+        className="w-44 rounded-md border border-hairline-strong bg-surface py-1 pl-7 pr-7 text-sm text-ink shadow-sm focus:border-accent-strong focus:outline-none sm:w-56"
       />
       {value && (
         <button
           type="button"
           onClick={() => onChange('')}
           aria-label="Clear search"
-          className="absolute inset-y-0 right-1 flex items-center px-1 text-slate-400 hover:text-slate-600"
+          className="absolute inset-y-0 right-1 flex items-center px-1 text-ink-faint hover:text-ink-muted"
         >
           <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path

@@ -1,0 +1,5 @@
+# Source files are text even if a string literal ever holds a control byte,
+# so diffs and PR reviews stay readable.
+*.ts diff
+*.tsx diff
+*.mjs diff

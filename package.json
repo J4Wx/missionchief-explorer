@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "validate": "node scripts/validate.mjs",
-    "gen:types": "node scripts/gen-types.mjs"
+    "gen:types": "node scripts/gen-types.mjs",
+    "new-region": "node scripts/new-region.mjs"
   },
   "dependencies": {
     "fuse.js": "^7.5.0",

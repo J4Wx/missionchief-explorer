@@ -46,7 +46,7 @@ export function FacilityList({
   }
 
   if (features.length === 0) {
-    return <p className="p-6 text-slate-500">No facilities match the current selection.</p>
+    return <p className="p-6 text-ink-faint">No facilities match the current selection.</p>
   }
 
   return (
@@ -54,7 +54,7 @@ export function FacilityList({
       ref={listRef}
       onKeyDown={onKeyDown}
       onMouseLeave={() => onHover(null)}
-      className="divide-y divide-slate-200"
+      className="divide-y divide-hairline"
     >
       {features.map((f) => {
         const p = f.properties
@@ -73,12 +73,12 @@ export function FacilityList({
               onClick={() => onSelect(p.id)}
               onMouseEnter={() => onHover(p.id)}
               onFocus={() => onHover(p.id)}
-              className={`flex w-full flex-col gap-1 px-4 py-3 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-500 ${
+              className={`flex w-full flex-col gap-1 px-4 py-3 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-strong ${
                 selected
-                  ? 'bg-blue-50 ring-1 ring-inset ring-blue-200'
+                  ? 'bg-accent-wash ring-1 ring-inset ring-accent-strong'
                   : p.id === hoveredId
-                    ? 'bg-slate-50'
-                    : 'hover:bg-slate-50'
+                    ? 'bg-surface-3'
+                    : 'hover:bg-surface-3'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -89,27 +89,27 @@ export function FacilityList({
                 >
                   {categoryCode(p.category)}
                 </span>
-                <span className="font-medium text-slate-900">{p.name}</span>
+                <span className="font-medium text-ink">{p.name}</span>
                 {p.designation && (
-                  <span className="text-xs text-slate-500">· {p.designation}</span>
+                  <span className="text-xs text-ink-faint">· {p.designation}</span>
                 )}
                 {sub && (
-                  <span className="ml-auto rounded bg-slate-100 px-1.5 py-0.5 text-xs text-slate-600">
+                  <span className="ml-auto rounded bg-surface-3 px-1.5 py-0.5 text-xs text-ink-muted">
                     {sub}
                   </span>
                 )}
               </div>
-              <div className="text-sm text-slate-600">
+              <div className="text-sm text-ink-muted">
                 <span className="sr-only">{categoryLabel(p.category)} — </span>
                 {p.agency.name}
               </div>
-              {units && <div className="text-sm text-slate-500">Units: {units}</div>}
+              {units && <div className="text-sm text-ink-faint">Units: {units}</div>}
               {p.specialties && p.specialties.length > 0 && (
                 <div className="flex flex-wrap gap-1">
                   {p.specialties.map((s) => (
                     <span
                       key={s}
-                      className="rounded bg-blue-50 px-1.5 py-0.5 text-xs text-blue-700"
+                      className="rounded bg-accent-wash px-1.5 py-0.5 text-xs text-accent"
                     >
                       {s}
                     </span>

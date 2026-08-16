@@ -1,10 +1,29 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dispatch Atlas</title>
     <meta name="description" content="Explore real-world emergency-services facilities for Mission Chief planning." />
+    <script>
+      // Resolve the theme before first paint so the page never flashes light
+      // then repaint dark. Mirrors src/lib/theme.ts — keep the two in step.
+      (function () {
+        try {
+          var stored = localStorage.getItem('dispatch-atlas:theme')
+          var theme =
+            stored === 'light' || stored === 'dark'
+              ? stored
+              : window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light'
+          document.documentElement.dataset.theme = theme
+          document.documentElement.style.colorScheme = theme
+        } catch (e) {
+          // Storage blocked — fall back to the light default already on <html>.
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

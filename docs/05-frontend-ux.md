@@ -88,9 +88,17 @@ A three-region, map-centric layout (responsive → stacked on mobile):
 - Fuse.js fuzzy search over `name`, `agency.name`, `designation`, `specialties`, and
   `subtype`. Results reflect on both map and list.
 
-### About / data page
-- Explains data provenance, confidence model, how to request a new region, and how to
-  contribute corrections via PR.
+### About / data page (`AboutPanel`)
+- A dialog off the top bar, deep-linkable via `?about=1` so "where is this data from?"
+  has a shareable answer.
+- Explains data provenance, the confidence model, how to request a new region, and how
+  to contribute corrections via PR.
+- Lists **coverage** straight from `index.json` — including `requested` and
+  `in_progress` regions, so the queue is public — and a provenance block for the region
+  currently open (facility count, confidence split, `generated_by`/`generated_at`, and
+  the distinct source domains it cites).
+- Carries the attribution for OpenStreetMap, OpenFreeMap and MapLibre, and the
+  "unofficial fan project" disclaimer.
 
 ## Interaction & state
 
@@ -101,18 +109,48 @@ A three-region, map-centric layout (responsive → stacked on mobile):
 
 ## Accessibility & theming
 
-- Meet WCAG AA contrast for markers, badges, and text in **both light and dark** themes.
-  Category colors must be distinguishable for common color-vision deficiencies (pair color
-  with distinct icons — never color alone).
-- All controls keyboard-reachable and labeled; map has a list-based fallback for
-  non-pointer users.
+**Themes.** Light and dark, following the OS by default with a three-way
+light/system/dark control in the top bar (`ThemeToggle`) whose choice persists. The
+active theme is a `data-theme` attribute on `<html>`, resolved by an inline script in
+`index.html` before first paint so there's no flash of the wrong theme, and thereafter
+owned by `src/lib/theme.ts`.
+
+**Role tokens, not palette classes.** UI chrome is written against roles — `bg-surface`,
+`bg-surface-2/3`, `text-ink`, `text-ink-muted`, `text-ink-faint`, `border-hairline`,
+`text-accent` — defined once per theme as CSS custom properties in `src/index.css`. One
+class works in both themes. Every ink level clears WCAG AA (≥ 4.5:1) against every
+surface it can sit on, in both themes; hairlines are non-text separators. MapLibre's own
+popups, controls and attribution are re-pointed at the same tokens.
+
+**Category color is validated, not chosen.** One **mode-invariant** set of five
+service-group colors (`src/lib/categories.ts`) that clears every dataviz gate on the
+`--pairs all` pairlist against *both* surfaces — worst CVD ΔE 9.1 (above the ≥8 target,
+not merely in the floor band), worst normal-vision ΔE 16.5, every step ≥3:1 on both
+surfaces. This is possible because the dark lightness band sits inside the light one, so
+steps chosen for dark satisfy both. Identity never rests on color alone regardless: the
+per-category code badge is the second channel.
+
+**Basemap per theme.** `VITE_MAP_STYLE` / `VITE_MAP_STYLE_DARK`. Swapping the style
+discards everything the app added to the map, so the facility source and layers are
+rebuilt on `style.load` and the current features, hover and selection re-applied.
+
+**Keyboard & motion.**
+- A skip link to the results list is the first tab stop; the list is the map's
+  non-pointer equivalent, so that's where it lands.
+- One `:focus-visible` outline everywhere, including MapLibre's injected controls.
+- The detail and About panels take focus when they open (they cover the viewport on
+  small screens) and hand it back to whatever opened them on close; `Esc` closes both.
+- Camera fly/ease durations are zeroed under `prefers-reduced-motion`, and the CSS
+  transition/animation reset applies globally.
 
 > When building any charts, category color palettes, stat tiles, or legends, follow the
-> **dataviz** skill's guidance for a consistent, accessible color system.
+> **dataviz** skill's guidance for a consistent, accessible color system — and run its
+> `validate_palette.js` rather than eyeballing the result.
 
 ## Visual language
 
-- One accessible color per **service group** + a short code badge per `category`
-  (see Map above); specialties shown as text/badges.
+- One validated color per **service group** + a short code badge per `category`
+  (see Map above); specialties shown as text/badges. The group colors are identical in
+  both themes — a marker means the same thing whichever theme you're in.
 - Neutral, map-forward UI chrome so the data and markers dominate.
 - Density-friendly typography — players scan a lot of stations at once.

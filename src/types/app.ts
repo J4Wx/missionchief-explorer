@@ -21,7 +21,12 @@ export interface RegionIndexEntry {
   region_id: string
   name: string
   country: string
-  file: string
+  /**
+   * Absent until the region has a data file. The registry doubles as the
+   * request queue, so `requested` (and early `in_progress`) entries are
+   * registered before anything exists to point at — see scripts/new-region.mjs.
+   */
+  file?: string
   status: 'requested' | 'in_progress' | 'published'
   note?: string
 }
