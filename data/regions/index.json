@@ -75,6 +75,21 @@
       ],
       "facility_count": 109,
       "note": "Second UK region (UK edition, missionchief.co.uk). Norwich anchored in its ceremonial county, mirroring Liverpool (Merseyside): 109 facilities across the seven Norfolk districts. All 42 Norfolk Fire and Rescue Service stations with official addresses and published crewing (5 wholetime, 2 day-crewed, 39 on-call establishments; no volunteer firefighters in the county), the NFRS joint headquarters and its 999 control room, the full Norfolk Constabulary estate from the PCC estates plan (30 stations plus the Wymondham OCC), all four Police Investigation Centres as the county custody estate, HMP Norwich/Bure/Wayland, 9 lifeboat stations (6 RNLI plus independent Caister, Sea Palling and Mundesley), 11 ambulance sites including the East Anglian Air Ambulance base at Norwich Airport, and the county's three A&E hospitals -- all Trauma Units, with no Major Trauma Centre in the region. Coordinates from ONS postcode data (postcodes.io) where an official postcode is published, otherwise OpenStreetMap, cited per record. Gaps: per-station fire appliance specials (aerials, USAR, water carriers -- not published per station), EEAST vehicle allocations and six of its Norfolk stations (no sourced coordinates), police firearms/dog/marine allocations (recorded at HQ instead), HM Coastguard rescue teams beyond Gorleston, Norwich Airport RFFS, tow/recovery operators, and UK-edition in-game building names which remain unverified guidance."
+    },
+    {
+      "region_id": "us-ny-buffalo",
+      "name": "Buffalo, NY (Erie County)",
+      "country": "US",
+      "admin": "ny",
+      "admin_name": "New York",
+      "status": "published",
+      "file": "us-ny-buffalo.geojson",
+      "center": [
+        -78.8,
+        42.83
+      ],
+      "facility_count": 191,
+      "note": "First New York region and the first volunteer-dominant fire service in the catalog. Erie County anchored on Buffalo: 191 facilities across the county's 3 cities, 25 towns and 16 villages, with sub-regions assigned by point-in-polygon against OSM boundary relations. All 20 Buffalo Fire Department houses with their engine/ladder/rescue/hazmat assignments (including the fireboat Edward M. Cotter), 109 further fire stations covering 91 of the county's other 96 departments (the county counts 97 in all), 13 hospitals including the 11 emergency departments on the county EMS list -- ECMC (Western New York's only Level I adult trauma centre and its regional burn centre) and Golisano Children's (Level I paediatric, renamed from Oishei in January 2026) -- the Erie County Sheriff's headquarters, road patrol and civil divisions plus the Holding Center and the Alden correctional facility, Wende and Collins state prisons, 23 municipal/transit/campus police stations, NYSP Troop A Clarence and the Thruway troop, FBI/DEA/ATF Buffalo offices, the Border Patrol's Buffalo Station and the Peace Bridge port of entry, USCG Sector Buffalo, the county 9-1-1 centre and the fire training academy. Coordinates from OpenStreetMap where a facility is mapped, otherwise Nominatim geocodes of addresses published by the state fire directory or the agency itself, cited per record. Gaps: apparatus rosters outside Buffalo and Grand Island (Erie County departments do not publish them per station); tow operators and 911 PSAPs other than the county centre; Mercy Flight's air base, the Border Patrol sector headquarters and the Erie County Sheriff's investigative division (no sourced coordinates); five fire departments (Depew, Highland Hose, Lawtons, Newstead, North Boston) that neither OSM nor Nominatim could place; Troop A's other Erie County stations; and the village police departments OSM does not map."
     }
   ]
 }

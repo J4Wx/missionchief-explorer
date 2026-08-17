@@ -63,8 +63,8 @@ anything structural:
 **Phases 0–5 are complete** — see `docs/07-roadmap.md`. The app scaffold, validation +
 CI, map/legend/detail, filters/search/URL state, the first real region (Savannah, GA),
 PR preview deploys, light/dark theming, the About/provenance panel and the
-`new-region` helper are all in. Four real regions are published (Savannah GA, Charleston SC,
-Liverpool GB, Norwich GB) plus the fictional fixture.
+`new-region` helper are all in. Five real regions are published (Savannah GA, Charleston SC,
+Buffalo NY, Liverpool GB, Norwich GB) plus the fictional fixture.
 
 **Phase 6 — international regions is complete** (`docs/07`). `schema_version` is now 2
 (`address.state` optional, ISO-2 country codes, widened category/agency/sub-region
@@ -73,6 +73,14 @@ country (`src/lib/address.ts`), search folds diacritics, and **Liverpool / Merse
 (`gb-mersey-liverpool`, 72 facilities) is published as the first non-US region.
 **Norwich / Norfolk** (`gb-norfolk-norwich`, 109 facilities across the seven Norfolk districts)
 followed as routine region growth, not a new phase.
+
+**Buffalo, NY (Erie County)** (`us-ny-buffalo`, 191 facilities) followed as routine growth. It
+is the first **volunteer-dominant** region and the first to use `township` sub-regions: the
+county's own 3 cities / 25 towns / 16 villages, with `subregion_id` assigned by
+point-in-polygon against OSM `admin_level` 7/8 boundary relations rather than by eye. Working
+on further US counties of that shape: the towns are the division that matters, villages nest
+inside them, and a village and its town needing distinct slugs (`lancaster-village` /
+`lancaster-town`) is normal.
 
 Working on non-US data: don't invent a `state` value, file an RNLI lifeboat station as
 `coast_guard`, or assert an ACS trauma level for a Major Trauma Centre — `npm run validate`
