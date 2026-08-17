@@ -3,6 +3,7 @@
 // block, significance, and the sources behind it (docs/05).
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import type { Facility, FacilityFeature } from '../types/app'
+import { addressLines, countyLabel } from '../lib/address'
 import { categoryInk, categoryLabel, groupMeta } from '../lib/categories'
 import { attributeEntries, formatCoords, formatValue, humanize } from '../lib/format'
 import { featureCoords } from '../lib/geo'
@@ -68,13 +69,8 @@ export function FacilityDetail({ feature, subregionName, onClose }: Props) {
     }
   }
 
-  const address = [
-    p.address.street,
-    p.address.city,
-    [p.address.state, p.address.postal_code].filter(Boolean).join(' '),
-  ]
-    .filter(Boolean)
-    .join(', ')
+  // Ordered per the address's own country, not US-first (src/lib/address.ts).
+  const address = addressLines(p.address)
 
   const attributes = attributeEntries(p.attributes)
   const group = groupMeta(p.category)
@@ -124,13 +120,17 @@ export function FacilityDetail({ feature, subregionName, onClose }: Props) {
 
       <div className="flex-1 overflow-y-auto px-4 py-3 text-sm">
         <Section title="Location">
-          {address && <p className="text-ink">{address}</p>}
+          {address.length > 0 && (
+            <p className="text-ink">
+              {address.map((line, i) => (
+                <span key={i} className="block">
+                  {line}
+                </span>
+              ))}
+            </p>
+          )}
           <p className="text-ink-faint">
-            {[
-              p.address.county && `${p.address.county} County`,
-              subregionName,
-              formatCoords(coords),
-            ]
+            {[countyLabel(p.address), subregionName, formatCoords(coords)]
               .filter(Boolean)
               .join(' · ')}
           </p>
