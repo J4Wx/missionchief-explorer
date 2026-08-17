@@ -198,8 +198,13 @@ export default function App() {
     writeUrl({ regionId, subregionId, filters, selectedId, about: aboutOpen })
   }, [regionId, subregionId, filters, selectedId, aboutOpen])
 
+  // The shell is exactly one viewport: every scrolling region inside it owns its
+  // own overflow, so the document itself must never scroll. `h-dvh` keeps that
+  // true under a mobile URL bar (`100vh` overshoots it); `relative` +
+  // `overflow-hidden` make the shell the containing block for absolutely
+  // positioned descendants, so a stray one can't extend the page either.
   return (
-    <div className="flex h-screen flex-col bg-page text-ink">
+    <div className="relative flex h-dvh flex-col overflow-hidden bg-page text-ink">
       {/* Neither map is reachable without a pointer; the list beside it is its
           equivalent (docs/05), so that is where the skip link lands. */}
       <a
@@ -287,11 +292,14 @@ export default function App() {
             <div className="border-b border-hairline px-4 py-2 text-sm font-medium text-ink-muted">
               Coverage
             </div>
+            {/* `relative` for the same reason as the facility list below: a
+                scroller only clips absolutely positioned rows if it is their
+                containing block. */}
             <div
               id="region-results"
               tabIndex={-1}
               aria-label="Covered regions"
-              className="min-h-0 flex-1 overflow-y-auto focus:outline-none"
+              className="relative min-h-0 flex-1 overflow-y-auto focus:outline-none"
             >
               <p className="px-4 py-3 text-sm text-ink-muted">
                 Pick a region — on the map or here — to browse its stations, hospitals and
@@ -332,11 +340,16 @@ export default function App() {
               onToggle={toggleFilter}
               onClear={clearFilters}
             />
+            {/* `relative` is load-bearing: the rows carry `sr-only` spans, and
+                `sr-only` is `position: absolute`. Without a positioned ancestor
+                their containing block is the page itself, so they sit at their
+                static position *outside* this scroller's clip and stretch the
+                document to the height of the whole unscrolled list. */}
             <div
               id="facility-results"
               tabIndex={-1}
               aria-label="Facility results"
-              className="min-h-0 flex-1 overflow-y-auto focus:outline-none"
+              className="relative min-h-0 flex-1 overflow-y-auto focus:outline-none"
             >
               <FacilityList
                 features={results}

@@ -142,8 +142,11 @@ export function FilterPanel({
     filters[key].map((value) => ({ key, value })),
   )
 
+  // Every group expanded is taller than the sidebar, so the panel is capped at
+  // half of it and scrolls itself. Without the cap it pushes the results list
+  // to zero height and spills out of the shell instead.
   return (
-    <div className="border-b border-hairline bg-surface">
+    <div className="max-h-[50%] min-h-0 overflow-y-auto border-b border-hairline bg-surface">
       <div className="flex items-center gap-2 px-4 py-2">
         <span className="text-sm font-semibold text-ink">Filters</span>
         {active > 0 && (
