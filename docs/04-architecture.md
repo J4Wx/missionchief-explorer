@@ -93,8 +93,12 @@ contribute via ordinary pull requests.
   `region_id` matching the filename, and **sub-region referential integrity** (every
   `subregion_id` resolves to a declared sub-region; every sub-region `parent` resolves with
   no cycles; sub-region `id`s unique).
-- CI (GitHub Actions) runs `validate`, `typecheck`, `lint`, and `build` on every PR — so
-  agent-generated data can't merge unless it's schema-valid. See
+- `npm test` runs the Vitest suite (`vite.config.ts` → two projects: `app` in jsdom,
+  `scripts` in Node). `scripts/validate.test.mjs` runs the validator itself as a
+  subprocess against throwaway fixture directories — `validate.mjs` takes an optional
+  regions directory argument for exactly this, defaulting to `data/regions`.
+- CI (GitHub Actions) runs `validate`, `typecheck`, `lint`, `test`, and `build` on every
+  PR — so agent-generated data can't merge unless it's schema-valid. See
   [06 — Data-Generation Agent](06-data-generation-agent.md).
 
 ## Performance notes

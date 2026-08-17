@@ -85,7 +85,7 @@ The other worked-up candidate phases live in `docs/08-phase-proposals.md` and ar
 **proposals, not commitments** — don't start one without it being moved into `docs/07`.
 
 Dev commands: `npm run dev` · `npm run validate` · `npm run typecheck` · `npm run lint` ·
-`npm run build` (build regenerates types first) · `npm run new-region -- --help`.
+`npm test` · `npm run build` (build regenerates types first) · `npm run new-region -- --help`.
 Types in `src/types/schema.ts` are generated — run `npm run gen:types` after editing the
 schemas, never hand-edit them.
 
