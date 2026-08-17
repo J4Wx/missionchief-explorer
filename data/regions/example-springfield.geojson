@@ -4,6 +4,7 @@
     "region_id": "us-il-springfield",
     "name": "Springfield, IL (example)",
     "country": "US",
+    "game_edition": "US",
     "center": [-89.65, 39.8],
     "zoom": 11,
     "subregions": [
@@ -14,7 +15,7 @@
     ],
     "generated_by": "human",
     "generated_at": "2026-08-13",
-    "schema_version": 1
+    "schema_version": 2
   },
   "features": [
     {
@@ -137,8 +138,8 @@
         "staffing_model": "career",
         "operating_hours": "24_7",
         "units": [],
-        "specialties": ["trauma_level_1", "stroke_center", "cardiac_center", "helipad"],
-        "attributes": { "beds": 500, "ed_beds": 40, "trauma_level": 1, "helipad": true },
+        "specialties": ["trauma_level_1", "trauma_major", "stroke_center", "cardiac_center", "helipad"],
+        "attributes": { "beds": 500, "ed_beds": 40, "trauma_level": 1, "trauma_designation": { "system": "acs", "label": "Level I" }, "helipad": true },
         "game": {
           "building_types": ["Hospital"],
           "recommended": true,

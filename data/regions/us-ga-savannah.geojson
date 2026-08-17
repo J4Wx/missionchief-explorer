@@ -4,6 +4,7 @@
     "region_id": "us-ga-savannah",
     "name": "Savannah, GA (Chatham County)",
     "country": "US",
+    "game_edition": "US",
     "center": [
       -81.1,
       32.05
@@ -134,7 +135,7 @@
     ],
     "generated_by": "agent",
     "generated_at": "2026-08-14",
-    "schema_version": 1
+    "schema_version": 2
   },
   "features": [
     {
@@ -3442,10 +3443,15 @@
           "trauma_level_1",
           "stroke_center",
           "cardiac_center",
-          "pediatric"
+          "pediatric",
+          "trauma_major"
         ],
         "attributes": {
           "trauma_level": 1,
+          "trauma_designation": {
+            "system": "acs",
+            "label": "Level I"
+          },
           "stroke_center": true,
           "cardiac_center": true,
           "childrens_hospital": "Dwaine & Cynthia Willett Children’s Hospital of Savannah",

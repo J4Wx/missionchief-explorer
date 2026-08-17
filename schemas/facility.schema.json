@@ -15,7 +15,8 @@
     "name": { "type": "string", "minLength": 1 },
     "category": {
       "type": "string",
-      "enum": ["fire", "ems", "police_local", "sheriff", "state_le", "federal_le", "hospital", "clinic", "prison", "jail", "tow", "dispatch", "coast_guard", "ranger"]
+      "description": "Controlled vocabulary; see docs/02-domain-model.md. Some values are specific to a country's structure: sheriff/state_le/federal_le describe the US tiers, police_national covers countries whose national forces sit directly above local ones.",
+      "enum": ["fire", "ems", "police_local", "sheriff", "state_le", "federal_le", "police_national", "hospital", "clinic", "prison", "jail", "tow", "dispatch", "coast_guard", "sea_rescue", "mountain_rescue", "civil_protection", "ranger"]
     },
     "subtype": { "type": "string" },
     "subregion_id": {
@@ -36,11 +37,12 @@
         "name": { "type": "string", "minLength": 1 },
         "type": {
           "type": "string",
-          "enum": ["fire_department", "police_department", "sheriff_office", "state_agency", "federal_agency", "ems_agency", "hospital_system", "corrections", "private", "other"]
+          "enum": ["fire_department", "police_department", "sheriff_office", "national_police", "state_agency", "federal_agency", "ems_agency", "hospital_system", "corrections", "military", "rescue_service", "aid_organization", "private", "other"]
         },
         "level": {
           "type": "string",
-          "enum": ["municipal", "county", "state", "federal", "private", "other"]
+          "description": "Tier of government the agency answers to. `state`/`federal` are the US tiers; `regional`/`national` cover countries with no state layer (e.g. an NHS ambulance trust is `regional`, HM Prison Service `national`).",
+          "enum": ["municipal", "district", "county", "regional", "state", "national", "federal", "private", "other"]
         },
         "parent": { "type": ["string", "null"] }
       }
@@ -49,14 +51,15 @@
     "address": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["city", "state", "country"],
+      "required": ["city", "country"],
+      "description": "At least city + country. `state` and `county` are the first- and second-level administrative areas; many countries have no first level, so `state` is optional (schema_version 2).",
       "properties": {
         "street": { "type": "string" },
-        "city": { "type": "string" },
-        "county": { "type": "string" },
-        "state": { "type": "string" },
+        "city": { "type": "string", "description": "Town/city as locally addressed (a UK post town, a US city)." },
+        "county": { "type": "string", "description": "Second-level administrative area: US county, UK county or unitary authority, German Kreis." },
+        "state": { "type": "string", "description": "First-level administrative area where one exists: US state, German Land, Australian state. Omit for countries that have none (the UK addresses by post town + postcode)." },
         "postal_code": { "type": "string" },
-        "country": { "type": "string", "description": "ISO 3166-1 alpha-2, e.g. US." }
+        "country": { "type": "string", "pattern": "^[A-Z]{2}$", "description": "ISO 3166-1 alpha-2, e.g. US, GB (not UK), DE." }
       }
     },
     "staffing_model": {
@@ -87,11 +90,11 @@
     "specialties": {
       "type": "array",
       "items": { "type": "string" },
-      "description": "Controlled capability tags, e.g. hazmat, swat, trauma_level_1."
+      "description": "Controlled capability tags, e.g. hazmat, swat. Trauma capability uses the country-neutral tiers `trauma_major`/`trauma_unit` so hospitals filter across regions; the country's own designation (ACS `trauma_level_1`, a UK Major Trauma Centre) is named in attributes.trauma_designation. See docs/02-domain-model.md."
     },
     "attributes": {
       "type": "object",
-      "description": "Category-specific structured extras (hospital beds/trauma_level, jail capacity/security_level, etc.)."
+      "description": "Category-specific structured extras (hospital beds/trauma_designation, jail capacity/security_level, etc.). Loosely validated on purpose — see docs/03-data-schema.md for the conventional keys."
     },
     "game": {
       "type": "object",

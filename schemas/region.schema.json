@@ -19,7 +19,16 @@
           "description": "Globally unique region slug, e.g. us-il-springfield."
         },
         "name": { "type": "string" },
-        "country": { "type": "string" },
+        "country": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$",
+          "description": "ISO 3166-1 alpha-2 of the region itself, e.g. US, GB (not UK). Must match the region_id prefix."
+        },
+        "game_edition": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$",
+          "description": "ISO 3166-1 alpha-2 of the Mission Chief edition this region's `game` blocks are written against (US = missionchief.com, GB = missionchief.co.uk). Usually the same as `country`. See docs/02-domain-model.md § Editions."
+        },
         "center": {
           "type": "array",
           "description": "[lng, lat] default map center.",
@@ -47,8 +56,8 @@
               "name": { "type": "string", "minLength": 1 },
               "level": {
                 "type": "string",
-                "enum": ["borough", "county", "municipality", "district", "township", "precinct", "sector", "neighborhood", "other"],
-                "description": "Kind of local division, for labeling/grouping in the UI."
+                "enum": ["borough", "county", "unitary_authority", "municipality", "district", "township", "commune", "ward", "precinct", "sector", "region", "province", "neighborhood", "other"],
+                "description": "Kind of local division, for labeling/grouping in the UI. `township`/`precinct` are US divisions; `ward`/`unitary_authority` UK; `commune`/`province`/`region` cover most of Europe."
               },
               "parent": {
                 "type": ["string", "null"],

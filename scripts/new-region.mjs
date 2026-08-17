@@ -13,6 +13,9 @@ const REGIONS_DIR = 'data/regions'
 const INDEX_PATH = join(REGIONS_DIR, 'index.json')
 const STATUSES = ['requested', 'in_progress', 'published']
 const ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+const COUNTRY_PATTERN = /^[A-Z]{2}$/
+// Keep in step with scripts/validate.mjs and docs/03-data-schema.md.
+const SCHEMA_VERSION = 2
 
 const USAGE = `
 Scaffold a Dispatch Atlas region.
@@ -27,7 +30,9 @@ Required (unless --list / --batch):
   --name "<text>"      display name, e.g. "Buffalo, NY (Erie County)"
 
 Options:
-  --country <code>     ISO country code                     (default: US)
+  --country <code>     ISO 3166-1 alpha-2, e.g. US, GB, DE  (default: from --id)
+  --edition <code>     Mission Chief edition the game notes
+                       target, ISO-2                        (default: --country)
   --status <status>    requested | in_progress | published  (default: requested)
   --center <lng,lat>   default map center                   (scaffold only)
   --zoom <n>           default map zoom                     (scaffold only, default: 11)
@@ -40,8 +45,11 @@ Options:
   --help               show this
 
 Examples:
-  # queue a request for the agent to pick up later
+  # queue a request for the agent to pick up later (country US, from the id)
   npm run new-region -- --id us-ny-buffalo --name "Buffalo, NY (Erie County)"
+
+  # a UK region — note GB, not UK, and the UK edition for the game notes
+  npm run new-region -- --id gb-mersey-liverpool --name "Liverpool (Merseyside)"
 
   # start work on one now, with an empty file ready to fill in
   npm run new-region -- --id us-ny-buffalo --name "Buffalo, NY" \\
@@ -96,15 +104,37 @@ function emptyRegion(spec) {
       region_id: spec.id,
       name: spec.name,
       country: spec.country,
+      game_edition: spec.edition,
       center: spec.center,
       zoom: spec.zoom,
       subregions: [],
       generated_by: 'agent',
       generated_at: new Date().toISOString().slice(0, 10),
-      schema_version: 1,
+      schema_version: SCHEMA_VERSION,
     },
     features: [],
   }
+}
+
+/**
+ * The country a region is in, as ISO 3166-1 alpha-2. `region_id` already leads
+ * with it by convention (`us-ga-savannah`, `gb-mersey-liverpool`), so it is
+ * derived rather than defaulted — a `gb-` region silently registered as US was
+ * the failure mode worth designing out (docs/03 conventions).
+ */
+function countryOf(raw, id) {
+  if (raw.country !== undefined) {
+    const code = String(raw.country).toUpperCase()
+    if (!COUNTRY_PATTERN.test(code)) {
+      die(`--country "${raw.country}" must be an ISO 3166-1 alpha-2 code, e.g. US, GB, DE`)
+    }
+    return code
+  }
+  const prefix = id.split('-')[0].toUpperCase()
+  if (!COUNTRY_PATTERN.test(prefix)) {
+    die(`can't infer the country from region_id "${id}" — pass --country (ISO-2, e.g. GB)`)
+  }
+  return prefix
 }
 
 /** Normalize + validate one region spec from flags or a batch file entry. */
@@ -128,10 +158,17 @@ function toSpec(raw) {
     die(`"${id}" is marked published but ${id}.geojson does not exist — add --scaffold`)
   }
 
+  const country = countryOf(raw, id)
+  const edition = raw.edition === undefined ? country : String(raw.edition).toUpperCase()
+  if (!COUNTRY_PATTERN.test(edition)) {
+    die(`--edition "${raw.edition}" must be an ISO 3166-1 alpha-2 code, e.g. US, GB`)
+  }
+
   return {
     id,
     name,
-    country: raw.country ?? 'US',
+    country,
+    edition,
     status,
     note: typeof raw.note === 'string' ? raw.note : undefined,
     scaffold,
