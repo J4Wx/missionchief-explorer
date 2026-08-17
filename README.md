@@ -20,8 +20,8 @@ The platform lets you:
 
 > **Status:** Shipping. Phases 0–6 of the [roadmap](docs/07-roadmap.md) are complete — the
 > app is built, validated in CI, deployed with per-PR previews, and the catalog is now
-> **multi-country**: Savannah GA, Charleston SC and two UK regions — **Liverpool /
-> Merseyside** and **Norwich / Norfolk** — alongside
+> **multi-country**: Savannah GA, Charleston SC, **Buffalo NY (Erie County)** and two UK
+> regions — **Liverpool / Merseyside** and **Norwich / Norfolk** — alongside
 > the fictional schema fixture. Adding regions is routine; see
 > [CONTRIBUTING.md](CONTRIBUTING.md).
 >

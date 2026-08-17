@@ -299,6 +299,38 @@ assertions, and renaming a facet's URL param fails the format test. (The round-t
 *don't* catch that rename — it is symmetric — which is why the wire format is pinned
 separately.)
 
+## Region growth (not a phase)
+
+Regions added outside a phase, recorded here only where they changed what the catalog can
+express. Coverage and gaps live in each region's `index.json` note.
+
+**Buffalo, NY (Erie County)** — `us-ny-buffalo`, 191 facilities, added 2026-08-17. Picked
+over a third Southeast metro because the two published US regions are structurally the same
+(career fire service, one sheriff, coastal, mid-size), and this one is not:
+
+- **First volunteer-dominant region.** 52 fire stations carry `staffing_model: volunteer`
+  against 21 career — the career/volunteer filter (`docs/05`) now has data that exercises it.
+  Buffalo itself is a 20-house career department inside a county of ~90 volunteer companies;
+  91 of the county's other 96 departments are covered, 5 could not be placed.
+- **First use of `township` sub-regions**, added in Phase 6 and unused until now. The
+  divisions are the county's own 3 cities, 25 towns and 16 villages (44 in total, villages
+  nested under their town), and `subregion_id` is assigned by **point-in-polygon against OSM
+  `admin_level` 7/8 boundary relations** — the first region where sub-region assignment is
+  computed from boundaries rather than judged per record.
+- **A land border.** The Border Patrol's Buffalo Station and the Peace Bridge port of entry
+  are `federal_le` structure neither existing US region has.
+
+The depth gap is worse here than in the existing US regions, and in the opposite direction to
+Norfolk: **22 of 137 fire/EMS houses carry `units`** (Buffalo's 20 from its published
+apparatus table, plus Grand Island and Rescue Hose Co. #1 from their own sites) against a
+51% catalog baseline. Erie County's ~90 volunteer companies do not publish rosters centrally,
+the county's own fire pages don't list apparatus, and the two enthusiast aggregators that do
+(fdmaps, the Firefighting Wiki) both block automated access — so the rosters exist only on
+~90 individual company sites. That is a proposal-B enrichment run, not something a discovery
+pass can close, and it is the clearest case yet for **B**'s `metadata.coverage` block: five
+departments could not be placed at all (no OSM element, no geocodable address), which today
+is indistinguishable in the data from "does not exist".
+
 ## Later / stretch
 
 - Coverage-gap overlay (heatmap of under-served areas) as an in-game siting aid.
