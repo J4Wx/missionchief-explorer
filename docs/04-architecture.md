@@ -81,7 +81,10 @@ contribute via ordinary pull requests.
 
 ## Data flow
 
-1. **Load registry** — app fetches `data/regions/index.json` and renders a region picker.
+1. **Load registry** — app fetches `data/regions/index.json` and renders the **global map**
+   (a pin per published region, from the registry's own `center`/`facility_count`) plus the
+   region picker. The landing view touches no region file, which is what keeps "never ship
+   all regions at once" compatible with showing all of them.
 2. **Load region** — on selection, fetch `data/regions/<region_id>.geojson`.
 3. **Render** — feed the FeatureCollection to MapLibre as a **clustered** source; render
    the same features into the list/filters.
@@ -95,9 +98,10 @@ contribute via ordinary pull requests.
 - `npm run validate` loads every file in `data/regions/`, validates each `Feature` against
   `facility.schema.json` and the file against `region.schema.json`, and additionally
   checks: unique `id` per file, coordinates within valid ranges, ≥1 `source` per record,
-  `region_id` matching the filename, and **sub-region referential integrity** (every
+  `region_id` matching the filename, **sub-region referential integrity** (every
   `subregion_id` resolves to a declared sub-region; every sub-region `parent` resolves with
-  no cycles; sub-region `id`s unique).
+  no cycles; sub-region `id`s unique), and that each registry entry's `center` /
+  `facility_count` still agree with the file it points at (the global map's pins).
 - `npm test` runs the Vitest suite (`vite.config.ts` → two projects: `app` in jsdom,
   `scripts` in Node). `scripts/validate.test.mjs` runs the validator itself as a
   subprocess against throwaway fixture directories — `validate.mjs` takes an optional

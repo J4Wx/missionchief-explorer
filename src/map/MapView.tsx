@@ -3,27 +3,14 @@
 //
 // The map owns no data — it renders the same filtered feature set as the
 // results list and reports selection/hover back up, so the two views stay in
-// sync (docs/05).
-import { useEffect, useRef, useState } from 'react'
-import {
-  Map as MapLibreMap,
-  NavigationControl,
-  Popup,
-  ScaleControl,
-  setWorkerUrl,
-  type GeoJSONSource,
-} from 'maplibre-gl'
-// maplibre-gl loads its worker by resolving './maplibre-gl-worker.mjs' against
-// its own import.meta.url. Once a bundler has moved the library (Vite's dep
-// cache in dev, a hashed chunk in the build) that path points at a file that
-// isn't there, and the map dies on a 404. Hand it a URL the bundler emits
-// instead — ?worker&url makes Vite bundle the worker's own imports too.
-import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
+// sync (docs/05). The basemap underneath it (style, theme swap, motion) is
+// shared with the global map; see ./basemap.
+import { useCallback, useEffect, useRef } from 'react'
+import { Map as MapLibreMap, Popup, type GeoJSONSource } from 'maplibre-gl'
 // maplibre-gl re-uses the style-spec types for expressions; import them from
 // the same package it does so layer definitions stay type-checked.
 import type { ExpressionSpecification } from '@maplibre/maplibre-gl-style-spec'
 import type { FeatureCollection, Point } from 'geojson'
-import 'maplibre-gl/dist/maplibre-gl.css'
 import type { Facility, FacilityFeature } from '../types/app'
 import {
   CATEGORY_ORDER,
@@ -34,46 +21,14 @@ import {
 } from '../lib/categories'
 import { featureCoords, type Position } from '../lib/geo'
 import type { ResolvedTheme } from '../lib/theme'
-
-setWorkerUrl(maplibreWorkerUrl)
-
-// Vector basemap, one style per theme. OpenFreeMap needs no API key; swap for
-// MapTiler/anything else with a style URL via VITE_MAP_STYLE / _DARK (docs/04).
-const STYLE_URL: Record<ResolvedTheme, string> = {
-  light:
-    (import.meta.env.VITE_MAP_STYLE as string | undefined) ??
-    'https://tiles.openfreemap.org/styles/liberty',
-  dark:
-    (import.meta.env.VITE_MAP_STYLE_DARK as string | undefined) ??
-    'https://tiles.openfreemap.org/styles/dark',
-}
-
-// Font stack for map labels — must exist in the style's glyph set. The dark
-// OpenFreeMap style only *uses* the regular weight, but its glyph endpoint
-// serves both; Regular is listed as the fallback for third-party styles.
-const MAP_FONT = ['Noto Sans Bold', 'Noto Sans Regular']
-
-/**
- * Marker chrome per theme. The group fills themselves are theme-invariant
- * (src/lib/categories.ts); what has to flip is the ring and cluster bubble that
- * separate them from the basemap underneath.
- */
-const MAP_CHROME: Record<ResolvedTheme, { ring: string; cluster: string; clusterInk: string }> = {
-  light: { ring: '#ffffff', cluster: '#334155', clusterInk: '#ffffff' },
-  dark: { ring: '#0f172a', cluster: '#cbd5e1', clusterInk: '#0f172a' },
-}
-
-/** Selection ring — a neutral that reads against either basemap. */
-const SELECTED_RING: Record<ResolvedTheme, string> = {
-  light: '#0f172a',
-  dark: '#f8fafc',
-}
-
-const prefersReducedMotion = () =>
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-/** Camera-move duration, zeroed when the user asks for reduced motion. */
-const motion = (ms: number) => (prefersReducedMotion() ? 0 : ms)
+import {
+  MAP_CHROME,
+  MAP_FONT,
+  MapSurface,
+  SELECTED_RING,
+  motion,
+  useBasemap,
+} from './basemap'
 
 const SOURCE_ID = 'facilities'
 const LAYER_CLUSTERS = 'facility-clusters'
@@ -149,8 +104,7 @@ function popupContent(props: MarkerProps): HTMLElement {
 
 /**
  * Add the facility source and its layers to whatever style is currently loaded.
- * Called on first load *and* after every basemap swap — `setStyle` discards
- * everything the app added, so the layer stack has to be rebuilt from scratch.
+ * Called on first load *and* after every basemap swap.
  */
 function installLayers(map: MapLibreMap, theme: ResolvedTheme): void {
   const chrome = MAP_CHROME[theme]
@@ -273,11 +227,7 @@ export function MapView({
   onSelect,
   onHover,
 }: Props) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const mapRef = useRef<MapLibreMap | null>(null)
   const popupRef = useRef<Popup | null>(null)
-  const [ready, setReady] = useState(false)
-  const [basemapFailed, setBasemapFailed] = useState(false)
 
   // Map listeners are registered once; they read the latest callbacks from here.
   const handlers = useRef({ onSelect, onHover })
@@ -285,47 +235,7 @@ export function MapView({
     handlers.current = { onSelect, onHover }
   }, [onSelect, onHover])
 
-  // The initial camera is only read on mount; later moves go through the
-  // camera effect below.
-  const initialCamera = useRef(camera)
-  // Which theme's style is on the map. A ref, not state, so the mount effect
-  // never re-runs on a theme change — that would tear the whole map down
-  // instead of swapping its basemap. Seeded with the mount-time theme, which is
-  // also the style the constructor loads.
-  const appliedTheme = useRef(theme)
-  const swapToken = useRef(0)
-
-  useEffect(() => {
-    const container = containerRef.current
-    if (!container) return
-
-    const map = new MapLibreMap({
-      container,
-      style: STYLE_URL[appliedTheme.current],
-      center: initialCamera.current.center,
-      zoom: initialCamera.current.zoom,
-      attributionControl: { compact: true },
-    })
-    mapRef.current = map
-
-    map.addControl(new NavigationControl({ showCompass: false }), 'top-right')
-    map.addControl(new ScaleControl())
-
-    let loaded = false
-    map.on('error', (e) => {
-      console.error('MapLibre error', e.error)
-      // Errors before the style loads mean no basemap at all — tell the user
-      // rather than leaving a blank rectangle. Later tile hiccups are noise.
-      if (!loaded) setBasemapFailed(true)
-    })
-
-    map.on('load', () => {
-      loaded = true
-      setBasemapFailed(false)
-      installLayers(map, appliedTheme.current)
-      setReady(true)
-    })
-
+  const onCreate = useCallback((map: MapLibreMap) => {
     map.on('click', LAYER_CLUSTERS, (e) => {
       const feature = e.features?.[0]
       const clusterId = feature?.properties?.cluster_id
@@ -388,40 +298,16 @@ export function MapView({
     return () => {
       popupRef.current?.remove()
       popupRef.current = null
-      map.remove()
-      mapRef.current = null
-      setReady(false)
     }
   }, [])
 
-  // Swap the basemap when the theme changes. `setStyle` throws away everything
-  // the app added, so the facility layers are rebuilt on the new style; flipping
-  // `ready` off and back on re-runs the data and filter effects below, which is
-  // what restores the current features, hover and selection.
-  useEffect(() => {
-    const map = mapRef.current
-    if (!map || !ready) return
-    // Re-entered whenever `ready` flips (including by this effect itself); the
-    // applied-style ref is what makes the swap idempotent. It also covers a
-    // theme change during the initial load, which lands here once ready flips.
-    if (appliedTheme.current === theme) return
-    appliedTheme.current = theme
-
-    // Superseded-swap guard. It can't be a cleanup-scoped flag: `setReady(false)`
-    // below changes this effect's own dependency, so the cleanup would run —
-    // and cancel the swap — before the style ever finished loading.
-    const token = ++swapToken.current
-    setReady(false)
-    map.setStyle(STYLE_URL[theme])
-    // `style.load` — not `styledata`, which also fires mid-transition, when
-    // re-adding the layers would only get them wiped by the incoming style.
-    map.once('style.load', () => {
-      // Skip if a newer swap started, or the map was torn down meanwhile.
-      if (swapToken.current !== token || mapRef.current !== map) return
-      installLayers(map, theme)
-      setReady(true)
-    })
-  }, [theme, ready])
+  const { containerRef, mapRef, ready, failed } = useBasemap({
+    theme,
+    center: camera.center,
+    zoom: camera.zoom,
+    install: installLayers,
+    onCreate,
+  })
 
   // Feed the current (filtered) feature set to the clustered source.
   useEffect(() => {
@@ -429,7 +315,7 @@ export function MapView({
     if (!map || !ready) return
     const source = map.getSource(SOURCE_ID) as GeoJSONSource | undefined
     source?.setData(toGeoJSON(features))
-  }, [features, ready])
+  }, [features, ready, mapRef])
 
   // Re-frame on region / sub-region change.
   useEffect(() => {
@@ -447,13 +333,13 @@ export function MapView({
     const map = mapRef.current
     if (!map || !ready) return
     map.setFilter(LAYER_HOVER, idFilter(hoveredId))
-  }, [hoveredId, ready])
+  }, [hoveredId, ready, mapRef])
 
   useEffect(() => {
     const map = mapRef.current
     if (!map || !ready) return
     map.setFilter(LAYER_SELECTED, idFilter(selectedId))
-  }, [selectedId, ready])
+  }, [selectedId, ready, mapRef])
 
   // Bring an off-screen selection into view (e.g. picked from the list).
   useEffect(() => {
@@ -470,16 +356,11 @@ export function MapView({
   }, [selectedId, ready]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="relative h-full w-full">
-      <div ref={containerRef} className="h-full w-full" aria-label="Facility map" />
-      {basemapFailed && (
-        <div
-          role="status"
-          className="pointer-events-none absolute inset-x-0 top-0 z-10 m-3 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-900 shadow dark:bg-amber-950 dark:text-amber-100"
-        >
-          The basemap couldn&apos;t be loaded. The facility list below still works.
-        </div>
-      )}
-    </div>
+    <MapSurface
+      containerRef={containerRef}
+      label="Facility map"
+      failed={failed}
+      fallback="The facility list below still works."
+    />
   )
 }

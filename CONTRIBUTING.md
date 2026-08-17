@@ -74,8 +74,15 @@ The short version:
 npm run new-region -- --id us-ny-buffalo --name "Buffalo, NY (Erie County)" \
   --country US --center -78.8784,42.8864 --zoom 11 --scaffold --status in_progress
 # …research and fill in data/regions/us-ny-buffalo.geojson…
+npm run new-region -- --id us-ny-buffalo --name "Buffalo, NY (Erie County)" \
+  --status published --force        # re-syncs the registry's center + facility count
 npm run validate
 ```
+
+That second run matters: a published registry entry carries the region's `center` and
+`facility_count` for its pin on the global map, and `npm run validate` fails if either has
+drifted from the data file (it prints the number it expected). Re-running `new-region`
+copies both back out of the file — no hand-editing.
 
 **One region per pull request.** It keeps review tractable and the data auditable. Keep
 app changes in separate PRs from data changes.
@@ -133,6 +140,10 @@ A few conventions that aren't obvious from the code:
   (defined in `src/index.css`), not raw palette classes, so both themes stay in step.
 - **Data is the single source of truth in `/data`.** It's bundled at build time via
   `import.meta.glob`; there is no backend and no runtime fetch of region files.
+- **One basemap, two maps.** `src/map/basemap.tsx` owns MapLibre construction, the
+  per-theme style swap and the no-basemap notice for both the global map and the facility
+  map. A new map layer goes in an `install` callback handed to `useBasemap`, not in a
+  second hand-rolled map.
 - **Labels are code.** [`.github/labels.yml`](.github/labels.yml) defines the label set;
   `.github/workflows/labels.yml` syncs it on merge to `main`, and
   `npm run labels -- --dry-run` previews a change. Issue forms apply labels *by name* and

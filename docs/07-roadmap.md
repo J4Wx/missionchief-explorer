@@ -303,7 +303,10 @@ separately.)
 
 - Coverage-gap overlay (heatmap of under-served areas) as an in-game siting aid.
 - Distance/response-time isochrones from stations.
-- Cross-region search and a global region map.
+- Cross-region search — **the global map landed** (2026-08-17: the default view is a pin per
+  published region, plotted from `index.json` alone, with the app title as the way back to
+  it; part of proposal E, ahead of the phase). Search across regions still needs E's
+  build-time slim index, and is untouched.
 - Community corrections workflow — **issue templates landed** (2026-08-17: five forms in
   `.github/ISSUE_TEMPLATE/`, the correction one deep-linked from the facility panel, labels
   as code in `.github/labels.yml`). What remains is the automation around them: request

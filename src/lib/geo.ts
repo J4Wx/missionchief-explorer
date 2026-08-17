@@ -19,19 +19,25 @@ export function toPosition(value: [unknown, unknown] | undefined): Position | nu
   return [lng, lat]
 }
 
-/** [west, south, east, north] covering every feature, or null if there are none. */
-export function bboxOf(features: FacilityFeature[]): [number, number, number, number] | null {
-  if (features.length === 0) return null
+/** [west, south, east, north] covering every position, or null if there are none. */
+export function bboxOfPositions(
+  positions: Position[],
+): [number, number, number, number] | null {
+  if (positions.length === 0) return null
   let west = Infinity
   let south = Infinity
   let east = -Infinity
   let north = -Infinity
-  for (const feature of features) {
-    const [lng, lat] = featureCoords(feature)
+  for (const [lng, lat] of positions) {
     if (lng < west) west = lng
     if (lng > east) east = lng
     if (lat < south) south = lat
     if (lat > north) north = lat
   }
   return [west, south, east, north]
+}
+
+/** [west, south, east, north] covering every feature, or null if there are none. */
+export function bboxOf(features: FacilityFeature[]): [number, number, number, number] | null {
+  return bboxOfPositions(features.map(featureCoords))
 }
