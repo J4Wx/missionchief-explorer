@@ -296,7 +296,10 @@ separately.)
 - Coverage-gap overlay (heatmap of under-served areas) as an in-game siting aid.
 - Distance/response-time isochrones from stations.
 - Cross-region search and a global region map.
-- Community corrections workflow (issue templates → PRs).
+- Community corrections workflow — **issue templates landed** (2026-08-17: five forms in
+  `.github/ISSUE_TEMPLATE/`, the correction one deep-linked from the facility panel, labels
+  as code in `.github/labels.yml`). What remains is the automation around them: request
+  issues into the `index.json` queue, and correction issues into PRs.
 
 > These are worked up — with scope, exit criteria and the measured gaps behind each — as
 > lettered candidates **A–F** in [08 — Phase Proposals](08-phase-proposals.md), alongside

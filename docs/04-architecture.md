@@ -55,10 +55,15 @@ contribute via ordinary pull requests.
 │  └─ regions/
 │     ├─ index.json              # region registry
 │     └─ <region_id>.geojson     # one file per region
+├─ .github/
+│  ├─ ISSUE_TEMPLATE/            # issue forms: region request, correction, bug, idea, schema
+│  ├─ labels.yml                 # the label set, synced by scripts/sync-labels.mjs
+│  └─ workflows/                 # CI, PR preview deploys, label sync
 ├─ scripts/
 │  ├─ validate.mjs               # ajv validation of all data files
 │  ├─ gen-types.mjs              # schema → src/types/schema.ts
-│  └─ new-region.mjs             # register/scaffold a region; queue batches
+│  ├─ new-region.mjs             # register/scaffold a region; queue batches
+│  └─ sync-labels.mjs            # .github/labels.yml → the repo's labels
 ├─ src/                          # app (added in Phase 1)
 │  ├─ main.tsx
 │  ├─ index.css                  # Tailwind + light/dark role tokens

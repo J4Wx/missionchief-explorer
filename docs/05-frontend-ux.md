@@ -103,6 +103,9 @@ A three-region, map-centric layout (responsive → stacked on mobile):
   `game.notes` — the "what to build" advice.
 - **Significance** paragraph.
 - **Sources** list with links + `confidence` + `last_verified` badge.
+- **Report a correction** — opens the `02-data-correction.yml` issue form with this
+  region, this facility and the title already filled in (`src/lib/links.ts`), so a wrong
+  record is two clicks from a filed correction rather than a pull request.
 - Actions: copy coordinates, open in OpenStreetMap/Google Maps.
 
 ### Search
@@ -115,8 +118,9 @@ A three-region, map-centric layout (responsive → stacked on mobile):
 ### About / data page (`AboutPanel`)
 - A dialog off the top bar, deep-linkable via `?about=1` so "where is this data from?"
   has a shareable answer.
-- Explains data provenance, the confidence model, how to request a new region, and how
-  to contribute corrections via PR.
+- Explains data provenance, the confidence model, and how to contribute — linking the
+  **Request a region** and **Report a correction** issue forms directly, with a PR as the
+  alternative rather than the only path.
 - Lists **coverage** straight from `index.json` — including `requested` and
   `in_progress` regions, so the queue is public — and a provenance block for the region
   currently open (facility count, confidence split, `generated_by`/`generated_at`, and

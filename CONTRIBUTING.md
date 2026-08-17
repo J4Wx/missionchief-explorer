@@ -7,6 +7,15 @@ how often they're needed:
 2. **Correct the data** — fix a station, unit roster, trauma level, or closure.
 3. **Improve the app** — the map, filters, and everything around them.
 
+All three start with an issue, and there is a form for each —
+[region request](https://github.com/J4Wx/missionchief-explorer/issues/new?template=01-region-request.yml),
+[data correction](https://github.com/J4Wx/missionchief-explorer/issues/new?template=02-data-correction.yml),
+[app bug](https://github.com/J4Wx/missionchief-explorer/issues/new?template=03-app-bug.yml),
+[feature or idea](https://github.com/J4Wx/missionchief-explorer/issues/new?template=04-app-idea.yml),
+and [schema or vocabulary addition](https://github.com/J4Wx/missionchief-explorer/issues/new?template=05-schema-vocabulary.yml)
+(see [`.github/ISSUE_TEMPLATE/`](.github/ISSUE_TEMPLATE)). The forms ask for the things
+we'd otherwise have to come back for — a region's agencies, a correction's source.
+
 Agents working in this repo should read [`AGENTS.md`](AGENTS.md) first; it is the
 operating contract, and this guide assumes it.
 
@@ -29,9 +38,9 @@ These are non-negotiable, for humans and agents alike:
 
 ## Requesting a region
 
-Open an issue with the place name (city, county, or metro) and anything you know that
-would help — which agencies cover it, where the interesting facilities are, what you
-want it for.
+Open a [**Region request**](https://github.com/J4Wx/missionchief-explorer/issues/new?template=01-region-request.yml)
+issue with the place name (city, county, or metro) and anything you know that would help
+— which agencies cover it, where the interesting facilities are, what you want it for.
 
 Queued regions live in [`data/regions/index.json`](data/regions/index.json) with a
 `status`, so the backlog is visible in the app's About panel and to the generation
@@ -77,7 +86,8 @@ low. Known gaps stated up front are far more useful than silent ones.
 ## Correcting data
 
 Corrections are the most valuable contribution — real facilities close, move, and
-re-equip. Open an issue or a PR with:
+re-equip. Open a [**Data correction**](https://github.com/J4Wx/missionchief-explorer/issues/new?template=02-data-correction.yml)
+issue (no PR needed) or a PR with:
 
 - what's wrong,
 - what it should be,
@@ -85,6 +95,9 @@ re-equip. Open an issue or a PR with:
 
 A citation is the only real requirement. Update the record's `sources[]`,
 `confidence`, and `last_verified` along with the fix.
+
+Every facility panel in the app has its own **Report a correction** link, which opens the
+form with that region and facility already filled in — usually the fastest route.
 
 ## Working on the app
 
@@ -120,6 +133,13 @@ A few conventions that aren't obvious from the code:
   (defined in `src/index.css`), not raw palette classes, so both themes stay in step.
 - **Data is the single source of truth in `/data`.** It's bundled at build time via
   `import.meta.glob`; there is no backend and no runtime fetch of region files.
+- **Labels are code.** [`.github/labels.yml`](.github/labels.yml) defines the label set;
+  `.github/workflows/labels.yml` syncs it on merge to `main`, and
+  `npm run labels -- --dry-run` previews a change. Issue forms apply labels *by name* and
+  GitHub silently drops any that don't exist, so a new label goes in that file first.
+- **Project links live in `src/lib/links.ts`.** `REPO_URL` (overridable with
+  `VITE_REPO_URL`) and the issue-form helpers — including the prefilled correction link on
+  every facility panel — so a fork changes one file.
 
 ## Scope
 

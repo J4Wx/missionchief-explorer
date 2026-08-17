@@ -292,6 +292,7 @@ export default function App() {
                 <FacilityDetail
                   key={selected.properties.id}
                   feature={selected}
+                  regionId={regionId}
                   subregionName={subregionName(selected.properties.subregion_id)}
                   onClose={clearSelection}
                 />

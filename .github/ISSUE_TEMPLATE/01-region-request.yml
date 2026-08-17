@@ -1,0 +1,119 @@
+name: Region request
+description: Ask for a city, county, or metro to be added to the atlas.
+title: "[Region] "
+labels: ["region-request", "data"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Requests become entries in
+        [`data/regions/index.json`](https://github.com/J4Wx/missionchief-explorer/blob/main/data/regions/index.json)
+        with `status: requested`, so the backlog is visible in the app's About panel.
+        Please check that list first — the region may already be queued or published.
+
+        Anything you know about the place shortens the research a lot. Public information
+        only: no personal data, no home addresses.
+  - type: input
+    id: region_name
+    attributes:
+      label: Region
+      description: City, county, or metro area, as you'd name it on a map.
+      placeholder: Buffalo, NY (Erie County)
+    validations:
+      required: true
+  - type: input
+    id: country
+    attributes:
+      label: Country
+      description: Name plus the ISO 3166-1 alpha-2 code — `GB`, not `UK`.
+      placeholder: United States (US)
+    validations:
+      required: true
+  - type: dropdown
+    id: edition
+    attributes:
+      label: Mission Chief edition you play
+      description: >
+        Which edition the in-game building/vehicle notes should be written against.
+        Usually the region's own country. Only the US and UK editions are covered today —
+        the rest are new ground and will take longer.
+      options:
+        - United States — missionchief.com
+        - United Kingdom — missionchief.co.uk
+        - Germany — leitstellenspiel.de
+        - Netherlands — meldkamerspel.com
+        - Spain — centro-de-mando.es
+        - Australia — missionchief-australia.com
+        - Poland — operatorratunkowy.pl
+        - Sweden — larmcentralen-spelet.se
+        - Italy — operatore112.it
+        - France — operateur112.fr
+        - Russia — dispetcher-112.com
+        - Finland — hatakeskuspeli.com
+        - Denmark — alarmcentral-spil.dk
+        - Norway — nodsentralspillet.com
+        - Czechia — operacni-stredisko.cz
+        - Türkiye — 112-merkez.com
+        - Portugal — jogo-operador112.com
+        - Brazil — operador193.com
+        - Ukraine — dyspetcher101-game.com
+        - South Korea — missionchief-korea.com
+        - Mexico — centro-de-mando.mx
+        - Japan — missionchief-japan.com
+        - Romania — jocdispecerat112.com
+        - Slovakia — dispecerske-centrum.com
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: region_id
+    attributes:
+      label: Suggested region_id
+      description: >
+        Optional. Lowercase kebab-case, `<country>-<admin>-<name>` — e.g. `us-ny-buffalo`,
+        `gb-mersey-liverpool`. We'll pick one if you leave this blank.
+      placeholder: us-ny-buffalo
+  - type: textarea
+    id: agencies
+    attributes:
+      label: Who covers it
+      description: >
+        The agencies you know of — fire departments, EMS providers, police/sheriff,
+        hospitals, jails, tow operators, 911/999 centre. Rough is fine.
+      placeholder: |
+        - Buffalo Fire Department (career, city)
+        - Erie County Sheriff's Office
+        - AMR Western New York (EMS)
+        - Erie County Medical Center (Level 1 trauma)
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources worth starting from
+      description: >
+        Links that publish station addresses, apparatus rosters, trauma designations, or
+        open data. These are the difference between a thin region and a deep one.
+      placeholder: |
+        https://www.buffalony.gov/fire — station list with addresses
+        https://data.buffalony.gov — city open data portal
+  - type: textarea
+    id: why
+    attributes:
+      label: What you want it for
+      description: >
+        Optional. Which part of the map matters to you — a specific dispatch centre's
+        area, a mutual-aid boundary, the busiest houses.
+  - type: checkboxes
+    id: acknowledgements
+    attributes:
+      label: Before you file
+      options:
+        - label: I checked `data/regions/index.json` and this region isn't already published, in progress, or queued.
+          required: true
+        - label: Everything I'm asking for is public information — no personal data, no operationally sensitive security detail.
+          required: true
+  - type: checkboxes
+    id: help
+    attributes:
+      label: Can you help?
+      options:
+        - label: I can help research this region or check the data once it's drafted.
