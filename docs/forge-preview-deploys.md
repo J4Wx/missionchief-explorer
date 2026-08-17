@@ -4,7 +4,7 @@ Two workflows manage an ephemeral Forge site for every pull request:
 
 | Workflow | Trigger | Action |
 | --- | --- | --- |
-| `.github/workflows/forge-pr-preview.yml` | PR `opened`, `reopened`, `synchronize` | Creates the site once, wires it to the PR branch, then deploys (and re-deploys on every push). |
+| `.github/workflows/forge-pr-preview.yml` | PR `opened`, `reopened`, `synchronize` — unless the PR only touches non-build files | Creates the site once, wires it to the PR branch, then deploys (and re-deploys on every push). |
 | `.github/workflows/forge-pr-teardown.yml` | PR `closed`, or manual dispatch with a PR number | Deletes the site. |
 
 Each PR gets its own site at `pr-<number>.<PREVIEW_BASE_DOMAIN>`.
@@ -42,6 +42,24 @@ Add these under **Settings → Secrets and variables → Actions**.
   build output. The deploy script pulls the branch, installs deps, and runs `npm run build`.
 - **Quick Deploy** is enabled on creation, so Forge also redeploys on direct pushes; the
   preview workflow additionally triggers an explicit deploy and waits for it to finish.
+- **PRs that can't change the build are skipped.** A preview only exists to look at the
+  built site, so the preview workflow carries a `paths-ignore` list: markdown at the repo
+  root, `docs/`, the issue forms and `labels.yml`, `.devcontainer/`, `.vscode/`, and the
+  git dot-files. Everything else — `src/`, `data/`, `schemas/`, `scripts/`, the build
+  config — deploys. It is a denylist on purpose: a new source directory is previewed by
+  default rather than silently skipped, and the cost of an unnecessary preview is lower
+  than the cost of a missing one. `.github/workflows/` is deliberately *not* ignored, so a
+  PR that edits these workflows can still exercise them.
+
+  Two consequences worth knowing:
+
+  - GitHub matches path filters against the PR's whole base…head diff, not the latest
+    push. So a PR that touched `src/` keeps deploying on subsequent docs-only commits,
+    and a PR that starts docs-only provisions its site on the first code commit — the
+    provisioning steps run on `synchronize` too and are idempotent.
+  - A workflow skipped by a path filter reports **no check at all**, not a green one.
+    Don't make *Forge PR Preview* a required status check, or docs-only PRs will block
+    forever waiting on a run that never starts.
 - **Fork PRs are skipped.** GitHub does not expose secrets to `pull_request` runs from forks,
   so those PRs cannot (and should not, for safety) provision infrastructure.
 - **Closed PRs are skipped.** Before provisioning anything, the preview workflow asks the
