@@ -30,9 +30,14 @@ Validation is enforced by `npm run validate` (and in CI). See
   "agency": {
     "name": "Springfield Fire Department",
     "type": "fire_department",       // fire_department | police_department |
-                                     // sheriff_office | state_agency | federal_agency |
-                                     // ems_agency | hospital_system | corrections | private
-    "level": "municipal",            // municipal | county | state | federal | private
+                                     // sheriff_office | national_police | state_agency |
+                                     // federal_agency | ems_agency | hospital_system |
+                                     // corrections | military | rescue_service |
+                                     // aid_organization | private | other
+    "level": "municipal",            // municipal | district | county | regional | state |
+                                     // national | federal | private | other
+                                     // (state/federal are the US tiers; regional/national
+                                     //  cover countries with no state layer)
     "parent": null                   // optional parent agency name
   },
 
@@ -101,7 +106,7 @@ Validation is enforced by `npm run validate` (and in CI). See
 | `status` | ✅ | Defaults to `active`. Closed/planned facilities are kept for planning context. |
 | `agency` | ✅ | Operating organization; `name` required, rest best-effort. |
 | `designation` | — | Local unit/house/precinct label. |
-| `address` | ✅ | At least `city` + `state` + `country`; street optional if unknown. |
+| `address` | ✅ | At least `city` + `country` (ISO-2). `state` is the first-level admin area **where one exists** — see [Addresses across countries](#addresses-across-countries). Street optional if unknown. |
 | `staffing_model` | — | Career/volunteer distinction affects in-game build size. |
 | `operating_hours` | — | Whether staffed 24/7. |
 | `units` | ✅ (may be `[]`) | Apparatus/crews. Empty array + `confidence: low` when unknown. |
@@ -130,11 +135,22 @@ Validation is enforced by `npm run validate` (and in CI). See
     ],
     "generated_by": "agent",         // agent | human
     "generated_at": "2026-08-13",
-    "schema_version": 1
+    "schema_version": 2
   },
   "features": [ /* Facility Features */ ]
 }
 ```
+
+| Metadata field | Req? | Notes |
+| --- | --- | --- |
+| `region_id` | ✅ | Globally unique slug, `<country>-<admin>-<name>`, lowercase kebab-case. |
+| `name` | ✅ | Display name for the region picker. |
+| `country` | ✅ | ISO 3166-1 alpha-2 (`US`, `GB`, `DE`). Must match the `region_id` prefix. |
+| `game_edition` | — | ISO-2 of the Mission Chief **edition** the `game` blocks target (`US` → missionchief.com, `GB` → missionchief.co.uk). Usually the same as `country`; set it on new regions. See [02 § Editions](02-domain-model.md#editions). |
+| `center` / `zoom` | ✅ | Default map view. |
+| `subregions` | — | Local divisions; see below. |
+| `generated_by` / `generated_at` | — | Provenance of the file itself. |
+| `schema_version` | ✅ | Current is **2**. |
 
 Region files are registered in [`data/regions/index.json`](../data/regions/index.json) so
 the app can list available regions without scanning the filesystem.
@@ -150,7 +166,7 @@ via `properties.subregion_id`.
 | --- | --- | --- |
 | `id` | ✅ | Kebab-case slug, unique within the region. |
 | `name` | ✅ | Display name (e.g. "Manhattan"). |
-| `level` | — | `borough` \| `county` \| `municipality` \| `district` \| `township` \| `precinct` \| `sector` \| `neighborhood` \| `other`. Labels/groups the picker. |
+| `level` | — | `borough` \| `county` \| `unitary_authority` \| `municipality` \| `district` \| `township` \| `commune` \| `ward` \| `precinct` \| `sector` \| `region` \| `province` \| `neighborhood` \| `other`. Labels/groups the picker. `township`/`precinct` are US divisions, `ward`/`unitary_authority` UK, `commune`/`province`/`region` most of Europe. |
 | `parent` | — | Id of a parent sub-region, for nesting (e.g. neighborhood → borough). Must resolve to another sub-region; no cycles. |
 | `center` / `zoom` | — | Where to fly the map when this sub-region is selected. |
 | `bbox` | — | `[west, south, east, north]` bounds, if known. |
@@ -165,6 +181,50 @@ Sub-regions are **optional** — small regions can omit them entirely (facilitie
 no `subregion_id`). Nesting is supported but not required; most regions need a single flat
 level (e.g. the five NYC boroughs).
 
+## Addresses across countries
+
+`address` is deliberately shallow, and **`state` is optional** — many countries have no
+first-level administrative area in an address at all. Rather than a per-country field set,
+the two admin fields are defined by *level*:
+
+| Field | Meaning | US | UK | Germany |
+| --- | --- | --- | --- | --- |
+| `city` | Town/city as locally addressed | city | post town | Stadt |
+| `county` | Second-level admin area | county | county / unitary authority | Kreis |
+| `state` | First-level admin area, **omit if none** | state | *(omit)* | Land |
+| `postal_code` | — | ZIP | postcode | PLZ |
+| `country` | **ISO 3166-1 alpha-2** | `US` | **`GB`** (not `UK`) | `DE` |
+
+Rules the validator enforces:
+
+- `country` matches `^[A-Z]{2}$` on both facilities and region metadata.
+- `metadata.region_id` starts with the region's own country code, lowercased — a `GB`
+  region cannot sit behind a `us-` slug.
+- A facility whose `country` differs from its region's is a **warning**, not an error
+  (border metros are legitimate, mistakes are more likely).
+
+Display formatting is the app's job, not the data's: the record stores parts, and the UI
+orders them per country.
+
+## Trauma capability across systems
+
+Trauma designations are national systems that don't map onto each other. Encoding one
+country's scale as if it were universal is the fastest way to fabricate a fact, so the
+schema separates the **filterable tier** from the **designation as issued**:
+
+| What | Where | Example (US) | Example (UK) |
+| --- | --- | --- | --- |
+| Normalized tier — drives filters across regions | `specialties` | `trauma_major` | `trauma_major` |
+| The designation in its own system | `attributes.trauma_designation` | `{ "system": "acs", "label": "Level I" }` | `{ "system": "nhs_mtn", "label": "Major Trauma Centre" }` |
+| Legacy US-only tags, still valid | `specialties`, `attributes.trauma_level` | `trauma_level_1`, `1` | ✗ rejected by the validator |
+
+- `trauma_major` — top-tier receiving centre (ACS Level I–II, a UK Major Trauma Centre).
+- `trauma_unit` — second-tier trauma-receiving hospital (ACS Level III–IV, a UK Trauma Unit).
+
+The tier mapping is an approximation *for filtering only*; the honest, sourced fact is the
+`trauma_designation` label. `trauma_level_*` and `attributes.trauma_level` are the ACS
+numeric scale, so **`npm run validate` rejects them on any non-US record**.
+
 ## Conventions
 
 - **Coordinates:** WGS84, `[lng, lat]` (GeoJSON order), ~5 decimal places (~1 m).
@@ -174,3 +234,10 @@ level (e.g. the five NYC boroughs).
 - **Enums over free text** wherever a value drives UI (category, unit type, specialties).
 - **Additive schema evolution:** bump `schema_version` and keep validators backward
   compatible; never silently repurpose a field.
+
+## Schema versions
+
+| Version | Change |
+| --- | --- |
+| **2** | *Internationalization (Phase 6).* `address.state` no longer required and re-documented as "first-level admin area, where one exists"; `country` constrained to ISO 3166-1 alpha-2; `agency.level` gained `district`/`regional`/`national`; `agency.type` gained `national_police`/`military`/`rescue_service`/`aid_organization`; `category` gained `police_national`/`sea_rescue`/`mountain_rescue`/`civil_protection`; sub-region `level` gained `unitary_authority`/`ward`/`commune`/`region`/`province`; `metadata.game_edition` added; country-neutral trauma tiers introduced. **All additive** — every version-1 file is still valid, and the validator warns rather than fails on one. |
+| 1 | Initial schema (Phases 0–5). |

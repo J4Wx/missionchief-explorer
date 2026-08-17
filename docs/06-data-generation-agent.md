@@ -92,6 +92,47 @@ Useful OSM tags to read: `name`, `operator`, `operator:type`, `emergency`, `amen
   the region bbox.
 - **Deduplicate.** Merge OSM + official records for the same physical facility into one.
 
+## Non-US regions
+
+Discovery is unchanged — OSM/Overpass tags are international. **Enrichment and
+normalization are not.** Before generating a non-US region, read
+[02 § Facility categories](02-domain-model.md#facility-categories) on which categories
+describe a country's *structure*, and
+[03 § Addresses](03-data-schema.md#addresses-across-countries).
+
+Country-independent rules:
+
+- `country` is **ISO 3166-1 alpha-2** — the UK is **`GB`**, not `UK` — and `region_id`
+  leads with it (`gb-mersey-liverpool`). `npm run new-region` derives the country from the
+  slug, so get the slug right.
+- Omit `address.state` where the country has no first-level admin area in an address. Do
+  **not** invent one, and don't repeat the county there.
+- Set `metadata.game_edition` to the edition your `game` blocks target (see
+  [02 § Editions](02-domain-model.md#editions)) — in-game building names differ per edition.
+- Never carry a designation from another country's system. ACS trauma levels are US-only
+  and the validator enforces it; state the local designation in
+  `attributes.trauma_designation` and tier it with `trauma_major`/`trauma_unit`.
+
+### UK sources (Phase 6 target)
+
+| Category | Where the planning detail lives |
+| --- | --- |
+| `fire` | The Fire and Rescue Service's own station pages — most publish station locations and appliance allocations; FRS integrated risk management plans for coverage detail. |
+| `ems` | The regional NHS ambulance trust's station/estate lists; HART capability is usually named on the trust site. Air ambulances are **separate charities** with their own base pages. |
+| `police_local` | The territorial force's station/estate pages and firearms-capability statements. Note there is **no sheriff tier**. |
+| `police_national` | NCA, British Transport Police, Border Force, MOD Police, Civil Nuclear Constabulary — national, so `agency.level: national`. |
+| `hospital` | NHS trust A&E pages plus the **major trauma network** designation (Major Trauma Centre vs Trauma Unit). No ACS levels. |
+| `prison` | The national prison-service estate list; the nearest `jail` analogue is a police custody suite. |
+| `coast_guard` | HM Coastguard rescue teams and operations centres. |
+| `sea_rescue` | The RNLI station directory (a charity — `agency.type: rescue_service`, `level: private`). |
+| `mountain_rescue` | Individual volunteer team sites and their regional association. |
+| `dispatch` | 999 handling is per-service control rooms, not a consolidated PSAP — record the service's control room and say so in the `subtype`. |
+
+The "no fabrication" bar is unchanged and matters more here, because the structures are
+unfamiliar: an English fire service's appliance list is not a US apparatus roster, and
+guessing at one because the shape looks similar is exactly the failure this contract exists
+to prevent.
+
 ## Quality bar per category
 
 - **Fire/EMS:** house-by-house where possible; apparatus list is the headline value.

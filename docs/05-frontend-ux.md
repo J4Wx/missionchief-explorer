@@ -74,6 +74,10 @@ A three-region, map-centric layout (responsive → stacked on mobile):
 
 ### Facility detail (`FacilityDetail`)
 - Header: name, category badge, agency, status.
+- **Location** block: the address rendered in its own country's order via
+  `src/lib/address.ts` — postcode after the region in the US, on its own line in the UK,
+  leading the locality line elsewhere — with `county` carrying the local word ("Chatham
+  County" vs "Merseyside"). The schema stores parts, never a formatted string.
 - **Units/apparatus** table: type, designation, count, key attributes.
 - **Specialties** as badges.
 - **Category-specific attributes** (e.g. hospital trauma level & helipad; jail capacity &
@@ -87,6 +91,9 @@ A three-region, map-centric layout (responsive → stacked on mobile):
 ### Search
 - Fuse.js fuzzy search over `name`, `agency.name`, `designation`, `specialties`, and
   `subtype`. Results reflect on both map and list.
+- **Diacritics are folded** on both the query and the indexed fields, so an ASCII keyboard
+  finds accented names ("Munchen" → "München"). Letters that don't decompose under NFD
+  (ß, ø, æ, œ, ł, đ, ð, þ) are spelled out.
 
 ### About / data page (`AboutPanel`)
 - A dialog off the top bar, deep-linkable via `?about=1` so "where is this data from?"

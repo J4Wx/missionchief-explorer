@@ -18,6 +18,7 @@ anything structural:
 - Frontend/UX → `docs/05-frontend-ux.md`
 - **Data-generation contract (read before generating data)** → `docs/06-data-generation-agent.md`
 - Roadmap → `docs/07-roadmap.md`
+- Proposed next phases (not yet approved) → `docs/08-phase-proposals.md`
 
 ## Two kinds of work
 
@@ -50,7 +51,9 @@ anything structural:
 
 ## Conventions
 
-- IDs: lowercase kebab-case; `region_id` = `us-<state>-<city>` (or `<country>-<admin>-<name>`).
+- IDs: lowercase kebab-case; `region_id` = `<country>-<admin>-<name>`, where `<country>` is
+  the **ISO 3166-1 alpha-2** code, lowercased (`us-ga-savannah`, `gb-mersey-liverpool`).
+  `npm run validate` fails if the prefix disagrees with `metadata.country`.
 - Coordinates: GeoJSON `[lng, lat]`, WGS84, ~5 decimals.
 - Dates: ISO 8601.
 - Commit/PR scope: one region per data PR; keep app changes separate from data changes.
@@ -60,7 +63,26 @@ anything structural:
 **Phases 0–5 are complete** — see `docs/07-roadmap.md`. The app scaffold, validation +
 CI, map/legend/detail, filters/search/URL state, the first real region (Savannah, GA),
 PR preview deploys, light/dark theming, the About/provenance panel and the
-`new-region` helper are all in. Remaining work is the "Later / stretch" list.
+`new-region` helper are all in. Two real regions are published (Savannah GA, Charleston SC)
+plus the fictional fixture.
+
+**Phase 6 — international regions is complete** (`docs/07`). `schema_version` is now 2
+(`address.state` optional, ISO-2 country codes, widened category/agency/sub-region
+vocabularies, `metadata.game_edition`, country-neutral trauma tiers), addresses render per
+country (`src/lib/address.ts`), search folds diacritics, and **Liverpool / Merseyside**
+(`gb-mersey-liverpool`, 72 facilities) is published as the first non-US region.
+
+Working on non-US data: don't invent a `state` value, file an RNLI lifeboat station as
+`coast_guard`, or assert an ACS trauma level for a Major Trauma Centre — `npm run validate`
+rejects the last one outright. The country code is **`GB`**, not `UK`. For UK coordinates,
+prefer ONS postcode data (`https://api.postcodes.io/postcodes/<postcode>`) over guessing an
+OSM element match; it also returns the `admin_district`, which is the borough.
+
+Remaining work is the lettered proposals in `docs/08-phase-proposals.md` — **proposals, not
+commitments**; don't start one without it being moved into `docs/07`.
+
+The other worked-up candidate phases live in `docs/08-phase-proposals.md` and are
+**proposals, not commitments** — don't start one without it being moved into `docs/07`.
 
 Dev commands: `npm run dev` · `npm run validate` · `npm run typecheck` · `npm run lint` ·
 `npm run build` (build regenerates types first) · `npm run new-region -- --help`.

@@ -67,7 +67,7 @@ contribute via ordinary pull requests.
 │  ├─ map/{MapView,Legend}.tsx
 │  ├─ ui/{RegionPicker,SubregionFilter,SearchBox,FilterPanel,FacilityList,
 │  │      FacilityDetail,AboutPanel,ThemeToggle}.tsx
-│  └─ lib/{search,filters,categories,url,theme,geo,format,subregions,links}.ts
+│  └─ lib/{search,filters,categories,url,theme,geo,format,address,subregions,links}.ts
 ├─ index.html
 ├─ package.json
 ├─ tsconfig.json
