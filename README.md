@@ -15,10 +15,15 @@ The platform lets you:
 - **Grow the dataset** by tasking an AI agent to research and generate a normalized data
   file for any city or region a player is interested in.
 
-> **Status:** Shipping. Phases 0–5 of the [roadmap](docs/07-roadmap.md) are complete —
-> the app is built, validated in CI, deployed with per-PR previews, and covers one real
-> region (Savannah, GA / Chatham County) alongside the fictional schema fixture. Adding
-> regions is now routine; see [CONTRIBUTING.md](CONTRIBUTING.md).
+> **Status:** Shipping. Phases 0–6 of the [roadmap](docs/07-roadmap.md) are complete — the
+> app is built, validated in CI, deployed with per-PR previews, and the catalog is now
+> **multi-country**: Savannah GA, Charleston SC and **Liverpool / Merseyside (UK)**, alongside
+> the fictional schema fixture. Adding regions is routine; see
+> [CONTRIBUTING.md](CONTRIBUTING.md).
+>
+> Candidates for what comes next are in
+> [08 — Phase Proposals](docs/08-phase-proposals.md) — the largest known gap is data *depth*
+> (published apparatus rosters are thin), not coverage.
 
 ---
 
@@ -33,6 +38,7 @@ The platform lets you:
 | [05 — Frontend & UX](docs/05-frontend-ux.md) | Pages, map behavior, filtering, facility detail, components. |
 | [06 — Data-Generation Agent](docs/06-data-generation-agent.md) | How the agent researches a region, its sources, guardrails, and output contract. |
 | [07 — Roadmap](docs/07-roadmap.md) | Phased milestones from scaffold to shippable. |
+| [08 — Phase Proposals](docs/08-phase-proposals.md) | Candidate phases awaiting approval, with the measured gaps behind each. |
 | [AGENTS.md](AGENTS.md) | Operating instructions for agents working in this repo. |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Requesting a region, correcting data, working on the app. |
 
