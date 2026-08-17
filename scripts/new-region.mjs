@@ -31,6 +31,9 @@ Required (unless --list / --batch):
 
 Options:
   --country <code>     ISO 3166-1 alpha-2, e.g. US, GB, DE  (default: from --id)
+  --admin <code>       first-level division code, as in --id (default: from --id)
+  --admin-name "<text>" display name for it, e.g. "Georgia", "Merseyside" —
+                       the region picker groups countries by this
   --edition <code>     Mission Chief edition the game notes
                        target, ISO-2                        (default: --country)
   --status <status>    requested | in_progress | published  (default: requested)
@@ -46,10 +49,12 @@ Options:
 
 Examples:
   # queue a request for the agent to pick up later (country US, from the id)
-  npm run new-region -- --id us-ny-buffalo --name "Buffalo, NY (Erie County)"
+  npm run new-region -- --id us-ny-buffalo --name "Buffalo, NY (Erie County)" \\
+    --admin-name "New York"
 
   # a UK region — note GB, not UK, and the UK edition for the game notes
-  npm run new-region -- --id gb-mersey-liverpool --name "Liverpool (Merseyside)"
+  npm run new-region -- --id gb-mersey-liverpool --name "Liverpool (Merseyside)" \\
+    --admin-name Merseyside
 
   # start work on one now, with an empty file ready to fill in
   npm run new-region -- --id us-ny-buffalo --name "Buffalo, NY" \\
@@ -137,6 +142,29 @@ function countryOf(raw, id) {
   return prefix
 }
 
+/**
+ * The first-level division (state/county/Land) a region sits in, as the code
+ * `region_id` already carries in its middle segment. The registry stores it so
+ * the picker can group `us-ga-savannah` under Georgia without parsing slugs.
+ * Returns `{}` for an id that has no middle segment.
+ */
+function adminOf(raw, id) {
+  const fromId = id.split('-').length > 2 ? id.split('-')[1] : undefined
+  const code = raw.admin === undefined ? fromId : String(raw.admin).toLowerCase()
+  const name = raw['admin-name'] ?? raw.admin_name
+
+  if (code !== undefined && !ID_PATTERN.test(code)) {
+    die(`--admin "${raw.admin}" must be lowercase kebab-case, e.g. ga, mersey`)
+  }
+  if (code === undefined && name !== undefined) {
+    die(`--admin-name given for "${id}" but there is no division code — pass --admin`)
+  }
+  if (code !== undefined && fromId !== undefined && code !== fromId) {
+    die(`--admin "${code}" disagrees with region_id "${id}" (expected "${fromId}")`)
+  }
+  return { admin: code, admin_name: typeof name === 'string' ? name : undefined }
+}
+
 /** Normalize + validate one region spec from flags or a batch file entry. */
 function toSpec(raw) {
   const id = raw.id
@@ -164,10 +192,14 @@ function toSpec(raw) {
     die(`--edition "${raw.edition}" must be an ISO 3166-1 alpha-2 code, e.g. US, GB`)
   }
 
+  const { admin, admin_name } = adminOf(raw, id)
+
   return {
     id,
     name,
     country,
+    admin,
+    admin_name,
     edition,
     status,
     note: typeof raw.note === 'string' ? raw.note : undefined,
@@ -215,10 +247,14 @@ function addRegion(index, spec, force) {
     wroteFile = true
   }
 
+  // `admin`/`admin_name` are the region picker's grouping (docs/05); without a
+  // display name the picker falls back to the bare code, so pass --admin-name.
   const entry = {
     region_id: spec.id,
     name: spec.name,
     country: spec.country,
+    ...(spec.admin ? { admin: spec.admin } : {}),
+    ...(spec.admin_name ? { admin_name: spec.admin_name } : {}),
     status: spec.status,
   }
   // A queued request has no file yet; the key is omitted rather than left empty

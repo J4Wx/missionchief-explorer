@@ -27,7 +27,24 @@ A three-region, map-centric layout (responsive → stacked on mobile):
 ## Views / components
 
 ### Region picker
-- Dropdown fed by `data/regions/index.json`.
+- Fed by `data/regions/index.json`; published entries only.
+- **Nested**: a searchable listbox grouped **country → first-level division → region**
+  ("United States › Georgia › Savannah"), built by `src/lib/regionTree.ts` from each
+  entry's `country` + `admin`/`admin_name`. Country names come from `Intl.DisplayNames`,
+  so the registry stores codes, not English labels.
+- A division level that doesn't branch is left out — with one Merseyside region and
+  nothing else British, it reads "United Kingdom › Liverpool"; the level appears the
+  moment a second division does. Depth follows coverage instead of padding the tree.
+- **Filter box** over the same tree, for when the list outgrows a glance. Matching is
+  diacritic-folded (shared with facility search) and spans the region name, its ids and
+  its group labels — so "georgia", "us ga" and "savannah" all find the same region, and
+  a division still matches by name where the tree has collapsed it away. Groups with a
+  surviving region are kept, so a filtered list keeps its bearings.
+- Not a native `<select>`: that caps out at one level of `<optgroup>` and can't be
+  filtered. It follows the ARIA combobox/listbox pattern instead — trigger with
+  `aria-expanded`, ↑/↓/Home/End to move, Enter to choose, Esc to dismiss,
+  `aria-activedescendant` for the active option, focus handed back to the trigger on
+  close, and a click outside dismisses like a native menu.
 - Selecting a region loads its GeoJSON and recenters the map to `metadata.center/zoom`.
 - Persist last-used region in the URL (`?region=us-il-springfield`).
 

@@ -111,3 +111,9 @@ Liberty/Dark, no API key), `VITE_REPO_URL` (links in the About panel), `BASE_PAT
 `status: requested | in_progress | published`. Queued entries have no `file` until one
 exists. Use `npm run new-region` rather than hand-editing it; `npm run validate` checks
 the registry against the files in both directions.
+
+Entries also carry `admin` + `admin_name` (`"ga"` / `"Georgia"`, `"mersey"` /
+`"Merseyside"`) — the division level of the region picker's country → division → region
+tree (`src/lib/regionTree.ts`, docs/05). `admin` is the middle segment of the `region_id`
+and the validator fails a disagreement; `admin_name` is the label, and its absence is a
+warning, not an error. `new-region` derives the code and takes `--admin-name`.

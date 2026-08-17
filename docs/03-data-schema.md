@@ -153,7 +153,17 @@ Validation is enforced by `npm run validate` (and in CI). See
 | `schema_version` | ✅ | Current is **2**. |
 
 Region files are registered in [`data/regions/index.json`](../data/regions/index.json) so
-the app can list available regions without scanning the filesystem.
+the app can list available regions without scanning the filesystem. An entry carries
+`region_id`, `name`, `country`, `status` (`requested | in_progress | published`), `file`
+once one exists, and an optional `note`:
+
+| Registry field | Req? | Notes |
+| --- | --- | --- |
+| `admin` | — | The division segment of `region_id` (`ga`, `mersey`), repeated as data so the region picker can group without parsing slugs. The validator fails an entry whose `admin` disagrees with its `region_id`. |
+| `admin_name` | — | Display name for it — "Georgia", "Merseyside". The picker labels the group with the bare code without it, so set it. Meaningless alone: `admin_name` without `admin` fails. |
+
+Use `npm run new-region` rather than hand-editing the registry; it derives `admin` from
+the id and takes `--admin-name`.
 
 ### Sub-regions (local-level narrowing)
 

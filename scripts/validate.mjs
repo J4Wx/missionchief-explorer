@@ -68,6 +68,24 @@ for (const entry of entries) {
   } else if (entry.status === 'published') {
     fail(where, 'is published but has no `file`')
   }
+
+  // The region picker groups by country → division, so `admin` has to agree
+  // with the division segment of the region_id it claims to describe.
+  const adminFromId = entry.region_id.split('-').length > 2
+    ? entry.region_id.split('-')[1]
+    : undefined
+  if (entry.admin !== undefined) {
+    if (entry.admin !== adminFromId) {
+      fail(where, `admin "${entry.admin}" disagrees with region_id (expected "${adminFromId ?? 'none'}")`)
+    }
+    if (entry.admin_name === undefined) {
+      warn(where, `has admin "${entry.admin}" but no admin_name — the picker will label the group "${entry.admin.toUpperCase()}"`)
+    }
+  } else if (entry.admin_name !== undefined) {
+    fail(where, 'has admin_name but no admin')
+  } else if (adminFromId !== undefined) {
+    warn(where, `has no admin/admin_name — the picker can't group it under "${adminFromId}"`)
+  }
 }
 
 for (const file of files) {
