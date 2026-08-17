@@ -1,0 +1,102 @@
+name: Data correction
+description: A facility is wrong, moved, closed, mis-located, or missing units.
+title: "[Correction] "
+labels: ["correction", "data"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Corrections are the most valuable contribution here — stations close, move, and
+        re-equip, and published rosters go stale.
+
+        **A citation is the only hard requirement.** An agency page, a news report, an
+        open-data record, a council minute — anything real and resolvable. We won't apply
+        a change we can't source, and "unknown" is an acceptable answer in this dataset.
+  - type: input
+    id: region
+    attributes:
+      label: Region
+      description: The `region_id` or the region's name as shown in the picker.
+      placeholder: us-ga-savannah
+    validations:
+      required: true
+  - type: input
+    id: facility
+    attributes:
+      label: Facility
+      description: >
+        The facility `id` if you have it (shown in the detail panel / share link),
+        otherwise its name.
+      placeholder: sfd-station-1 — Savannah Fire Station 1
+    validations:
+      required: true
+  - type: dropdown
+    id: field
+    attributes:
+      label: What's wrong
+      options:
+        - Location / coordinates — the marker is in the wrong place
+        - Address
+        - Name or agency
+        - Status — closed, moved, or not yet open
+        - Units / apparatus roster
+        - Specialties or capabilities (hazmat, SWAT, dive…)
+        - Hospital attributes — trauma designation, beds
+        - Category or subtype (wrong service group)
+        - Source link is dead or points at the wrong thing
+        - Mission Chief mapping — the `game` notes
+        - Facility is missing entirely
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: What the data says now
+      description: Paste the value you're looking at, or describe it. Skip if the facility is missing entirely.
+      placeholder: "units: 1 engine, 1 ladder"
+  - type: textarea
+    id: correct
+    attributes:
+      label: What it should say
+      description: >
+        Be as specific as you can. If part of it is unknown, say so — a partial
+        correction with a source beats a complete guess.
+      placeholder: |
+        Engine 1, Ladder 1 and Battalion 1 run from this house; the ladder moved here from
+        Station 3 in March 2026. Rescue 1 is no longer assigned.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Source(s)
+      description: >
+        One or more URLs backing the correction, with a note on what each shows. If it's
+        first-hand knowledge with nothing published, say that plainly — it'll be recorded
+        as low confidence rather than dropped.
+      placeholder: |
+        https://www.savannahga.gov/1234/Fire-Stations — station page listing current apparatus (retrieved 2026-08-17)
+    validations:
+      required: true
+  - type: input
+    id: as_of
+    attributes:
+      label: True as of
+      description: Optional. ISO date — when this was last true or last verified by you.
+      placeholder: "2026-08-17"
+  - type: checkboxes
+    id: acknowledgements
+    attributes:
+      label: Before you file
+      options:
+        - label: This is public information — no personal data, no home addresses, nothing operationally sensitive.
+          required: true
+        - label: I'm not citing `example-springfield.geojson`, which is a fictional schema demo.
+          required: true
+  - type: checkboxes
+    id: help
+    attributes:
+      label: Can you help?
+      options:
+        - label: I'd like to open the pull request for this myself.

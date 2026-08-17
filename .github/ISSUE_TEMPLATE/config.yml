@@ -1,0 +1,14 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Contributing guide
+    url: https://github.com/J4Wx/missionchief-explorer/blob/main/CONTRIBUTING.md
+    about: How regions get requested, generated, and corrected — read this first.
+  - name: Data schema & controlled vocabularies
+    url: https://github.com/J4Wx/missionchief-explorer/blob/main/docs/03-data-schema.md
+    about: What a facility record holds, field by field, before you report a data problem.
+  - name: Scope & non-goals
+    url: https://github.com/J4Wx/missionchief-explorer/blob/main/docs/01-vision-and-scope.md
+    about: In-game mechanics, player accounts, and anything about real individuals are out of scope.
+  - name: Current region queue
+    url: https://github.com/J4Wx/missionchief-explorer/blob/main/data/regions/index.json
+    about: Check whether a region is already published, in progress, or queued.

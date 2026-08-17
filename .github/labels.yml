@@ -1,0 +1,71 @@
+# The repository's label set, and the only place it's defined.
+#
+# `.github/workflows/labels.yml` syncs this to GitHub on every push to main that
+# touches this file; run `npm run labels -- --dry-run` to preview a change.
+# Labels the issue forms apply must exist here, or GitHub drops them silently.
+#
+# Each entry: name, color (6-digit hex, no #, quoted — YAML reads 5319e7 as a
+# number otherwise), description (<= 100 chars).
+
+# ── Type: what kind of thing this issue is. Applied by the issue forms. ──
+- name: region-request
+  color: "1d76db"
+  description: Add a city, county, or metro to the atlas
+- name: correction
+  color: "0e8a16"
+  description: A facility record is wrong, stale, missing, or mis-located
+- name: bug
+  color: "d73a4a"
+  description: The app misbehaves
+- name: enhancement
+  color: "a2eeef"
+  description: A feature or idea for the app
+- name: schema
+  color: "5319e7"
+  description: Data schema or controlled-vocabulary change
+- name: documentation
+  color: "0075ca"
+  description: Docs only — the planning set, CONTRIBUTING, or AGENTS.md
+
+# ── Area: which part of the project it lands in. ──
+- name: app
+  color: "c5def5"
+  description: Frontend — map, filters, search, panels
+- name: data
+  color: "fef2c0"
+  description: Region data files and the registry
+- name: agent
+  color: "e4c9f7"
+  description: The data-generation agent and its contract (docs/06)
+- name: infra
+  color: "bfd4f2"
+  description: CI, preview deploys, tooling
+
+# ── State: what the issue is waiting on. ──
+- name: needs-source
+  color: "fbca04"
+  description: Blocked until someone cites a resolvable source
+- name: needs-triage
+  color: "ededed"
+  description: Not yet looked at
+- name: blocked
+  color: "b60205"
+  description: Waiting on something else
+- name: stale-data
+  color: "f9a825"
+  description: Past the re-verification window, or a source stopped resolving
+- name: good first issue
+  color: "7057ff"
+  description: A well-scoped place to start
+- name: help wanted
+  color: "008672"
+  description: Local knowledge or extra hands would move this
+- name: question
+  color: "d876e3"
+  description: A question rather than a request
+- name: duplicate
+  color: "cfd3d7"
+  description: Already tracked elsewhere
+- name: wontfix
+  color: "6a737d"
+  description: Out of scope — see docs/01-vision-and-scope.md

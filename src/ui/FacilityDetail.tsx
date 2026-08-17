@@ -7,6 +7,7 @@ import { addressLines, countyLabel } from '../lib/address'
 import { categoryInk, categoryLabel, groupMeta } from '../lib/categories'
 import { attributeEntries, formatCoords, formatValue, humanize } from '../lib/format'
 import { featureCoords } from '../lib/geo'
+import { correctionUrl } from '../lib/links'
 
 // Status and confidence are *state*, not series identity, so they keep their
 // own reserved good/caution/bad hues rather than borrowing a group color — and
@@ -31,11 +32,12 @@ const CONFIDENCE_STYLE: Record<Facility['confidence'], string> = {
 
 interface Props {
   feature: FacilityFeature
+  regionId: string
   subregionName: string | null
   onClose: () => void
 }
 
-export function FacilityDetail({ feature, subregionName, onClose }: Props) {
+export function FacilityDetail({ feature, regionId, subregionName, onClose }: Props) {
   const p = feature.properties
   const coords = featureCoords(feature)
   const [copied, setCopied] = useState(false)
@@ -289,6 +291,16 @@ export function FacilityDetail({ feature, subregionName, onClose }: Props) {
               </li>
             ))}
           </ul>
+          {/* Two clicks from the wrong record to a filed correction: the form
+              arrives with this region and facility already in it (docs/08 C). */}
+          <div className="mt-3 flex flex-wrap items-baseline gap-2">
+            <ExternalLink href={correctionUrl(regionId, p.id, p.name)}>
+              Report a correction
+            </ExternalLink>
+            <span className="text-xs text-ink-faint">
+              Something wrong or out of date here? A source is all it takes.
+            </span>
+          </div>
         </Section>
       </div>
     </aside>

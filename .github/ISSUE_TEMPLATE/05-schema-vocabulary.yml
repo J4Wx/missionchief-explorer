@@ -1,0 +1,90 @@
+name: Schema or vocabulary addition
+description: A real facility, unit, or capability that the controlled vocabularies can't express.
+title: "[Schema] "
+labels: ["schema", "data"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The enums in
+        [`schemas/facility.schema.json`](https://github.com/J4Wx/missionchief-explorer/blob/main/schemas/facility.schema.json)
+        are deliberately closed, so filters mean the same thing in every region. When a
+        country's services genuinely don't fit — a *Bereitschaftspolizei*, a mountain
+        rescue post, a fire boat class with no US analogue — the enum is what changes.
+
+        Adding a value means updating the schema **and**
+        [`docs/02-domain-model.md`](https://github.com/J4Wx/missionchief-explorer/blob/main/docs/02-domain-model.md)
+        in the same change, and additions must stay backward compatible.
+  - type: dropdown
+    id: vocabulary
+    attributes:
+      label: Which vocabulary
+      options:
+        - "`category` — the facility taxonomy"
+        - "`agency.type` or `agency.level`"
+        - "`units[].type` — apparatus and vehicle types"
+        - "`specialties[]` — capability tags"
+        - "`subregions[].level` — local divisions"
+        - "`attributes` — a new conventional key for a category"
+        - "`game` — Mission Chief mapping fields"
+        - Something else
+    validations:
+      required: true
+  - type: input
+    id: value
+    attributes:
+      label: Proposed value
+      description: Lowercase snake_case, matching the style of its neighbours.
+      placeholder: mountain_rescue_post
+    validations:
+      required: true
+  - type: textarea
+    id: meaning
+    attributes:
+      label: What it represents
+      description: >
+        Define it tightly enough that two people would tag the same facility the same way.
+    validations:
+      required: true
+  - type: textarea
+    id: why_not_existing
+    attributes:
+      label: Why the existing values don't cover it
+      description: >
+        Name the closest current value and what it would lose. Reusing a value is
+        cheaper than adding one, and every addition costs a filter, a colour, and a badge.
+    validations:
+      required: true
+  - type: textarea
+    id: examples
+    attributes:
+      label: Real examples, with sources
+      description: >
+        At least two real facilities this applies to, each with a resolvable URL. A
+        vocabulary that only ever describes one building usually belongs in `subtype`
+        or `attributes` instead.
+      placeholder: |
+        - Glenridding Mountain Rescue Base, Cumbria — https://… (retrieved 2026-08-17)
+        - Ogwen Valley MRO base, Bethesda — https://… (retrieved 2026-08-17)
+    validations:
+      required: true
+  - type: input
+    id: countries
+    attributes:
+      label: Countries or editions affected
+      description: ISO 3166-1 alpha-2 codes — where this shows up.
+      placeholder: GB, DE, AT
+  - type: textarea
+    id: game_mapping
+    attributes:
+      label: Mission Chief mapping
+      description: >
+        Optional. Which in-game building or vehicle this corresponds to, in which
+        edition — and say if it has no in-game equivalent, which is a fine answer.
+  - type: checkboxes
+    id: acknowledgements
+    attributes:
+      label: Before you file
+      options:
+        - label: This is additive — no existing region file becomes invalid.
+          required: true

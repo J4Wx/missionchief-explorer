@@ -14,6 +14,11 @@
 > is committed as **Phase 6** in `docs/07`, and the test foundation (proposal A) as
 > **Phase 7**. Everything below is still a proposal, and B–F all assume Phase 6's
 > `schema_version: 2` has landed first.
+>
+> **Partly landed:** the contribution-intake half of **C** (issue forms, the correction
+> deep link, `.github/labels.yml` and its sync workflow) shipped on 2026-08-17 without
+> waiting for the phase — it's small, standalone, and unblocks corrections now. Ticked
+> items under C say what's done; the rest of C stands.
 
 ## Where the product actually stands
 
@@ -29,7 +34,7 @@ Charleston, 201 facilities):
 | Confidence distribution | 23 high / 138 medium / 40 low | Honest, but weighted toward "found the building, not the roster". |
 | ~~Automated tests~~ | ~~**none**~~ → 247, in CI | **Closed by Phase 7.** No end-to-end path though — see the dropped Playwright item. |
 | Source-link rot / staleness detection | none | Every record has `last_verified`, nothing ever re-checks it. |
-| Contribution path for a non-coder | none | No issue templates; corrections require a PR. |
+| Contribution path for a non-coder | **issue forms** | Five forms, correction prefilled from the detail panel (part of C, landed 2026-08-17). What arrives is still triaged and merged by hand. |
 | Cross-region view | none | One region at a time; no global map or search. |
 
 Two structural facts constrain everything below: **no backend** (static site, static
@@ -42,7 +47,7 @@ here respects both.
 | --- | --- | --- | --- | --- |
 | ~~A~~ | ~~Test & regression foundation~~ | **Approved — Phase 7 in `docs/07`** | — | — |
 | B | Data-depth pass + quality gates | **Highest** (core promise) | M | A for gates |
-| C | Freshness, link rot & community corrections | High | M | — |
+| C | Freshness, link rot & community corrections | High | M *(intake half landed)* | — |
 | D | Build-plan output (schema v2 `game` vocab) | **Highest** (product thesis) | M | B helps |
 | E | Multi-region scale & cross-region index | Medium–High | M–L | A, C |
 | F | Coverage-gap & proximity overlay | Medium (novel) | M | E optional |
@@ -50,7 +55,7 @@ here respects both.
 **Recommended order:** ~~A~~ → B → D → C → E → F. A first because everything after
 it edits shared logic; B and D before E because scaling to twenty thin regions is
 worth less than two deep ones plus a real planning payoff. C can run in parallel with
-anything — it's mostly CI and templates.
+anything — and with its issue forms and labels already in, what's left of it is CI.
 
 ---
 
@@ -104,6 +109,11 @@ unknown; `npm run report` is the number both CI and the About panel read.
 
 ## C — Freshness, link rot & community corrections
 
+> **Partly landed (2026-08-17), outside a phase.** The contribution-intake half is done —
+> issue forms, the correction deep link, and the label set behind them (see the ticked
+> items). The freshness half — link checking, staleness detection, request-to-queue
+> automation — is untouched and still the reason this proposal exists.
+
 **Why.** "Every claim has a source" only holds while the sources resolve. 201 records
 cite ~35 hosts of department pages and PDFs; those rot. Meanwhile the only correction
 path is a pull request, which excludes almost every player who'd notice a wrong roster.
@@ -115,18 +125,30 @@ needs to be credible.
       every `sources[].url` (tolerant HEAD/GET, rate-limited, allowlist for hosts that
       block bots), and flag records whose `last_verified` is older than the agreed window
       (proposed: 12 months). Opens/updates one tracking issue with a re-verify worklist —
-      never edits data automatically.
+      never edits data automatically. The `stale-data` label it should apply already
+      exists.
 - [ ] **`npm run check-links`** locally, same code path.
-- [ ] **Issue forms** — "Report a correction" (prefilled region + facility id + field) and
-      "Request a region". Correction form is deep-linked from `FacilityDetail`, so a
-      report is two clicks from the wrong record.
+- [x] **Issue forms** — `.github/ISSUE_TEMPLATE/` carries five: region request, data
+      correction, app bug, feature/idea, and schema/vocabulary addition. The correction
+      form is deep-linked from `FacilityDetail` with region, facility and title prefilled
+      (`correctionUrl()` in `src/lib/links.ts`), and `AboutPanel` links the region-request
+      and correction forms directly. Every form that asks for a data change requires a
+      source.
+- [x] **Label set as code** — `.github/labels.yml` is the source of truth (GitHub silently
+      drops labels an issue form names but the repo doesn't have), synced by
+      `scripts/sync-labels.mjs` / `npm run labels` from `.github/workflows/labels.yml`:
+      dry-run on pull requests, apply on main, `--prune` only on manual dispatch.
 - [ ] **Region requests → queue**: a workflow that turns an approved request issue into an
       `index.json` entry via `scripts/new-region.mjs` (`status: requested`), keeping the
-      script as the only writer of that file.
+      script as the only writer of that file. The form now collects what that workflow
+      needs — region name, country, edition, and a suggested `region_id`.
 - [ ] **PR template** with the data checklist from `AGENTS.md` (validate, cite, no
       fabrication, one region per PR).
-- [ ] **Freshness surfaced in the UI** — "verified as of" on the detail panel, and a
-      region-level as-of date, so stale data is visible rather than implied fresh.
+- [ ] **Freshness surfaced in the UI** — *partly there since Phase 2/5*: the detail panel
+      already shows `Verified <date>` next to the confidence badge, and the About panel
+      shows the region's `generated_at`. What's missing is the region-level "as of" read
+      and any visual distinction for a record past the staleness window — today stale and
+      fresh look identical.
 
 **Exit:** a broken source URL or a record past the staleness window shows up in a tracking
 issue without a human noticing first; a non-coder can file a correction against a specific

@@ -6,7 +6,7 @@
 // `?about=1` so it can be shared as an answer to "where is this data from?".
 import { useEffect, useRef, type ReactNode } from 'react'
 import type { Facility, RegionFeatureCollection, RegionIndexEntry } from '../types/app'
-import { REPO_URL } from '../lib/links'
+import { CORRECTION_TEMPLATE, REGION_REQUEST_TEMPLATE, REPO_URL, issueUrl } from '../lib/links'
 
 interface Props {
   regions: RegionIndexEntry[]
@@ -220,13 +220,19 @@ export function AboutPanel({ regions, region, onClose }: Props) {
 
           <Section title="Request a region, or fix one">
             <p className="text-ink-muted">
-              Missing your city? Open an issue asking for it, and it gets queued in the
-              region registry for the generation agent to pick up. Spotted something wrong —
-              a closed station, a missing engine, a bad trauma level? Corrections are
-              welcome as issues or pull requests; a citation is all that's needed.
+              Missing your city? Ask for it, and it gets queued in the region registry for
+              the generation agent to pick up. Spotted something wrong — a closed station, a
+              missing engine, a bad trauma level? Corrections are welcome as issues or pull
+              requests; a citation is all that's needed, and every facility panel has its
+              own prefilled correction link.
             </p>
             <div className="mt-2 flex flex-wrap gap-2">
-              <ExternalLink href={`${REPO_URL}/issues/new`}>Request or report</ExternalLink>
+              <ExternalLink href={issueUrl(REGION_REQUEST_TEMPLATE)}>
+                Request a region
+              </ExternalLink>
+              <ExternalLink href={issueUrl(CORRECTION_TEMPLATE)}>
+                Report a correction
+              </ExternalLink>
               <ExternalLink href={`${REPO_URL}/blob/main/CONTRIBUTING.md`}>
                 Contribution guide
               </ExternalLink>

@@ -1,0 +1,66 @@
+name: App bug
+description: The map, filters, search, or detail panel misbehaves.
+title: "[Bug] "
+labels: ["bug", "app"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For a fact that's wrong in the dataset — a station in the wrong place, a stale
+        roster — use **Data correction** instead. This one is for the app itself.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you saw, and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open Savannah
+        2. Filter to Fire + Hospital
+        3. Search "station"
+        4. The marker count in the legend doesn't match the list
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Share link
+      description: >
+        The app encodes region, filters, and selection in the URL — copying it from the
+        address bar captures the exact state you're describing.
+      placeholder: https://…/?region=us-ga-savannah&cat=fire…
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and OS
+      placeholder: Firefox 141 on Windows 11 / Safari on iOS 26
+    validations:
+      required: true
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Theme
+      options:
+        - Light
+        - Dark
+        - Following the OS setting
+        - Not relevant
+    validations:
+      required: true
+  - type: textarea
+    id: console
+    attributes:
+      label: Console errors
+      description: Optional. Anything red in the browser devtools console. Rendered as a code block, no backticks needed.
+      render: text
+  - type: checkboxes
+    id: accessibility
+    attributes:
+      label: Anything else
+      options:
+        - label: This is an accessibility problem (keyboard, screen reader, contrast, colour-vision).

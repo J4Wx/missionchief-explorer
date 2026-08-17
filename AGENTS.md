@@ -84,8 +84,18 @@ commitments**; don't start one without it being moved into `docs/07`.
 The other worked-up candidate phases live in `docs/08-phase-proposals.md` and are
 **proposals, not commitments** — don't start one without it being moved into `docs/07`.
 
+**Contribution intake landed** (2026-08-17, part of proposal C, ahead of the phase):
+`.github/ISSUE_TEMPLATE/` holds five issue forms — region request, data correction, app
+bug, feature/idea, schema/vocabulary addition. The correction form is deep-linked from
+`FacilityDetail` with region + facility prefilled (`src/lib/links.ts`). Labels are code in
+`.github/labels.yml`, synced by `scripts/sync-labels.mjs` (`npm run labels`) from
+`.github/workflows/labels.yml` — add a label *there* before a form references it, because
+GitHub drops names it doesn't recognize. The rest of C (link checking, staleness,
+request-issue → queue automation) is still a proposal.
+
 Dev commands: `npm run dev` · `npm run validate` · `npm run typecheck` · `npm run lint` ·
-`npm test` · `npm run build` (build regenerates types first) · `npm run new-region -- --help`.
+`npm test` · `npm run build` (build regenerates types first) ·
+`npm run new-region -- --help` · `npm run labels -- --dry-run`.
 Types in `src/types/schema.ts` are generated — run `npm run gen:types` after editing the
 schemas, never hand-edit them.
 

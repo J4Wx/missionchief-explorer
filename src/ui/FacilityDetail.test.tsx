@@ -39,7 +39,12 @@ const FULL: Partial<Facility> = {
 function renderDetail(over: Partial<Facility> = FULL, subregionName: string | null = 'Downtown') {
   const onClose = vi.fn()
   const result = render(
-    <FacilityDetail feature={feature(over, [-81.09123, 32.08094])} subregionName={subregionName} onClose={onClose} />,
+    <FacilityDetail
+      feature={feature(over, [-81.09123, 32.08094])}
+      regionId="us-ga-savannah"
+      subregionName={subregionName}
+      onClose={onClose}
+    />,
   )
   return { ...result, onClose }
 }
@@ -144,6 +149,21 @@ describe('FacilityDetail', () => {
     expect(
       within(section('Sources')).getByRole('link', { name: 'https://example.test/bare' }),
     ).toBeInTheDocument()
+  })
+
+  it('links a correction form prefilled with this region and facility', () => {
+    renderDetail()
+    const link = within(section('Sources')).getByRole('link', { name: /Report a correction/ })
+    const url = new URL(link.getAttribute('href') as string)
+    expect(url.pathname).toBe('/J4Wx/missionchief-explorer/issues/new')
+    // The form's field ids — renaming one in the template silently empties the
+    // prefill, so they are pinned here rather than inferred from the link text.
+    expect(url.searchParams.get('template')).toBe('02-data-correction.yml')
+    expect(url.searchParams.get('region')).toBe('us-ga-savannah')
+    expect(url.searchParams.get('facility')).toBe('sfd-1 — Savannah Fire Station 1')
+    expect(url.searchParams.get('title')).toBe(
+      '[Correction] Savannah Fire Station 1 (us-ga-savannah)',
+    )
   })
 
   it('omits the sections a sparse record has nothing for', () => {

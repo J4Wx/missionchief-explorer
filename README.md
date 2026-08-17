@@ -75,3 +75,10 @@ color-vision deficiency in both themes rather than hand-picked (see
 [CONTRIBUTING.md](CONTRIBUTING.md)).
 
 See [04 — Architecture](docs/04-architecture.md) for the rationale behind these choices.
+
+## Contributing
+
+Requests and corrections are [issue forms](.github/ISSUE_TEMPLATE) — no pull request
+needed. Every facility panel links a correction form with that region and facility
+prefilled, and a source is all a fix needs. [CONTRIBUTING.md](CONTRIBUTING.md) covers the
+rest, including generating a region.

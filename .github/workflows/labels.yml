@@ -1,0 +1,49 @@
+name: Sync labels
+
+# The issue forms in .github/ISSUE_TEMPLATE/ apply labels by name, and GitHub
+# drops any that don't exist — so .github/labels.yml is the source of truth and
+# this keeps the repository in step with it.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/labels.yml
+      - scripts/sync-labels.mjs
+      - .github/workflows/labels.yml
+  pull_request:
+    paths:
+      - .github/labels.yml
+      - scripts/sync-labels.mjs
+  workflow_dispatch:
+    inputs:
+      prune:
+        description: Delete labels that .github/labels.yml doesn't declare
+        type: boolean
+        default: false
+
+permissions:
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      # On a pull request the token is read-only and the branch isn't merged
+      # yet, so validate the file and show the diff instead of applying it.
+      - name: Check label file
+        if: github.event_name == 'pull_request'
+        run: npm run labels -- --dry-run
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Sync labels
+        if: github.event_name != 'pull_request'
+        run: npm run labels -- ${{ inputs.prune && '--prune' || '' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
