@@ -9,6 +9,27 @@ name: Forge PR Preview
 on:
   pull_request:
     types: [opened, reopened, synchronize]
+    # A preview exists only to look at the built site, so a PR that cannot
+    # change the build does not get one. This is a denylist, not an allowlist:
+    # anything unlisted deploys, so a new source directory is previewed by
+    # default rather than silently skipped.
+    #
+    # `.github/workflows/**` is deliberately NOT ignored — editing this
+    # workflow has to be able to exercise it on its own PR.
+    #
+    # GitHub evaluates these against the PR's whole base…head diff, not the
+    # latest push, so a PR that touched `src/` keeps deploying on later
+    # docs-only commits, and one that starts docs-only provisions its site on
+    # the first code commit (every step below is idempotent).
+    paths-ignore:
+      - '*.md'
+      - 'docs/**'
+      - '.github/ISSUE_TEMPLATE/**'
+      - '.github/labels.yml'
+      - '.devcontainer/**'
+      - '.vscode/**'
+      - '.gitattributes'
+      - '.gitignore'
 
 # Never run two deploys for the same PR at once; cancel the older one.
 concurrency:
