@@ -210,6 +210,14 @@ for which no coordinate source was found). Fire `units` are empty on all 22 stat
 MFRS publishes addresses but not appliance allocations — the single biggest depth gap, and
 exactly what proposal B exists to close.
 
+**Since then:** a second UK region, **Norwich / Norfolk** (`gb-norfolk-norwich`, 109
+facilities across the seven Norfolk districts), was added as routine growth rather than a
+phase. It is worth knowing about here for one reason: Norfolk FRS *does* publish per-station
+crewing, so all 42 of its stations carry `units` — one or two pumping appliances each, with
+the duty system in `attributes` — which shows the fire-depth gap above is a per-service
+publishing difference rather than a UK-wide one. Specialist allocations (aerials, USAR, water
+carriers) are still unpublished per station there too.
+
 ### Exit ✅
 
 Met. Liverpool / Merseyside is published and validates with no US-shaped field fudged; the

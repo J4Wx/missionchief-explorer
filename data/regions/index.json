@@ -40,6 +40,16 @@
       "status": "published",
       "file": "gb-mersey-liverpool.geojson",
       "note": "Phase 6 proof region — the first non-US region (UK edition, missionchief.co.uk). 72 facilities across the five metropolitan boroughs: all 22 MFRS community fire stations (official addresses), 4 lifeboat stations including the independent Southport Offshore Rescue Trust, 12 hospitals carrying Cheshire & Mersey trauma designations (Aintree adult MTC, Alder Hey children's MTC, 4 Trauma Units, Whiston also the regional burns centre), HMP Liverpool and privately-run HMP Altcourse, 21 Merseyside Police stations plus British Transport Police and Mersey Tunnels Police, 9 ambulance stations, and MFRS headquarters. Coordinates from ONS postcode data (postcodes.io) where an official postcode was published, otherwise OpenStreetMap, cited per record. Gaps: HM Coastguard rescue teams, tow/recovery operators, NWAS and police vehicle allocations (not published), per-station fire duty systems, The Walton Centre (adult MTC collaborative partner, no coordinate source found), and UK-edition in-game building names are unverified guidance."
+    },
+    {
+      "region_id": "gb-norfolk-norwich",
+      "name": "Norwich (Norfolk)",
+      "country": "GB",
+      "admin": "norfolk",
+      "admin_name": "Norfolk",
+      "status": "published",
+      "file": "gb-norfolk-norwich.geojson",
+      "note": "Second UK region (UK edition, missionchief.co.uk). Norwich anchored in its ceremonial county, mirroring Liverpool (Merseyside): 109 facilities across the seven Norfolk districts. All 42 Norfolk Fire and Rescue Service stations with official addresses and published crewing (5 wholetime, 2 day-crewed, 39 on-call establishments; no volunteer firefighters in the county), the NFRS joint headquarters and its 999 control room, the full Norfolk Constabulary estate from the PCC estates plan (30 stations plus the Wymondham OCC), all four Police Investigation Centres as the county custody estate, HMP Norwich/Bure/Wayland, 9 lifeboat stations (6 RNLI plus independent Caister, Sea Palling and Mundesley), 11 ambulance sites including the East Anglian Air Ambulance base at Norwich Airport, and the county's three A&E hospitals -- all Trauma Units, with no Major Trauma Centre in the region. Coordinates from ONS postcode data (postcodes.io) where an official postcode is published, otherwise OpenStreetMap, cited per record. Gaps: per-station fire appliance specials (aerials, USAR, water carriers -- not published per station), EEAST vehicle allocations and six of its Norfolk stations (no sourced coordinates), police firearms/dog/marine allocations (recorded at HQ instead), HM Coastguard rescue teams beyond Gorleston, Norwich Airport RFFS, tow/recovery operators, and UK-edition in-game building names which remain unverified guidance."
     }
   ]
 }
