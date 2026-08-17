@@ -246,12 +246,16 @@ jobs:
             echo "- **Site id:** $SITE_ID"
           } >> "$GITHUB_STEP_SUMMARY"
 
-      # A 5xx here means the deploy succeeded and only the comment failed — a
-      # cosmetic failure that nonetheless turns the run red and invites a
-      # re-run of a job that provisions real infrastructure. Retry instead.
-      # (github-script exempts 400/401/403/404/422, so this covers 5xx only.)
+      # By this point the deploy has succeeded, so a failure here is cosmetic —
+      # but it still turns the run red, which is what invites re-running a job
+      # that provisions real infrastructure. That is the exact chain that
+      # orphaned a site in #11. So retry transient errors (github-script
+      # exempts 400/401/403/404/422, so this covers 5xx only), and never fail
+      # the run over the comment: the step shows as failed-but-ignored, which
+      # is the right loudness for "the preview is up, the comment isn't".
       - name: Comment preview URL on the PR
         if: steps.gate.outputs.state == 'open'
+        continue-on-error: true
         uses: actions/github-script@v7
         with:
           retries: 3

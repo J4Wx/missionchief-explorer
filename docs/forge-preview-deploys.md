@@ -58,6 +58,12 @@ Add these under **Settings → Secrets and variables → Actions**.
 - **Re-running a preview is not free.** Unlike re-running CI, it acts on real
   infrastructure using possibly-stale event context. The open-PR gate above covers the
   known case, but treat a deploy re-run as a deliberate action.
+- **The PR comment never fails the run.** Both workflows post their comment with
+  `retries: 3` and `continue-on-error: true`. By the time it runs, the deploy (or the
+  delete) has already happened, so failing the run over it would only invite a re-run of
+  the infrastructure work — the chain that orphaned a site in the first place. A comment
+  that could not be posted shows as a failed-but-ignored step, so check for one if a
+  preview is live but unannounced.
 - **Reaping an orphaned site.** If a `pr-<number>.…` site outlives its PR, run
   **Forge PR Teardown** from the Actions tab (*Run workflow* → PR number). It deletes the
   site by domain, so it works even when the PR closed long ago. Deleting the site by hand

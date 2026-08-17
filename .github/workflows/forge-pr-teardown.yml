@@ -82,10 +82,11 @@ jobs:
 
       - name: Comment teardown on the PR
         if: steps.forge.outputs.deleted == 'true'
+        # As in the preview workflow: the site is already deleted by this
+        # point, so don't fail the run over the comment.
+        continue-on-error: true
         uses: actions/github-script@v7
         with:
-          # As in the preview workflow: the site is already deleted by this
-          # point, so don't fail the run over a transient comment error.
           retries: 3
           script: |
             const marker = '<!-- forge-preview -->';
