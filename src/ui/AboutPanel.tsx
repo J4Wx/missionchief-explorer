@@ -115,12 +115,15 @@ export function AboutPanel({ regions, region, onClose }: Props) {
         <div className="max-h-[70vh] overflow-y-auto px-5 py-4 text-sm">
           <Section title="What this is">
             <p className="text-ink-muted">
-              A map-first catalog of real-world emergency-services facilities — fire, EMS,
-              police, sheriff, state and federal law enforcement, hospitals, prisons and
-              jails, tow operators and dispatch centers — assembled to help players plan
-              builds and coverage in the dispatch game <em>Mission Chief</em>. It is an
-              unofficial fan project with no affiliation to the game or its publisher, and
-              it describes the real world, not the game world.
+              A map-first catalog of real-world emergency-services facilities — fire and
+              rescue, EMS, police at every level, hospitals, prisons, sea and mountain
+              rescue, tow operators and control rooms — assembled to help players plan
+              builds and coverage in the dispatch game <em>Mission Chief</em>. Each region
+              is recorded the way its own country organizes those services, so a UK region
+              reads in fire-and-rescue services and major trauma centres rather than being
+              flattened into American equivalents. It is an unofficial fan project with no
+              affiliation to the game or its publisher, and it describes the real world, not
+              the game world.
             </p>
           </Section>
 
