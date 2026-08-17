@@ -223,23 +223,81 @@ decision tool. Real isochrones need a routing service — a backend dependency a
 key the project deliberately avoids — so the proposal is the honest client-side
 approximation first, with routed isochrones parked.
 
+**The siting model.** A single "grid the region, measure distance to the nearest station"
+surface silently assumes three things are the same set of cells: where demand is, where a
+station can go, and what distance means. On land, for fire/EMS/police, they roughly
+coincide. For `sea_rescue` all three break at once — demand is offshore and on the beach,
+candidate sites are a thin shoreline strip, and a naive grid ranks the middle of South
+Norfolk as the region's worst gap because it is the point furthest from any lifeboat. That
+is a wrong *ranking*, not a rendering artifact you can mask away. So each category declares
+a **siting profile**, and gaps are ranked over *demand* cells while suggestions snap to
+*candidate* cells:
+
+| Category | Demand | Candidate sites | Default radius |
+| --- | --- | --- | --- |
+| `fire`, `ems`, `police_*`, `hospital` | land cells | land cells | ~5 km urban |
+| `sea_rescue` | offshore band + shoreline | shoreline only | inshore ~10 km / all-weather ~50 km |
+| `coast_guard` | same water band | coast + inland ops sites | wide |
+| `mountain_rescue` | upland / park area | valley access points | ~25 km |
+| `ranger` | park area | park access | — |
+
+Radius belongs to `subtype`, not category, wherever the data already draws the line: an
+`inshore` Atlantic 85 and an `all_weather` Shannon do not cover the same water, and both
+published UK regions tag it (Norfolk 6 inshore / 3 all-weather, Merseyside 3 / 1).
+
 **Scope**
+- [ ] **Per-category siting profiles** — the table above as data in `src/lib`, consumed by
+      every part of the overlay. A category with no profile falls back to the land-grid
+      default; a category whose profile needs a corridor the region hasn't declared is
+      switched off (see below) rather than approximated.
+- [ ] **`metadata.siting` in region metadata** (additive schema bump, following Phase 6's
+      version 2 — see decision 2) — the geometry constrained categories need, declared per
+      region, sourced and reviewed like everything else in the file:
+
+      ```jsonc
+      "siting": {
+        "coast": {                          // omit entirely in a landlocked region
+          "geometry": { "type": "LineString", "coordinates": [ /* coarse, ~dozens of pts */ ] },
+          "offshore_km": 15,                // demand band seaward of the line
+          "source": "https://…"             // same citation bar as a facility
+        }
+      }
+      ```
+
+      Rejected alternatives, both cheaper and both worse: querying the basemap's
+      OpenMapTiles `water` source-layer covers only tiles loaded at the current viewport,
+      is clipped and generalized, and `VITE_MAP_STYLE` is swappable (`docs/04`), so the
+      layer may not exist at all — fine as a rendering refinement, not as the source of
+      truth. Inferring the corridor by buffering a line through the existing lifeboat
+      stations is circular: it can only suggest sites *between* stations, never past the
+      ends of the chain, which is where the real gaps are.
 - [ ] **Distance-to-nearest-station surface** — a grid heat layer over the region for a
-      chosen category (fire, EMS, hospital), computed client-side from the loaded region.
-- [ ] **Coverage rings** — per-facility radius overlay with a category-appropriate default
-      and a user control.
+      chosen category, computed client-side from the loaded region, over that category's
+      demand cells.
+- [ ] **Coverage rings** — per-facility radius overlay, defaulting per `subtype` where the
+      profile sets one, with a user control.
 - [ ] **Gap list** — ranked under-served sub-regions, with a "site a station here" readout
-      that feeds the D build plan.
+      that feeds the D build plan. For a corridor category the readout is the buildable
+      point nearest the gap ("20 km of coast between Wells and Cromer; nearest candidate
+      site here"), not the gap's centroid.
+- [ ] **Disable, don't guess** — a constrained category with no declared corridor is
+      unavailable in the overlay, and says why. Same principle as B's declared gaps: say
+      "not covered here" instead of implying absence. It matters more here, because the
+      output is a confident-looking recommendation rather than a blank space.
 - [ ] **Honest labeling** — straight-line distance, not routed drive time; stated in the
       UI and the About panel. This project is explicitly *not* authoritative for
       operational use (`docs/01`), and a coverage map is exactly where that could be
-      misread.
+      misread. One nuance worth stating rather than flattening: at sea the straight line
+      is a genuinely better approximation than on land, since there are no roads to detour
+      around — the caveat is weaker for marine categories, not uniform.
 - [ ] Reduced-motion and color-vision constraints from Phase 5 respected — the heat scale
       needs its own validated sequential palette, and it must not collide with the five
       service-group colors.
 
 **Exit:** a player can see under-served areas for a category and get a suggested siting
-readout, with the straight-line caveat visible where the overlay is.
+readout, with the straight-line caveat visible where the overlay is; and a corridor
+category either sites onto that region's declared corridor or is switched off with a
+reason — the overlay never proposes an inland lifeboat station.
 
 ---
 
@@ -268,6 +326,8 @@ readout, with the straight-line caveat visible where the overlay is.
    - Phase 6 claims `schema_version: 2`, so **D**'s controlled `game.building_types`
      vocabulary becomes version 3 unless the two ship together.
    - **E**'s region target should be set after Phase 6, so it can include a non-US metro.
+   - **F**'s `metadata.siting` block is a third additive bump on the same pile; if D and F
+     land near each other, spend one version number, not two.
 3. **Staleness window.** C proposes 12 months for `last_verified` before a record is
    flagged. Fire apparatus moves more often than jails; a per-category window is possible
    but more machinery.
