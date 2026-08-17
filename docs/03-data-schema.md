@@ -161,9 +161,18 @@ once one exists, and an optional `note`:
 | --- | --- | --- |
 | `admin` | — | The division segment of `region_id` (`ga`, `mersey`), repeated as data so the region picker can group without parsing slugs. The validator fails an entry whose `admin` disagrees with its `region_id`. |
 | `admin_name` | — | Display name for it — "Georgia", "Merseyside". The picker labels the group with the bare code without it, so set it. Meaningless alone: `admin_name` without `admin` fails. |
+| `center` | ✅ *(published)* | `[lng, lat]` — the region's pin on the global map, copied from the file's `metadata.center`. |
+| `facility_count` | — | How many facilities the file holds, for the pin's bubble and the region list. Absent is a warning, not an error. |
+
+`center` and `facility_count` are **duplicated on purpose**: the global map is the landing
+view, and plotting every region has to cost nothing, so it reads the registry rather than
+downloading region files (`docs/04`'s "never ship all regions at once"). The validator
+compares both against the file whenever the entry points at one, so the copy can't drift —
+a data PR that adds facilities and forgets the count fails with the number it should be.
 
 Use `npm run new-region` rather than hand-editing the registry; it derives `admin` from
-the id and takes `--admin-name`.
+the id, takes `--admin-name`, and copies `center`/`facility_count` out of the data file
+whenever one exists — so re-running it after filling a region in is what re-syncs them.
 
 ### Sub-regions (local-level narrowing)
 

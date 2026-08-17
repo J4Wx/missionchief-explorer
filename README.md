@@ -7,6 +7,9 @@ builds and expansion in the dispatch-simulation game **Mission Chief**.
 
 The platform lets you:
 
+- **Start global** — the app opens on a world map of every covered region, with facility
+  counts; click a pin (or the coverage list beside it) to drop into that region, and the
+  title in the top bar to come back out.
 - **Browse** a normalized dataset of emergency-services facilities.
 - **Map** those facilities, cluster them by area, and filter by category/agency/capability.
 - **Drill in** on any facility to see the apparatus/units that run from it in the real

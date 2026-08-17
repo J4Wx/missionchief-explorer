@@ -53,6 +53,19 @@ const index = readJson(join(REGIONS_DIR, 'index.json'))
 const entries = index.regions ?? []
 const indexedFiles = new Set(entries.map((r) => r.file).filter(Boolean))
 
+/** Metadata + facility count of each region file, for the registry checks below. */
+const regionFiles = new Map(
+  files.map((f) => {
+    try {
+      const data = readJson(join(REGIONS_DIR, f))
+      return [f, { meta: data.metadata ?? {}, count: (data.features ?? []).length }]
+    } catch {
+      // A malformed file fails its own checks below; nothing to compare against.
+      return [f, null]
+    }
+  }),
+)
+
 const seenRegionIds = new Set()
 for (const entry of entries) {
   const where = `index.json:${entry.region_id ?? '?'}`
@@ -70,6 +83,40 @@ for (const entry of entries) {
     if (!files.includes(entry.file)) fail(where, `points at missing file "${entry.file}"`)
   } else if (entry.status === 'published') {
     fail(where, 'is published but has no `file`')
+  }
+
+  // `center` and `facility_count` are the global map's pins (docs/05). They
+  // duplicate the region file so the default view can plot every region without
+  // downloading any of them, which is only safe if they can't drift — so both
+  // are checked against the file whenever one exists.
+  const source = entry.file ? regionFiles.get(entry.file) : null
+
+  if (entry.center !== undefined) {
+    const center = entry.center
+    if (!Array.isArray(center) || center.length !== 2 || center.some((n) => typeof n !== 'number')) {
+      fail(where, 'center must be [lng, lat]')
+    } else if (center[0] < -180 || center[0] > 180 || center[1] < -90 || center[1] > 90) {
+      fail(where, `center [${center}] is out of range`)
+    } else if (
+      // A file with no usable center of its own fails its own schema check;
+      // repeating that here would only be noise.
+      Array.isArray(source?.meta.center) &&
+      (source.meta.center[0] !== center[0] || source.meta.center[1] !== center[1])
+    ) {
+      fail(where, `center [${center}] disagrees with ${entry.file} ([${source.meta.center}])`)
+    }
+  } else if (entry.status === 'published') {
+    fail(where, 'is published but has no `center` — the global map has nowhere to pin it')
+  }
+
+  if (entry.facility_count !== undefined) {
+    if (!Number.isInteger(entry.facility_count) || entry.facility_count < 0) {
+      fail(where, 'facility_count must be a non-negative integer')
+    } else if (source && entry.facility_count !== source.count) {
+      fail(where, `facility_count ${entry.facility_count} disagrees with ${entry.file} (${source.count})`)
+    }
+  } else if (entry.status === 'published') {
+    warn(where, 'has no facility_count — the global map will pin it without a count')
   }
 
   // The region picker groups by country → division, so `admin` has to agree

@@ -37,7 +37,8 @@ Options:
   --edition <code>     Mission Chief edition the game notes
                        target, ISO-2                        (default: --country)
   --status <status>    requested | in_progress | published  (default: requested)
-  --center <lng,lat>   default map center                   (scaffold only)
+  --center <lng,lat>   map center, and the region's pin on the global map;
+                       copied from the data file once one exists
   --zoom <n>           default map zoom                     (scaffold only, default: 11)
   --note "<text>"      why this region, or what to focus on
   --scaffold           also write an empty region .geojson to fill in
@@ -101,6 +102,15 @@ function parseCenter(value) {
   return [lng, lat]
 }
 
+/** A region file to copy the registry's pin fields out of, or null if unreadable. */
+function readRegion(path) {
+  try {
+    return readJson(path)
+  } catch (err) {
+    die(`couldn't read ${path} to copy its center: ${err.message}`)
+  }
+}
+
 /** An empty region file that already passes `npm run validate`. */
 function emptyRegion(spec) {
   return {
@@ -110,7 +120,9 @@ function emptyRegion(spec) {
       name: spec.name,
       country: spec.country,
       game_edition: spec.edition,
-      center: spec.center,
+      // [0, 0] is Null Island — a placeholder to replace with the real center,
+      // and one that stands out on the map if it ever isn't.
+      center: spec.center ?? [0, 0],
       zoom: spec.zoom,
       subregions: [],
       generated_by: 'agent',
@@ -204,7 +216,7 @@ function toSpec(raw) {
     status,
     note: typeof raw.note === 'string' ? raw.note : undefined,
     scaffold,
-    center: raw.center ? parseCenter(raw.center) : [0, 0],
+    center: raw.center ? parseCenter(raw.center) : undefined,
     zoom: raw.zoom === undefined ? 11 : Number(raw.zoom),
   }
 }
@@ -260,6 +272,16 @@ function addRegion(index, spec, force) {
   // A queued request has no file yet; the key is omitted rather than left empty
   // so the registry never points at something that isn't there.
   if (wroteFile || hasFile) entry.file = `${spec.id}.geojson`
+
+  // The region's pin on the global map (docs/05). Copied from the data file
+  // whenever there is one — `npm run validate` compares the two — so filling in
+  // a scaffolded region and re-running this is enough to keep them in step. A
+  // still-queued region records only the --center it was asked for, if any.
+  const data = wroteFile || hasFile ? readRegion(filePath) : null
+  const center = data ? data.metadata?.center : spec.center
+  if (center) entry.center = center
+  if (data) entry.facility_count = data.features?.length ?? 0
+
   if (spec.note) entry.note = spec.note
 
   if (existing === -1) index.regions.push(entry)

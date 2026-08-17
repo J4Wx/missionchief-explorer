@@ -2,7 +2,24 @@
 
 ## Layout
 
-A three-region, map-centric layout (responsive → stacked on mobile):
+Two views share one frame. The app opens on the **global map** — every covered region as a
+pin, and the region list beside it — and entering a region swaps the same two panes for
+that region's facilities. The top bar is common to both, and its title is the way back out.
+
+```
+┌───────────────────────────────────────────────────────────────┐
+│ Top bar: [Dispatch Atlas]  [Region ▾]  [Sub-region ▾]  [Search…] [About] │
+├───────────────┬───────────────────────────────────────────────┤
+│  Coverage      │            GLOBAL MAP (default view)          │
+│  ─────────────  │      one pin per region, clustered where      │
+│  UK      2     │      they overlap; click to enter one         │
+│    Liverpool   │                                                │
+│  US      3     │                                                │
+│    Savannah…   │                                                │
+└───────────────┴───────────────────────────────────────────────┘
+```
+
+Once a region is open (responsive → stacked on mobile):
 
 ```
 ┌───────────────────────────────────────────────────────────────┐
@@ -23,8 +40,32 @@ A three-region, map-centric layout (responsive → stacked on mobile):
   list row highlights the marker and vice-versa.
 - **Filter rail** and **search** narrow the set live (client-side).
 - **Detail panel** slides in when a facility is selected (from map click or list).
+- **The title returns to the global map**, clearing the region and its narrowing. It is the
+  one control in the same place in both views, so "back out" never means the browser button.
 
 ## Views / components
+
+### Global map (`GlobalMap`) — the default view
+- Where the app opens, and where a URL with no `?region` lands (including one naming a
+  region that doesn't exist — better an honest map of what *is* covered than someone
+  else's city).
+- One pin per published region, plotted from the registry's `center` — so the landing view
+  costs **no region files**, holding the `docs/04` line that all regions never ship at once.
+  The bubble carries the region's facility count and the label its name.
+- **Regions cluster like facilities do.** Two cities an hour apart are the same point on a
+  world map, so the source clusters and the bubble sums the facilities behind it, labeled
+  "*n* regions"; clicking expands to the zoom that separates them, exactly as a facility
+  cluster does. That is what keeps the view honest as the catalog grows past a handful.
+- Clicking a region pin opens it. Hovering one highlights its row in the coverage list.
+- Queued and in-progress regions are **not** pinned — the map shows what's covered; the
+  About panel's coverage list is where the queue is public.
+
+### Region browser (`RegionBrowser`)
+- The global map's keyboard-reachable twin, in the place the results list occupies once a
+  region is open — same bargain as map ↔ list within a region.
+- The published regions grouped **country → division** by the same tree as the region
+  picker (`src/lib/regionTree.ts`), each row a button carrying the region's facility count.
+- Arrow keys move between rows; hover/focus highlights the matching pin.
 
 ### Region picker
 - Fed by `data/regions/index.json`; published entries only.
@@ -46,7 +87,8 @@ A three-region, map-centric layout (responsive → stacked on mobile):
   `aria-activedescendant` for the active option, focus handed back to the trigger on
   close, and a click outside dismisses like a native menu.
 - Selecting a region loads its GeoJSON and recenters the map to `metadata.center/zoom`.
-- Persist last-used region in the URL (`?region=us-il-springfield`).
+- Persist last-used region in the URL (`?region=us-il-springfield`); **no `region` param is
+  the global map**, so the bare URL is the coverage view and every region link is explicit.
 
 ### Sub-region picker
 - Appears only when the loaded region declares `metadata.subregions`.
@@ -60,6 +102,9 @@ A three-region, map-centric layout (responsive → stacked on mobile):
 
 ### Map (`MapView`)
 - MapLibre GL with a **clustered** GeoJSON source.
+- The basemap under it — construction, the per-theme style swap, reduced-motion durations
+  and the "no basemap" notice — is shared with the global map in `src/map/basemap.tsx`.
+  Each map hands that hook the layers it wants installed; everything else is common.
 - Markers are **colored by service group** and **badged with a per-category code**
   (`FD`, `EM`, `PD`, `JL`, `TW`…). Fourteen simultaneously distinguishable hues don't
   exist, so color carries the group (fire / medical / law enforcement / corrections /
@@ -132,7 +177,10 @@ A three-region, map-centric layout (responsive → stacked on mobile):
 
 - **Single source of truth:** the loaded FeatureCollection + a filter/selection state.
 - **URL-encoded state:** `region`, active filters, and `selected` id → deep-linkable and
-  shareable ("here's the SWAT coverage in this city").
+  shareable ("here's the SWAT coverage in this city"). No `region` is the global map, so
+  there is no such thing as a "default" region to guess at.
+- **Leaving a region** (the title, or picking another) clears the sub-region, filters and
+  selection with it — they describe a region that is no longer open.
 - **Keyboard:** list is arrow-navigable; `Esc` closes the detail panel.
 
 ## Accessibility & theming
@@ -164,7 +212,8 @@ rebuilt on `style.load` and the current features, hover and selection re-applied
 
 **Keyboard & motion.**
 - A skip link to the results list is the first tab stop; the list is the map's
-  non-pointer equivalent, so that's where it lands.
+  non-pointer equivalent, so that's where it lands — the region list on the global map,
+  the facility list within a region.
 - One `:focus-visible` outline everywhere, including MapLibre's injected controls.
 - The detail and About panels take focus when they open (they cover the viewport on
   small screens) and hand it back to whatever opened them on close; `Esc` closes both.

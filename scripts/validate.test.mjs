@@ -57,6 +57,8 @@ const validEntry = () => ({
   admin: 'ga',
   admin_name: 'Georgia',
   file: 'us-ga-testville.geojson',
+  center: [-81.09, 32.08],
+  facility_count: 1,
   status: 'published',
 })
 
@@ -67,14 +69,34 @@ afterEach(() => {
 })
 
 /**
+ * The registry to use when a case doesn't state one: `validEntry()`, with its
+ * pin fields taken from the region file the case actually wrote. They are
+ * validated against that file, so a case about something else — a duplicate
+ * facility, say — shouldn't have to restate them to stay valid.
+ */
+function defaultIndex(files) {
+  const entry = validEntry()
+  const region = files[entry.file]
+  return {
+    schema_version: 2,
+    regions: [
+      region
+        ? { ...entry, center: region.metadata.center, facility_count: region.features.length }
+        : entry,
+    ],
+  }
+}
+
+/**
  * Write a regions directory and run the validator over it.
  * `regions` maps a filename to its contents; `index` is the registry.
  */
-function run({ index = { schema_version: 2, regions: [validEntry()] }, regions } = {}) {
+function run({ index, regions } = {}) {
   const dir = mkdtempSync(join(tmpdir(), 'dispatch-atlas-validate-'))
   dirs.push(dir)
-  writeFileSync(join(dir, 'index.json'), JSON.stringify(index))
-  for (const [file, data] of Object.entries(regions ?? { 'us-ga-testville.geojson': validRegion() })) {
+  const files = regions ?? { 'us-ga-testville.geojson': validRegion() }
+  writeFileSync(join(dir, 'index.json'), JSON.stringify(index ?? defaultIndex(files)))
+  for (const [file, data] of Object.entries(files)) {
     writeFileSync(join(dir, file), JSON.stringify(data))
   }
 
@@ -243,6 +265,78 @@ describe('validate.mjs', () => {
     })
   })
 
+  // The registry carries each region's pin so the global map can plot them all
+  // without loading a single region file — which only holds up if the copy
+  // can't drift from the file it was copied from.
+  describe('global-map pins', () => {
+    it('rejects a published entry with no center', () => {
+      const entry = validEntry()
+      delete entry.center
+      const { code, output } = run({ index: { schema_version: 2, regions: [entry] } })
+      expect(code).toBe(1)
+      expect(output).toContain('is published but has no `center`')
+    })
+
+    it('rejects a center that disagrees with the region file', () => {
+      const { code, output } = run({
+        index: { schema_version: 2, regions: [{ ...validEntry(), center: [-79.95, 32.85] }] },
+      })
+      expect(code).toBe(1)
+      expect(output).toContain('disagrees with us-ga-testville.geojson')
+    })
+
+    it('rejects a center that is not [lng, lat]', () => {
+      const { code, output } = run({
+        index: { schema_version: 2, regions: [{ ...validEntry(), center: [-81.09] }] },
+      })
+      expect(code).toBe(1)
+      expect(output).toContain('center must be [lng, lat]')
+    })
+
+    it('rejects a center outside the world', () => {
+      const { code, output } = run({
+        index: { schema_version: 2, regions: [{ ...validEntry(), center: [-181, 32.08] }] },
+      })
+      expect(code).toBe(1)
+      expect(output).toContain('is out of range')
+    })
+
+    it('rejects a facility_count that disagrees with the region file', () => {
+      const { code, output } = run({
+        index: { schema_version: 2, regions: [{ ...validEntry(), facility_count: 42 }] },
+      })
+      expect(code).toBe(1)
+      expect(output).toContain('facility_count 42 disagrees with us-ga-testville.geojson (1)')
+    })
+
+    it('warns — but passes — when a published entry has no facility_count', () => {
+      const entry = validEntry()
+      delete entry.facility_count
+      const { code, output } = run({ index: { schema_version: 2, regions: [entry] } })
+      expect(code).toBe(0)
+      expect(output).toContain('has no facility_count')
+    })
+
+    it('allows a queued region to carry a center before it has data', () => {
+      const { code } = run({
+        index: {
+          schema_version: 2,
+          regions: [
+            validEntry(),
+            {
+              region_id: 'us-tx-austin',
+              name: 'Austin',
+              country: 'US',
+              status: 'requested',
+              center: [-97.74, 30.27],
+            },
+          ],
+        },
+      })
+      expect(code).toBe(0)
+    })
+  })
+
   describe('schema version', () => {
     it('rejects a file newer than the validator knows', () => {
       const { code, output } = runBroken((r) => {
@@ -396,6 +490,8 @@ describe('validate.mjs', () => {
               admin: 'mersey',
               admin_name: 'Merseyside',
               file: 'gb-mersey-testville.geojson',
+              center: [-81.09, 32.08],
+              facility_count: 1,
               status: 'published',
             },
           ],

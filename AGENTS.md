@@ -86,6 +86,13 @@ commitments**; don't start one without it being moved into `docs/07`.
 The other worked-up candidate phases live in `docs/08-phase-proposals.md` and are
 **proposals, not commitments** — don't start one without it being moved into `docs/07`.
 
+**Global map landed** (2026-08-17, part of proposal E, ahead of the phase): the app opens on
+a map of every published region (`src/map/GlobalMap.tsx`) beside a coverage list
+(`src/ui/RegionBrowser.tsx`), plotted from `index.json` alone; the app title returns to it.
+No `?region` in the URL *is* that view. The MapLibre plumbing both maps share — construction,
+per-theme style swap, motion, the no-basemap notice — is `src/map/basemap.tsx`; add layers by
+handing `useBasemap` an `install` callback, never by building a second map by hand.
+
 **Contribution intake landed** (2026-08-17, part of proposal C, ahead of the phase):
 `.github/ISSUE_TEMPLATE/` holds five issue forms — region request, data correction, app
 bug, feature/idea, schema/vocabulary addition. The correction form is deep-linked from
@@ -129,3 +136,11 @@ Entries also carry `admin` + `admin_name` (`"ga"` / `"Georgia"`, `"mersey"` /
 tree (`src/lib/regionTree.ts`, docs/05). `admin` is the middle segment of the `region_id`
 and the validator fails a disagreement; `admin_name` is the label, and its absence is a
 warning, not an error. `new-region` derives the code and takes `--admin-name`.
+
+Published entries also carry `center` and `facility_count` — the region's pin on the
+**global map** (docs/05). They duplicate the region file so the landing view can plot every
+region without downloading any (docs/04's "never ship all regions at once"), and
+`npm run validate` compares both against the file: **add facilities and the count must move
+with them**, or the build fails with the number it expected. Don't hand-edit them —
+re-running `npm run new-region -- --id <id> --name "…" --force` copies both out of the data
+file.

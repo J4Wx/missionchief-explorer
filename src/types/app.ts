@@ -31,6 +31,19 @@ export interface RegionIndexEntry {
   /** Display name for `admin` ("Georgia", "Merseyside"). */
   admin_name?: string
   /**
+   * [lng, lat] the region sits at — its pin on the global map. Duplicated from
+   * the region file's `metadata.center` so the default view can plot every
+   * region without downloading all of them; `npm run validate` fails if the two
+   * disagree, and requires it on a published entry.
+   */
+  center?: [number, number]
+  /**
+   * How many facilities the region file holds, for the global map's pin and the
+   * region browser. Same bargain as `center`: duplicated to keep the landing
+   * view cheap, kept honest by the validator.
+   */
+  facility_count?: number
+  /**
    * Absent until the region has a data file. The registry doubles as the
    * request queue, so `requested` (and early `in_progress`) entries are
    * registered before anything exists to point at — see scripts/new-region.mjs.
