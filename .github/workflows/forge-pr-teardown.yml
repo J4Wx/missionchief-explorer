@@ -1,13 +1,23 @@
 name: Forge PR Teardown
 
 # Deletes the per-PR preview site on Laravel Forge when the PR is closed
-# (whether merged or not).
+# (whether merged or not), or on demand for a PR number given by hand.
+#
+# The manual trigger exists because the automatic one fires exactly once. If a
+# site is somehow created after its PR closed, or a teardown run failed, there
+# is otherwise no way to reap it short of the Forge dashboard.
 on:
   pull_request:
     types: [closed]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: Number of the PR whose preview site should be deleted
+        required: true
+        type: string
 
 concurrency:
-  group: forge-preview-${{ github.event.pull_request.number }}
+  group: forge-preview-${{ github.event.pull_request.number || inputs.pr_number }}
   cancel-in-progress: false
 
 permissions:
@@ -17,14 +27,18 @@ permissions:
 jobs:
   teardown-preview:
     # Fork PRs never had a preview (no secrets), so there is nothing to remove.
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    # A manual dispatch has no `pull_request` context to check, and already
+    # requires write access to the repository, so it is trusted on its own.
+    if: >-
+      github.event_name == 'workflow_dispatch'
+      || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     env:
       FORGE_API: https://forge.laravel.com/api/v1
       FORGE_API_TOKEN: ${{ secrets.FORGE_API_TOKEN }}
       FORGE_SERVER_ID: ${{ secrets.FORGE_SERVER_ID }}
       BASE_DOMAIN: ${{ vars.PREVIEW_BASE_DOMAIN }}
-      PR_NUMBER: ${{ github.event.pull_request.number }}
+      PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
     steps:
       - name: Delete Forge site
         id: forge
@@ -34,6 +48,13 @@ jobs:
           : "${FORGE_API_TOKEN:?Set the FORGE_API_TOKEN secret}"
           : "${FORGE_SERVER_ID:?Set the FORGE_SERVER_ID secret}"
           : "${BASE_DOMAIN:?Set the PREVIEW_BASE_DOMAIN repository variable}"
+
+          # PR_NUMBER is free text when dispatched by hand, and it goes
+          # straight into the domain we match sites against.
+          case "$PR_NUMBER" in
+            ''|*[!0-9]*)
+              echo "::error::PR number must be numeric (got '${PR_NUMBER}')"; exit 1 ;;
+          esac
 
           DOMAIN="pr-${PR_NUMBER}.${BASE_DOMAIN}"
           echo "Looking for preview site: $DOMAIN"
@@ -69,7 +90,8 @@ jobs:
               + `The preview environment for this PR has been torn down.`;
 
             const { owner, repo } = context.repo;
-            const issue_number = context.issue.number;
+            // Not context.issue.number: a manual dispatch has no PR context.
+            const issue_number = Number(process.env.PR_NUMBER);
 
             const comments = await github.paginate(
               github.rest.issues.listComments,

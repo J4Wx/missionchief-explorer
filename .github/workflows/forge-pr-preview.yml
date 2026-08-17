@@ -5,6 +5,7 @@ name: Forge PR Preview
 #   branch, sets the deploy script, then deploys.
 # - On "synchronize" (new commits pushed to the PR branch): re-deploys the
 #   existing site so the preview always tracks the latest branch commit.
+# Provisioning is gated on the PR being *currently* open — see the gate step.
 on:
   pull_request:
     types: [opened, reopened, synchronize]
@@ -34,8 +35,39 @@ jobs:
       PR_NUMBER: ${{ github.event.pull_request.number }}
       PR_BRANCH: ${{ github.event.pull_request.head.ref }}
     steps:
+      # Re-running a workflow replays the *original* event payload, so
+      # `github.event.pull_request.state` is whatever it was when the run was
+      # first queued — still "open" for a PR that has since been merged or
+      # closed. Provisioning against that stale value creates a preview site
+      # that nothing reaps: teardown fires on `pull_request: [closed]`, which
+      # by then has already run. So ask the API for the PR's live state, and
+      # gate the provisioning steps on the answer rather than exiting non-zero
+      # — a re-run against a closed PR is a no-op, not a failure.
+      - name: Check the PR is still open
+        id: gate
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          STATE=$(gh api "repos/${REPO}/pulls/${PR_NUMBER}" --jq '.state')
+          echo "state=$STATE" >> "$GITHUB_OUTPUT"
+
+          if [ "$STATE" = "open" ]; then
+            echo "PR #${PR_NUMBER} is open — continuing."
+          else
+            echo "::notice::PR #${PR_NUMBER} is ${STATE} — skipping preview provisioning."
+            {
+              echo "### ⏭️ Forge preview skipped"
+              echo ""
+              echo "PR #${PR_NUMBER} is **${STATE}**, so no preview site was provisioned."
+              echo "Its preview was torn down when the PR closed."
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
       - name: Provision & deploy Forge site
         id: forge
+        if: steps.gate.outputs.state == 'open'
         run: |
           set -euo pipefail
 
@@ -215,6 +247,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Comment preview URL on the PR
+        if: steps.gate.outputs.state == 'open'
         uses: actions/github-script@v7
         with:
           script: |
