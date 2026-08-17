@@ -230,6 +230,67 @@ to fire against a deliberately-broken GB fixture before the real data was writte
 4. **Still open: which UK metro.** Needs picking before the proof step (not before the
    schema work).
 
+## Phase 7 — Test & regression foundation ✅
+
+Promoted from **proposal A** in [08 — Phase Proposals](08-phase-proposals.md) and taken
+first, because every proposal after it edits shared logic. Before this phase the repo had
+**no tests**: ~3.5k lines of app code guarded only by `validate` / `typecheck` / `lint` /
+`build`, none of which can see a behavioral regression. A silent break in `url.ts` would
+break every shared link with CI still green.
+
+### Scope
+
+- [x] **Vitest** (`npm test`, `npm run test:watch`), configured in `vite.config.ts` as two
+      projects: `app` (jsdom + a Testing Library setup file) and `scripts` (plain Node), so
+      the script tests don't pay for jsdom or load a setup that imports React. Wired into
+      `.github/workflows/ci.yml` between Lint and Build. **247 tests across 13 files.**
+- [x] **Pure logic modules** — `lib/filters` (24: AND-across / OR-within, the
+      closed-and-planned status default and its override, cross-filtered facet counts, a
+      selected value held at count 0), `lib/url` (19: the wire format field by field,
+      round-trip including values needing escaping, unknown params ignored, a clean URL for
+      cleared state, no history entry), `lib/subregions` (9: subtree walking, and
+      termination on the cycles `validate` rejects), `lib/geo` (10), `lib/search` (16: the
+      `fold()` table and every indexed field), plus the Phase 6 modules `lib/address` (12:
+      all three postcode conventions) and `lib/regionTree` (23: the collapse-a-division rule
+      in both directions), and `lib/format` (17).
+- [x] **Component smoke tests** (React Testing Library) for `FilterPanel` (18),
+      `FacilityDetail` (19) and `FacilityList` (13) — render, plus the keyboard and focus
+      behavior the Phase 5 a11y pass added: arrow-key row navigation, Escape-to-close,
+      focus moving into the detail panel on open and back to its opener on close.
+- [x] **The palette invariant as a test** (`src/lib/categories.test.ts`, 32). The dataviz
+      skill's checker is an authoring tool that isn't installed on the runner, so its math —
+      sRGB → OKLab, the Machado-Oliveira-Fernandes (2009) CVD transforms — is ported into
+      `src/test/color.ts` and the gates are asserted directly: all-pairs CVD ΔE ≥ 8,
+      normal-vision ΔE ≥ 15, both lightness bands, the chroma floor, ≥ 3:1 against
+      `#ffffff` *and* `#0f172a`, and ≥ 4.5:1 for each badge ink on its own mark. Category
+      codes are checked for uniqueness too — they are the non-color half of the encoding.
+- [x] **Fixture-based test for `scripts/validate.mjs`** (35). `validate.mjs` now takes an
+      optional regions directory (`node scripts/validate.mjs <dir>`, defaulting to
+      `data/regions`, so `npm run validate` is unchanged); the test writes throwaway
+      registries and region files to a temp dir and runs the real script as a subprocess.
+      Fixtures are built by mutating a known-good base, so each case states exactly what it
+      breaks. Covers the schema errors, both registry directions, filename ↔ `region_id`,
+      the schema-version warn/fail split, sub-region integrity including cycles, and the
+      ACS-outside-the-US guardrail — asserting on exit code *and* message, and that warnings
+      print without failing.
+
+### Dropped from the proposal
+
+- **Playwright happy path.** Dropped on the CI-budget decision (proposal A's own cost note,
+  and decision 4 in `docs/08`); the item stays open there. Nothing else in the phase
+  depended on it, but note what it means: there is **no test that exercises `App.tsx`, the
+  map, or a real region file end to end.** `MapView`, `RegionPicker`, `AboutPanel`,
+  `SearchBox`, `SubregionFilter`, `ThemeToggle` and `data/regions.ts` are untested.
+
+### Exit ✅
+
+Met. `npm test` covers every pure logic module and the three interactive panels; CI runs it.
+Both named regression classes were confirmed to fail the build before this was called done:
+nudging the law-enforcement blue toward the corrections purple fails three palette
+assertions, and renaming a facet's URL param fails the format test. (The round-trip tests
+*don't* catch that rename — it is symmetric — which is why the wire format is pinned
+separately.)
+
 ## Later / stretch
 
 - Coverage-gap overlay (heatmap of under-served areas) as an in-game siting aid.

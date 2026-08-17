@@ -94,10 +94,11 @@ npm run dev        # dev server
 npm run validate   # region data vs. the JSON Schemas + integrity rules
 npm run typecheck
 npm run lint
+npm test           # Vitest — app logic, UI panels, and the data validator
 npm run build      # regenerates types, then builds
 ```
 
-All four checks run in CI (`.github/workflows/ci.yml`) and must pass. Every pull
+All five checks run in CI (`.github/workflows/ci.yml`) and must pass. Every pull
 request also gets an ephemeral preview deploy — see
 [`docs/forge-preview-deploys.md`](docs/forge-preview-deploys.md).
 
@@ -106,11 +107,15 @@ A few conventions that aren't obvious from the code:
 - **Types are generated.** `src/types/schema.ts` comes from the JSON Schemas via
   `npm run gen:types`. Never hand-edit it; edit the schema.
 - **Category colors are computed, not chosen.** The five service-group colors in
-  `src/lib/categories.ts` are validated with the **dataviz** skill's
-  `validate_palette.js` on the all-pairs pairlist in both themes. If you change one,
-  re-run the validator on both modes — don't eyeball it. Color always carries the
-  *group*; the per-category code badge carries identity, so nothing depends on color
-  alone.
+  `src/lib/categories.ts` are validated on the all-pairs pairlist in both themes.
+  `src/lib/categories.test.ts` enforces that in CI (the same math as the **dataviz**
+  skill's `validate_palette.js`, ported into `src/test/color.ts`), so a change that
+  collapses two groups fails the build rather than needing you to remember the checker.
+  Color always carries the *group*; the per-category code badge carries identity, so
+  nothing depends on color alone.
+- **Tests live next to what they test** — `src/lib/*.test.ts`, `src/ui/*.test.tsx`,
+  `scripts/validate.test.mjs` — with shared fixtures in `src/test/`. `vite.config.ts`
+  splits them into two Vitest projects: `app` (jsdom) and `scripts` (Node).
 - **UI chrome uses role tokens.** Write `bg-surface` / `text-ink` / `border-hairline`
   (defined in `src/index.css`), not raw palette classes, so both themes stay in step.
 - **Data is the single source of truth in `/data`.** It's bundled at build time via

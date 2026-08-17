@@ -11,8 +11,9 @@
 > so the letters here never imply a schedule.
 >
 > **Already promoted out of this slate:** international region support (decision 2 below)
-> is committed as **Phase 6** in `docs/07`. Everything below is still a proposal, and A–F
-> all assume Phase 6's `schema_version: 2` has landed first.
+> is committed as **Phase 6** in `docs/07`, and the test foundation (proposal A) as
+> **Phase 7**. Everything below is still a proposal, and B–F all assume Phase 6's
+> `schema_version: 2` has landed first.
 
 ## Where the product actually stands
 
@@ -26,7 +27,7 @@ Charleston, 201 facilities):
 | Facilities with any `specialties` tag | **45 / 201 (22%)** | Specialties drive the filters players plan with. |
 | Hospitals with a `trauma_level` attribute | **6 / 15** | Trauma level gates in-game patient delivery. |
 | Confidence distribution | 23 high / 138 medium / 40 low | Honest, but weighted toward "found the building, not the roster". |
-| Automated tests | **none** | 3.3k lines of app code; CI checks schema, types, lint, build only. |
+| ~~Automated tests~~ | ~~**none**~~ → 247, in CI | **Closed by Phase 7.** No end-to-end path though — see the dropped Playwright item. |
 | Source-link rot / staleness detection | none | Every record has `last_verified`, nothing ever re-checks it. |
 | Contribution path for a non-coder | none | No issue templates; corrections require a PR. |
 | Cross-region view | none | One region at a time; no global map or search. |
@@ -39,48 +40,30 @@ here respects both.
 
 | # | Proposal | Value | Effort | Depends on |
 | --- | --- | --- | --- | --- |
-| A | Test & regression foundation | High (durability) | S–M | — |
+| ~~A~~ | ~~Test & regression foundation~~ | **Approved — Phase 7 in `docs/07`** | — | — |
 | B | Data-depth pass + quality gates | **Highest** (core promise) | M | A for gates |
 | C | Freshness, link rot & community corrections | High | M | — |
 | D | Build-plan output (schema v2 `game` vocab) | **Highest** (product thesis) | M | B helps |
 | E | Multi-region scale & cross-region index | Medium–High | M–L | A, C |
 | F | Coverage-gap & proximity overlay | Medium (novel) | M | E optional |
 
-**Recommended order:** A → B → D → C → E → F. A first because everything after
+**Recommended order:** ~~A~~ → B → D → C → E → F. A first because everything after
 it edits shared logic; B and D before E because scaling to twenty thin regions is
 worth less than two deep ones plus a real planning payoff. C can run in parallel with
 anything — it's mostly CI and templates.
 
 ---
 
-## A — Test & regression foundation
+## ~~A — Test & regression foundation~~
 
-**Why.** There are no tests. `src/lib/` is where the product's actual behavior lives —
-facet cross-filtering (`filters.ts`), URL encode/decode (`url.ts`), sub-region subtree
-walking (`subregions.ts`), bbox math (`geo.ts`) — all pure functions, all currently
-guarded only by types. A silent break in `url.ts` breaks every shared link and CI stays
-green. The palette invariant in `categories.ts` is documented as computed-not-chosen but
-enforced only by a human remembering to re-run the checker.
+**Approved and delivered — see [Phase 7 in `docs/07`](07-roadmap.md#phase-7--test--regression-foundation-)**
+for what shipped. One item from the proposal was **not** taken:
 
-**Scope**
-- [ ] Vitest + `npm test`, wired into `.github/workflows/ci.yml`.
-- [ ] Unit tests for `lib/filters` (AND-across / OR-within, status default, cross-filtered
-      facet counts), `lib/url` (round-trip, unknown params, clean cleared-state URL),
-      `lib/subregions`, `lib/geo`, `lib/search`.
-- [ ] Component smoke tests (React Testing Library) for `FilterPanel`, `FacilityDetail`,
-      `FacilityList` — render + keyboard/focus behavior the Phase 5 a11y pass added.
-- [ ] One Playwright happy path: load region → filter → select facility → copy URL →
-      reload restores the view. Runs headless in CI.
-- [ ] The dataviz palette check as an automated test over `lib/categories.ts` in both
-      themes, so changing a color fails CI instead of relying on discipline.
-- [ ] Fixture-based test for `scripts/validate.mjs` (a deliberately broken region file
-      must fail with the expected error).
-
-**Exit:** `npm test` covers the pure logic modules and one end-to-end path; CI runs it;
-a palette or URL-format regression fails the build.
-
-**Cost note:** adds Playwright to CI (~1–2 min). If that's unwanted, the Playwright item
-can be dropped without affecting the rest.
+- [ ] **Playwright happy path** — load region → filter → select facility → copy URL →
+      reload restores the view, headless in CI. Dropped on the CI-budget decision (4
+      below), which the proposal allowed for. Still worth doing: nothing currently
+      exercises `App.tsx`, the map, or a real region file end to end, so the wiring
+      *between* the tested modules is unguarded. Roughly ~1–2 min of CI per run.
 
 ---
 
@@ -266,5 +249,7 @@ readout, with the straight-line caveat visible where the overlay is.
 3. **Staleness window.** C proposes 12 months for `last_verified` before a record is
    flagged. Fire apparatus moves more often than jails; a per-category window is possible
    but more machinery.
-4. **CI budget.** A's Playwright job and C's weekly link check both add CI minutes. Fine
-   on a public repo; worth confirming.
+4. **CI budget.** ~~A's Playwright job~~ and C's weekly link check both add CI minutes.
+   **Decided for A (2026-08-17): Playwright dropped**, so Phase 7 added only the Vitest
+   step (~15s). The question is still open for C's weekly link check, and for reviving
+   Playwright later.

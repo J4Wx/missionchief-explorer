@@ -6,7 +6,10 @@ import { basename, join } from 'node:path'
 import Ajv2020 from 'ajv/dist/2020.js'
 import addFormats from 'ajv-formats'
 
-const REGIONS_DIR = 'data/regions'
+// The real data directory by default. An alternative can be passed in so the
+// rules below can be exercised against deliberately broken fixtures — see
+// scripts/validate.test.mjs.
+const REGIONS_DIR = process.argv[2] ?? 'data/regions'
 const SCHEMAS_DIR = 'schemas'
 // Mirrors scripts/new-region.mjs and the RegionIndexEntry type in src/types/app.ts.
 const VALID_STATUSES = new Set(['requested', 'in_progress', 'published'])
