@@ -1,0 +1,3958 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "region_id": "gb-mersey-liverpool",
+    "name": "Liverpool (Merseyside)",
+    "country": "GB",
+    "game_edition": "GB",
+    "center": [
+      -2.92,
+      53.45
+    ],
+    "zoom": 10,
+    "subregions": [
+      {
+        "id": "liverpool",
+        "name": "Liverpool",
+        "level": "borough",
+        "parent": null,
+        "center": [
+          -2.98,
+          53.41
+        ],
+        "zoom": 12
+      },
+      {
+        "id": "wirral",
+        "name": "Wirral",
+        "level": "borough",
+        "parent": null,
+        "center": [
+          -3.08,
+          53.37
+        ],
+        "zoom": 11
+      },
+      {
+        "id": "sefton",
+        "name": "Sefton",
+        "level": "borough",
+        "parent": null,
+        "center": [
+          -3.0,
+          53.52
+        ],
+        "zoom": 11
+      },
+      {
+        "id": "knowsley",
+        "name": "Knowsley",
+        "level": "borough",
+        "parent": null,
+        "center": [
+          -2.85,
+          53.43
+        ],
+        "zoom": 12
+      },
+      {
+        "id": "st-helens",
+        "name": "St Helens",
+        "level": "borough",
+        "parent": null,
+        "center": [
+          -2.73,
+          53.45
+        ],
+        "zoom": 12
+      }
+    ],
+    "generated_by": "agent",
+    "generated_at": "2026-08-17",
+    "schema_version": 2
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.94242,
+          53.45421
+        ]
+      },
+      "properties": {
+        "id": "mfrs-aintree",
+        "name": "Aintree Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "100B Long Lane",
+          "postal_code": "L9 7BL"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Aintree Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/aintree-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode L9 7BL — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/L9%207BL",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "liverpool",
+        "staffing_model": "career",
+        "significance": "Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.86094,
+          53.38367
+        ]
+      },
+      "properties": {
+        "id": "mfrs-belle-vale",
+        "name": "Belle Vale Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Childwall Valley Road",
+          "postal_code": "L25 2PY"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Belle Vale Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/belle-vale-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode L25 2PY — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/L25%202PY",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "liverpool",
+        "staffing_model": "career",
+        "significance": "Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.03022,
+          53.39085
+        ]
+      },
+      "properties": {
+        "id": "mfrs-birkenhead",
+        "name": "Birkenhead Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Birkenhead",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Exmouth Street",
+          "postal_code": "CH41 4AX"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Birkenhead Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/birkenhead-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "OpenStreetMap — way/232771076",
+            "url": "https://www.openstreetmap.org/way/232771076",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "wirral",
+        "staffing_model": "career",
+        "significance": "Fire and ambulance share this site (OpenStreetMap). Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.98755,
+          53.49039
+        ]
+      },
+      "properties": {
+        "id": "mfrs-bootle-and-netherton",
+        "name": "Bootle and Netherton Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Fleetwoods Lane",
+          "postal_code": "L30 0RG"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Bootle and Netherton Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/bootle-and-netherton-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode L30 0RG — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/L30%200RG",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "sefton",
+        "staffing_model": "career",
+        "significance": "Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.98092,
+          53.34785
+        ]
+      },
+      "properties": {
+        "id": "mfrs-bromborough",
+        "name": "Bromborough Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Wirral",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Dock Road South",
+          "postal_code": "CH62 4SQ"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Bromborough Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/bromborough-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode CH62 4SQ — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/CH62%204SQ",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "wirral",
+        "staffing_model": "career",
+        "significance": "Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.02225,
+          53.47421
+        ]
+      },
+      "properties": {
+        "id": "mfrs-crosby",
+        "name": "Crosby Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Crosby Road North",
+          "postal_code": "L22 0LA"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Crosby Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/crosby-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode L22 0LA — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/L22%200LA",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "sefton",
+        "staffing_model": "career",
+        "significance": "Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.05709,
+          53.56374
+        ]
+      },
+      "properties": {
+        "id": "mfrs-formby",
+        "name": "Formby Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Formby",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Church Road",
+          "postal_code": "L37 3NH"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Formby Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/formby-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode L37 3NH — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/L37%203NH",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "sefton",
+        "staffing_model": "career",
+        "significance": "Fire and ambulance share this site (OpenStreetMap). Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.09835,
+          53.32776
+        ]
+      },
+      "properties": {
+        "id": "mfrs-heswall",
+        "name": "Heswall Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Wirral",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Telegraph Road",
+          "postal_code": "CH60 0AF"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Heswall Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/heswall-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode CH60 0AF — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/CH60%200AF",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "wirral",
+        "staffing_model": "career",
+        "significance": "Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.94269,
+          53.41077
+        ]
+      },
+      "properties": {
+        "id": "mfrs-kensington",
+        "name": "Kensington Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Beech Street",
+          "postal_code": "L7 0EU"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Kensington Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/kensington-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode L7 0EU — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/L7%200EU",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "liverpool",
+        "staffing_model": "career",
+        "significance": "Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.88258,
+          53.48166
+        ]
+      },
+      "properties": {
+        "id": "mfrs-kirkby",
+        "name": "Kirkby Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Webster Drive",
+          "postal_code": "L32 8SJ"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Kirkby Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/kirkby-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode L32 8SJ — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/L32%208SJ",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "knowsley",
+        "staffing_model": "career",
+        "significance": "Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.99354,
+          53.43339
+        ]
+      },
+      "properties": {
+        "id": "mfrs-kirkdale",
+        "name": "Kirkdale Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Studholme Street",
+          "postal_code": "L20 8EQ"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Kirkdale Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/kirkdale-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode L20 8EQ — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/L20%208EQ",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "liverpool",
+        "staffing_model": "career",
+        "significance": "Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.97646,
+          53.41239
+        ]
+      },
+      "properties": {
+        "id": "mfrs-liverpool-city",
+        "name": "Liverpool City Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "St Anne Street",
+          "postal_code": "L3 3DS"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Liverpool City Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/liverpool-city-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode L3 3DS — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/L3%203DS",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "liverpool",
+        "staffing_model": "career",
+        "significance": "Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.6356,
+          53.45835
+        ]
+      },
+      "properties": {
+        "id": "mfrs-newton-le-willows",
+        "name": "Newton-le-Willows Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Newton-le-Willows",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Borron Road",
+          "postal_code": "WA12 0EL"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Newton-le-Willows Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/newton-le-willows-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode WA12 0EL — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/WA12%200EL",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "st-helens",
+        "staffing_model": "career",
+        "significance": "Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.90721,
+          53.41677
+        ]
+      },
+      "properties": {
+        "id": "mfrs-old-swan",
+        "name": "Old Swan Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "628 Queens Drive",
+          "postal_code": "L13 5UD"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Old Swan Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/old-swan-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode L13 5UD — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/L13%205UD",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "liverpool",
+        "staffing_model": "career",
+        "significance": "Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.80541,
+          53.42406
+        ]
+      },
+      "properties": {
+        "id": "mfrs-prescot",
+        "name": "Prescot Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Prescot",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Cables Way",
+          "postal_code": "L34 1QG"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Prescot Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/prescot-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode L34 1QG — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/L34%201QG",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "knowsley",
+        "staffing_model": "career",
+        "significance": "Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.12168,
+          53.3894
+        ]
+      },
+      "properties": {
+        "id": "mfrs-saughall-massie",
+        "name": "Saughall Massie Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Wirral",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Saughall Massie Road",
+          "postal_code": "CH49 4QD"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Saughall Massie Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/saughall-massie-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode CH49 4QD — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/CH49%204QD",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "wirral",
+        "staffing_model": "career",
+        "significance": "Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.99785,
+          53.65194
+        ]
+      },
+      "properties": {
+        "id": "mfrs-southport",
+        "name": "Southport Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Southport",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Manchester Road",
+          "postal_code": "PR9 0LH"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Southport Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/southport-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode PR9 0LH — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/PR9%200LH",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "sefton",
+        "staffing_model": "career",
+        "significance": "Fire and ambulance share this site (OpenStreetMap). Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.86258,
+          53.3452
+        ]
+      },
+      "properties": {
+        "id": "mfrs-speke-and-garston",
+        "name": "Speke and Garston Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Cartwrights Farm Road",
+          "postal_code": "L24 1UY"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Speke and Garston Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/speke-and-garston-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode L24 1UY — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/L24%201UY",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "liverpool",
+        "staffing_model": "career",
+        "significance": "Fire and ambulance share this site (OpenStreetMap). Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.73481,
+          53.44786
+        ]
+      },
+      "properties": {
+        "id": "mfrs-st-helens",
+        "name": "St Helens Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "St Helens",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Violet Way",
+          "postal_code": "WA9 1HW"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "St Helens Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/st-helens-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode WA9 1HW — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/WA9%201HW",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "st-helens",
+        "staffing_model": "career",
+        "significance": "Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.96863,
+          53.3923
+        ]
+      },
+      "properties": {
+        "id": "mfrs-toxteth",
+        "name": "Toxteth Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "95 Windsor Street",
+          "postal_code": "L8 8EQ"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Toxteth Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/toxteth-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode L8 8EQ — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/L8%208EQ",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "liverpool",
+        "staffing_model": "career",
+        "significance": "Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.04604,
+          53.41693
+        ]
+      },
+      "properties": {
+        "id": "mfrs-wallasey",
+        "name": "Wallasey Community Fire Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Wallasey",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Mill Lane",
+          "postal_code": "CH44 5UE"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Fire Station"
+          ],
+          "recommended": true,
+          "notes": "Mirror with a pumping appliance; MFRS runs aerials and specials from selected houses, but the per-station allocation is not published."
+        },
+        "sources": [
+          {
+            "title": "Wallasey Community Fire Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/wallasey-community-fire-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode CH44 5UE — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/CH44%205UE",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subregion_id": "wirral",
+        "staffing_model": "career",
+        "significance": "Merseyside FRS is a wholetime service; which stations run the day-crewed (LLAR) 10:00–22:00 duty system is not published per station, so crewing hours are left unknown here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.99716,
+          53.4046
+        ]
+      },
+      "properties": {
+        "id": "mfrs-river-mersey",
+        "name": "River Mersey Community Fire & Rescue Station",
+        "category": "fire",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Marine Rescue Unit, Pier Head Landing Stage",
+          "postal_code": "L3 1DP"
+        },
+        "units": [
+          {
+            "type": "marine",
+            "designation": "Marine Rescue Unit",
+            "count": 1
+          }
+        ],
+        "game": {
+          "building_types": [
+            "Fire Station",
+            "Water Rescue Station"
+          ],
+          "recommended": true,
+          "notes": "The service's only marine rescue station, on the Pier Head landing stage — the model for water-rescue cover on the Mersey."
+        },
+        "sources": [
+          {
+            "title": "River Mersey Community Fire & Rescue Station — Merseyside Fire & Rescue Service",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/river-mersey-community-fire-rescue-station/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Merseyside Fire and Rescue Service — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Merseyside_Fire_and_Rescue_Service",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode L3 1DP — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/L3%201DP",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "marine",
+        "subregion_id": "liverpool",
+        "staffing_model": "career",
+        "specialties": [
+          "marine_rescue",
+          "swiftwater"
+        ],
+        "significance": "Merseyside FRS's single wholetime marine rescue station, covering the River Mersey and the docks."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.17726,
+          53.39831
+        ]
+      },
+      "properties": {
+        "id": "rnli-hoylake",
+        "name": "Hoylake Lifeboat Station",
+        "category": "sea_rescue",
+        "status": "active",
+        "agency": {
+          "name": "Royal National Lifeboat Institution",
+          "type": "rescue_service",
+          "level": "private"
+        },
+        "address": {
+          "city": "Wirral",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "55 North Parade, Hoylake",
+          "postal_code": "CH47 3AL"
+        },
+        "units": [
+          {
+            "type": "marine",
+            "designation": "13-06 Edmund Hawthorne Micklewood (Shannon class all-weather lifeboat)",
+            "count": 1,
+            "attributes": {
+              "class": "Shannon",
+              "on_station_since": 2014
+            }
+          },
+          {
+            "type": "marine",
+            "designation": "Hurley Spirit (H-005) hovercraft",
+            "count": 1,
+            "attributes": {
+              "class": "Griffon 470TD hovercraft",
+              "on_station_since": 2016
+            }
+          }
+        ],
+        "game": {
+          "building_types": [
+            "Water Rescue Station"
+          ],
+          "recommended": true,
+          "notes": "All-weather lifeboat plus the only hovercraft on this coast — the hovercraft exists for the Dee/Mersey mudflats, which is a distinctly local rescue problem."
+        },
+        "sources": [
+          {
+            "title": "Hoylake Lifeboat Station — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Hoylake_Lifeboat_Station",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode CH47 3AL — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/CH47%203AL",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "OpenStreetMap — way/223278971",
+            "url": "https://www.openstreetmap.org/way/223278971",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "all_weather",
+        "subregion_id": "wirral",
+        "specialties": [
+          "marine_rescue"
+        ],
+        "significance": "Shannon-class all-weather lifeboat station; also operates the hovercraft that covers the surrounding sandbanks and mudflats."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.04689,
+          53.43864
+        ]
+      },
+      "properties": {
+        "id": "rnli-new-brighton",
+        "name": "New Brighton Lifeboat Station",
+        "category": "sea_rescue",
+        "status": "active",
+        "agency": {
+          "name": "Royal National Lifeboat Institution",
+          "type": "rescue_service",
+          "level": "private"
+        },
+        "address": {
+          "city": "Wirral",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Kings Parade, New Brighton",
+          "postal_code": "CH45 2ND"
+        },
+        "units": [
+          {
+            "type": "marine",
+            "designation": "B-837 Charles Dibdin (Civil Service No.51) (Atlantic 85 inshore lifeboat)",
+            "count": 1,
+            "attributes": {
+              "class": "B-class Atlantic 85",
+              "on_station_since": 2009
+            }
+          }
+        ],
+        "game": {
+          "building_types": [
+            "Water Rescue Station"
+          ],
+          "notes": "Inshore lifeboat at the mouth of the Mersey."
+        },
+        "sources": [
+          {
+            "title": "New Brighton Lifeboat Station — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/New_Brighton_Lifeboat_Station",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode CH45 2ND — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/CH45%202ND",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "OpenStreetMap — way/236816239",
+            "url": "https://www.openstreetmap.org/way/236816239",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "inshore",
+        "subregion_id": "wirral",
+        "specialties": [
+          "marine_rescue"
+        ],
+        "significance": "Atlantic 85 inshore lifeboat covering the Mersey approaches and New Brighton foreshore."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.18191,
+          53.36529
+        ]
+      },
+      "properties": {
+        "id": "rnli-west-kirby",
+        "name": "West Kirby Lifeboat Station",
+        "category": "sea_rescue",
+        "status": "active",
+        "agency": {
+          "name": "Royal National Lifeboat Institution",
+          "type": "rescue_service",
+          "level": "private"
+        },
+        "address": {
+          "city": "Wirral",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Coronation Gardens, South Parade, West Kirby",
+          "postal_code": "CH48 3JU"
+        },
+        "units": [
+          {
+            "type": "marine",
+            "designation": "D-883 Leonard Pownall (D-class inshore lifeboat)",
+            "count": 1,
+            "attributes": {
+              "class": "D-class IB1",
+              "on_station_since": 2023
+            }
+          }
+        ],
+        "game": {
+          "building_types": [
+            "Water Rescue Station"
+          ],
+          "notes": "Small inshore lifeboat station on the Dee estuary side."
+        },
+        "sources": [
+          {
+            "title": "West Kirby Lifeboat Station — Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/West_Kirby_Lifeboat_Station",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode CH48 3JU — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/CH48%203JU",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "OpenStreetMap — way/323977929",
+            "url": "https://www.openstreetmap.org/way/323977929",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "inshore",
+        "subregion_id": "wirral",
+        "specialties": [
+          "marine_rescue"
+        ],
+        "significance": "D-class inshore lifeboat covering the Dee estuary and West Kirby marine lake."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.02211,
+          53.64769
+        ]
+      },
+      "properties": {
+        "id": "southport-lifeboat",
+        "name": "Southport Lifeboat Station",
+        "category": "sea_rescue",
+        "status": "active",
+        "agency": {
+          "name": "Southport Offshore Rescue Trust",
+          "type": "rescue_service",
+          "level": "private"
+        },
+        "address": {
+          "city": "Southport",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Marine Drive",
+          "postal_code": "PR8 1SD"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Water Rescue Station"
+          ],
+          "notes": "Independent lifeboat charity, not RNLI — worth mirroring as a separate small water-rescue site rather than folding into the RNLI stations."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/1293854005",
+            "url": "https://www.openstreetmap.org/way/1293854005",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode PR8 1SD — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/PR8%201SD",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "low",
+        "last_verified": "2026-08-17",
+        "subtype": "inshore",
+        "subregion_id": "sefton",
+        "specialties": [
+          "marine_rescue"
+        ],
+        "significance": "Independent lifeboat station run by the Southport Offshore Rescue Trust, outside the RNLI. Craft not confirmed from a published source."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.96916,
+          53.45756
+        ]
+      },
+      "properties": {
+        "id": "hmp-liverpool",
+        "name": "HMP Liverpool",
+        "category": "prison",
+        "status": "active",
+        "agency": {
+          "name": "HM Prison and Probation Service",
+          "type": "corrections",
+          "level": "national",
+          "parent": "Ministry of Justice"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "68 Hornby Road",
+          "postal_code": "L9 3DF"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Prison"
+          ],
+          "recommended": true,
+          "notes": "The area's main men's prison (about 840 prisoners) — the anchor for prisoner transport and disorder missions."
+        },
+        "sources": [
+          {
+            "title": "Liverpool Prison — GOV.UK",
+            "url": "https://www.gov.uk/guidance/liverpool-prison",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode L9 3DF — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/L9%203DF",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-17",
+        "subtype": "national",
+        "subregion_id": "liverpool",
+        "attributes": {
+          "population_approx": 840,
+          "wings": 8
+        },
+        "significance": "Men's prison in Walton holding about 840 prisoners across 8 wings."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.93541,
+          53.46217
+        ]
+      },
+      "properties": {
+        "id": "hmp-altcourse",
+        "name": "HMP Altcourse",
+        "category": "prison",
+        "status": "active",
+        "agency": {
+          "name": "G4S",
+          "type": "corrections",
+          "level": "private",
+          "parent": "HM Prison and Probation Service"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Prison"
+          ],
+          "notes": "A second, privately run men's prison a mile from HMP Liverpool — two prisons in one borough is unusual and worth reflecting."
+        },
+        "sources": [
+          {
+            "title": "Altcourse Prison — GOV.UK",
+            "url": "https://www.gov.uk/guidance/altcourse-prison",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "OpenStreetMap — way/81539487",
+            "url": "https://www.openstreetmap.org/way/81539487",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "private",
+        "subregion_id": "liverpool",
+        "significance": "Privately run men's prison operated by G4S in Fazakerley. Capacity not stated on the GOV.UK page."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.93335,
+          53.46569
+        ]
+      },
+      "properties": {
+        "id": "aintree-university-hospital",
+        "name": "Aintree University Hospital",
+        "category": "hospital",
+        "status": "active",
+        "agency": {
+          "name": "Liverpool University Hospitals NHS Foundation Trust",
+          "type": "hospital_system",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Lower Lane, Fazakerley",
+          "postal_code": "L9 7AL"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Hospital"
+          ],
+          "recommended": true,
+          "notes": "The adult major trauma centre for the whole of Cheshire & Merseyside — build this first and give it the highest trauma capability available."
+        },
+        "sources": [
+          {
+            "title": "Cheshire and Mersey Major Trauma Network — Annual Report 2023-24",
+            "url": "https://www.cheshireandmerseyccmtnetworks.nhs.uk/media/PDF/CMMTN/CMMTN%20Annual%20Report%202023-24%20Final.pdf",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "OpenStreetMap — way/81528631",
+            "url": "https://www.openstreetmap.org/way/81528631",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-17",
+        "subtype": "trauma_center",
+        "subregion_id": "liverpool",
+        "specialties": [
+          "trauma_major"
+        ],
+        "attributes": {
+          "emergency_department": true,
+          "trauma_designation": {
+            "system": "nhs_mtn",
+            "label": "Major Trauma Centre (adult) — MTC Collaborative"
+          }
+        },
+        "significance": "Adult Major Trauma Centre for Cheshire & Mersey, forming the Major Trauma Centre Collaborative with The Walton Centre. Catchment about 2.2 million people."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.89781,
+          53.41952
+        ]
+      },
+      "properties": {
+        "id": "alder-hey",
+        "name": "Alder Hey Children's Hospital",
+        "category": "hospital",
+        "status": "active",
+        "agency": {
+          "name": "Alder Hey Children's NHS Foundation Trust",
+          "type": "hospital_system",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "East Prescot Road"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Hospital"
+          ],
+          "recommended": true,
+          "notes": "The standalone children's major trauma centre for the region — paediatric patients route here, not to the adult MTC."
+        },
+        "sources": [
+          {
+            "title": "Cheshire and Mersey Major Trauma Network — Annual Report 2023-24",
+            "url": "https://www.cheshireandmerseyccmtnetworks.nhs.uk/media/PDF/CMMTN/CMMTN%20Annual%20Report%202023-24%20Final.pdf",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "OpenStreetMap — way/230337531",
+            "url": "https://www.openstreetmap.org/way/230337531",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-17",
+        "subtype": "childrens",
+        "subregion_id": "liverpool",
+        "specialties": [
+          "trauma_major",
+          "pediatric"
+        ],
+        "attributes": {
+          "emergency_department": true,
+          "trauma_designation": {
+            "system": "nhs_mtn",
+            "label": "Major Trauma Centre (children)"
+          }
+        },
+        "significance": "The region's one standalone children's Major Trauma Centre, also part of the Northwest Children's Major Trauma Network."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.96295,
+          53.40925
+        ]
+      },
+      "properties": {
+        "id": "royal-liverpool",
+        "name": "Royal Liverpool University Hospital",
+        "category": "hospital",
+        "status": "active",
+        "agency": {
+          "name": "Liverpool University Hospitals NHS Foundation Trust",
+          "type": "hospital_system",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Mount Vernon Street",
+          "postal_code": "L7 8YE"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Hospital"
+          ],
+          "recommended": true,
+          "notes": "A trauma unit with a city-centre A&E — the volume destination for everything short of major trauma."
+        },
+        "sources": [
+          {
+            "title": "Cheshire and Mersey Major Trauma Network — Annual Report 2023-24",
+            "url": "https://www.cheshireandmerseyccmtnetworks.nhs.uk/media/PDF/CMMTN/CMMTN%20Annual%20Report%202023-24%20Final.pdf",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "OpenStreetMap — relation/17778769",
+            "url": "https://www.openstreetmap.org/relation/17778769",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-17",
+        "subtype": "community",
+        "subregion_id": "liverpool",
+        "specialties": [
+          "trauma_unit"
+        ],
+        "attributes": {
+          "emergency_department": true,
+          "trauma_designation": {
+            "system": "nhs_mtn",
+            "label": "Trauma Unit"
+          }
+        },
+        "significance": "Trauma Unit in the Cheshire & Mersey network, stabilising major trauma for onward transfer to the MTC when needed."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.09551,
+          53.36985
+        ]
+      },
+      "properties": {
+        "id": "arrowe-park",
+        "name": "Arrowe Park Hospital",
+        "category": "hospital",
+        "status": "active",
+        "agency": {
+          "name": "Wirral University Teaching Hospital NHS Foundation Trust",
+          "type": "hospital_system",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Wirral",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Arrowe Park Road, Upton",
+          "postal_code": "CH49 5PE"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Hospital"
+          ],
+          "recommended": true,
+          "notes": "The only A&E on the Wirral — the peninsula's whole emergency load lands here."
+        },
+        "sources": [
+          {
+            "title": "Cheshire and Mersey Major Trauma Network — Annual Report 2023-24",
+            "url": "https://www.cheshireandmerseyccmtnetworks.nhs.uk/media/PDF/CMMTN/CMMTN%20Annual%20Report%202023-24%20Final.pdf",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "OpenStreetMap — way/769421987",
+            "url": "https://www.openstreetmap.org/way/769421987",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-17",
+        "subtype": "community",
+        "subregion_id": "wirral",
+        "specialties": [
+          "trauma_unit"
+        ],
+        "attributes": {
+          "emergency_department": true,
+          "trauma_designation": {
+            "system": "nhs_mtn",
+            "label": "Trauma Unit"
+          }
+        },
+        "significance": "Wirral's acute hospital and a Trauma Unit in the Cheshire & Mersey network."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.78468,
+          53.42042
+        ]
+      },
+      "properties": {
+        "id": "whiston-hospital",
+        "name": "Whiston Hospital",
+        "category": "hospital",
+        "status": "active",
+        "agency": {
+          "name": "Mersey and West Lancashire Teaching Hospitals NHS Trust",
+          "type": "hospital_system",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Prescot",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Warrington Road",
+          "postal_code": "L35 5DR"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Hospital"
+          ],
+          "recommended": true,
+          "notes": "Trauma unit and the regional burns & plastics centre — burns patients are taken here directly rather than to the MTC."
+        },
+        "sources": [
+          {
+            "title": "Cheshire and Mersey Major Trauma Network — Annual Report 2023-24",
+            "url": "https://www.cheshireandmerseyccmtnetworks.nhs.uk/media/PDF/CMMTN/CMMTN%20Annual%20Report%202023-24%20Final.pdf",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "OpenStreetMap — way/32886893",
+            "url": "https://www.openstreetmap.org/way/32886893",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-17",
+        "subtype": "community",
+        "subregion_id": "knowsley",
+        "specialties": [
+          "trauma_unit",
+          "burn_center"
+        ],
+        "attributes": {
+          "emergency_department": true,
+          "trauma_designation": {
+            "system": "nhs_mtn",
+            "label": "Trauma Unit"
+          }
+        },
+        "significance": "Trauma Unit and the regional burns and plastics centre for the North West; major burns are conveyed here directly."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.97857,
+          53.63358
+        ]
+      },
+      "properties": {
+        "id": "southport-formby-dgh",
+        "name": "Southport and Formby District General Hospital",
+        "category": "hospital",
+        "status": "active",
+        "agency": {
+          "name": "Mersey and West Lancashire Teaching Hospitals NHS Trust",
+          "type": "hospital_system",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Southport",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Town Lane, Kew"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Hospital"
+          ],
+          "recommended": true,
+          "notes": "The northern A&E — a long way from the MTC, which is what makes it matter for coverage in the north of the region."
+        },
+        "sources": [
+          {
+            "title": "Cheshire and Mersey Major Trauma Network — Annual Report 2023-24",
+            "url": "https://www.cheshireandmerseyccmtnetworks.nhs.uk/media/PDF/CMMTN/CMMTN%20Annual%20Report%202023-24%20Final.pdf",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "OpenStreetMap — way/41756730",
+            "url": "https://www.openstreetmap.org/way/41756730",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-17",
+        "subtype": "community",
+        "subregion_id": "sefton",
+        "specialties": [
+          "trauma_unit"
+        ],
+        "attributes": {
+          "emergency_department": true,
+          "trauma_designation": {
+            "system": "nhs_mtn",
+            "label": "Trauma Unit"
+          }
+        },
+        "significance": "Trauma Unit serving Southport and West Lancashire, the most northerly A&E in the region."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.89966,
+          53.41023
+        ]
+      },
+      "properties": {
+        "id": "liverpool-heart-and-chest",
+        "name": "Liverpool Heart and Chest Hospital",
+        "category": "hospital",
+        "status": "active",
+        "agency": {
+          "name": "Liverpool Heart and Chest Hospital NHS Foundation Trust",
+          "type": "hospital_system",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Thomas Drive",
+          "postal_code": "L14 3PE"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Hospital"
+          ],
+          "notes": "Specialist cardiothoracic centre, no general A&E — a destination for cardiac and thoracic cases rather than a first-due hospital."
+        },
+        "sources": [
+          {
+            "title": "Cheshire and Mersey Major Trauma Network — Annual Report 2023-24",
+            "url": "https://www.cheshireandmerseyccmtnetworks.nhs.uk/media/PDF/CMMTN/CMMTN%20Annual%20Report%202023-24%20Final.pdf",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "OpenStreetMap — node/5580761327",
+            "url": "https://www.openstreetmap.org/node/5580761327",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "community",
+        "subregion_id": "liverpool",
+        "specialties": [
+          "cardiac_center"
+        ],
+        "significance": "Specialist cardiothoracic hospital providing in-reach support to the major trauma network for cardiac and thoracic major trauma."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.89789,
+          53.41154
+        ]
+      },
+      "properties": {
+        "id": "broadgreen-hospital",
+        "name": "Broadgreen Hospital",
+        "category": "hospital",
+        "status": "active",
+        "agency": {
+          "name": "Liverpool University Hospitals NHS Foundation Trust",
+          "type": "hospital_system",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Thomas Drive"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Hospital"
+          ],
+          "notes": "Rehabilitation spoke rather than an emergency destination."
+        },
+        "sources": [
+          {
+            "title": "Cheshire and Mersey Major Trauma Network — Annual Report 2023-24",
+            "url": "https://www.cheshireandmerseyccmtnetworks.nhs.uk/media/PDF/CMMTN/CMMTN%20Annual%20Report%202023-24%20Final.pdf",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "OpenStreetMap — way/301368198",
+            "url": "https://www.openstreetmap.org/way/301368198",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "community",
+        "subregion_id": "liverpool",
+        "significance": "A spoke unit in the Cheshire and Merseyside Rehabilitation Network, whose hub is The Walton Centre."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.71901,
+          53.43945
+        ]
+      },
+      "properties": {
+        "id": "st-helens-hospital",
+        "name": "St Helens Hospital",
+        "category": "hospital",
+        "status": "active",
+        "agency": {
+          "name": "Mersey and West Lancashire Teaching Hospitals NHS Trust",
+          "type": "hospital_system",
+          "level": "regional"
+        },
+        "address": {
+          "city": "St Helens",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Marshalls Cross Road",
+          "postal_code": "WA9 3DA"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Hospital"
+          ],
+          "notes": "No A&E — St Helens' emergency cases go to Whiston. Useful as a lower-tier hospital if the edition distinguishes them."
+        },
+        "sources": [
+          {
+            "title": "Cheshire and Mersey Major Trauma Network — Annual Report 2023-24",
+            "url": "https://www.cheshireandmerseyccmtnetworks.nhs.uk/media/PDF/CMMTN/CMMTN%20Annual%20Report%202023-24%20Final.pdf",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "OpenStreetMap — node/4726181824",
+            "url": "https://www.openstreetmap.org/node/4726181824",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "community",
+        "subregion_id": "st-helens",
+        "significance": "Planned-care hospital and a rehabilitation spoke unit; emergency care for St Helens is at Whiston."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.02522,
+          53.33258
+        ]
+      },
+      "properties": {
+        "id": "clatterbridge-hospital",
+        "name": "Clatterbridge Hospital",
+        "category": "hospital",
+        "status": "active",
+        "agency": {
+          "name": "Wirral University Teaching Hospital NHS Foundation Trust",
+          "type": "hospital_system",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Wirral",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Bebington"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Hospital"
+          ],
+          "notes": "Rehabilitation spoke, not an emergency destination."
+        },
+        "sources": [
+          {
+            "title": "Cheshire and Mersey Major Trauma Network — Annual Report 2023-24",
+            "url": "https://www.cheshireandmerseyccmtnetworks.nhs.uk/media/PDF/CMMTN/CMMTN%20Annual%20Report%202023-24%20Final.pdf",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "OpenStreetMap — way/153753603",
+            "url": "https://www.openstreetmap.org/way/153753603",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "community",
+        "subregion_id": "wirral",
+        "significance": "Rehabilitation spoke unit in the regional network, on the Clatterbridge site."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.95917,
+          53.39843
+        ]
+      },
+      "properties": {
+        "id": "liverpool-womens",
+        "name": "Liverpool Women's Hospital",
+        "category": "hospital",
+        "status": "active",
+        "agency": {
+          "name": "Liverpool Women's NHS Foundation Trust",
+          "type": "hospital_system",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Crown Street"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Hospital"
+          ],
+          "notes": "Specialist maternity/neonatal hospital — a transport destination, not general A&E."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/155185402",
+            "url": "https://www.openstreetmap.org/way/155185402",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "low",
+        "last_verified": "2026-08-17",
+        "subtype": "community",
+        "subregion_id": "liverpool",
+        "significance": "Specialist women's and neonatal hospital. Role in the trauma network not established from a published source."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.91322,
+          53.52132
+        ]
+      },
+      "properties": {
+        "id": "ashworth-hospital",
+        "name": "Ashworth Hospital",
+        "category": "hospital",
+        "status": "active",
+        "agency": {
+          "name": "Mersey Care NHS Foundation Trust",
+          "type": "hospital_system",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Parkbourn, Maghull"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Hospital",
+            "Prison"
+          ],
+          "notes": "High-secure psychiatric hospital — closer in behaviour to a secure facility than a general hospital, and a distinctive local feature."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/31779648",
+            "url": "https://www.openstreetmap.org/way/31779648",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "low",
+        "last_verified": "2026-08-17",
+        "subtype": "psychiatric",
+        "subregion_id": "sefton",
+        "attributes": {
+          "security_level": "high"
+        },
+        "significance": "One of England's three high-secure psychiatric hospitals. Security level from OpenStreetMap only; capacity and unit detail not sourced."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.98062,
+          53.4155
+        ]
+      },
+      "properties": {
+        "id": "merpol-rose-hill-hq",
+        "name": "Merseyside Police Headquarters (Rose Hill)",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Rose Hill"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": true,
+          "notes": "Territorial force station. UK forces run armed response vehicles rather than a standing tactical building, so mirror firearms cover with vehicles."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/876270537",
+            "url": "https://www.openstreetmap.org/way/876270537",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "headquarters",
+        "subregion_id": "liverpool",
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.96306,
+          53.38741
+        ]
+      },
+      "properties": {
+        "id": "merpol-admiral-street",
+        "name": "Admiral Street Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Territorial force station. UK forces run armed response vehicles rather than a standing tactical building, so mirror firearms cover with vehicles."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/461125459",
+            "url": "https://www.openstreetmap.org/way/461125459",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "liverpool",
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.90707,
+          53.38317
+        ]
+      },
+      "properties": {
+        "id": "merpol-allerton",
+        "name": "Allerton Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Territorial force station. UK forces run armed response vehicles rather than a standing tactical building, so mirror firearms cover with vehicles."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/507336689",
+            "url": "https://www.openstreetmap.org/way/507336689",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "liverpool",
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.89461,
+          53.41908
+        ]
+      },
+      "properties": {
+        "id": "merpol-eaton-road",
+        "name": "Eaton Road Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Eaton Road",
+          "postal_code": "L12 3HF"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Territorial force station. UK forces run armed response vehicles rather than a standing tactical building, so mirror firearms cover with vehicles."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/507330935",
+            "url": "https://www.openstreetmap.org/way/507330935",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "liverpool",
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.89995,
+          53.35493
+        ]
+      },
+      "properties": {
+        "id": "merpol-garston",
+        "name": "Garston Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Territorial force station. UK forces run armed response vehicles rather than a standing tactical building, so mirror firearms cover with vehicles."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — node/25736065",
+            "url": "https://www.openstreetmap.org/node/25736065",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "liverpool",
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.98243,
+          53.42953
+        ]
+      },
+      "properties": {
+        "id": "merpol-stanley-road",
+        "name": "Stanley Road Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Stanley Road",
+          "postal_code": "L5 7QQ"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Territorial force station. UK forces run armed response vehicles rather than a standing tactical building, so mirror firearms cover with vehicles."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/308966316",
+            "url": "https://www.openstreetmap.org/way/308966316",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "liverpool",
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.93595,
+          53.42342
+        ]
+      },
+      "properties": {
+        "id": "merpol-tuebrook",
+        "name": "Tuebrook Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Territorial force station. UK forces run armed response vehicles rather than a standing tactical building, so mirror firearms cover with vehicles."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/564108751",
+            "url": "https://www.openstreetmap.org/way/564108751",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "liverpool",
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.9606,
+          53.44213
+        ]
+      },
+      "properties": {
+        "id": "merpol-walton-lane",
+        "name": "Walton Lane Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Territorial force station. UK forces run armed response vehicles rather than a standing tactical building, so mirror firearms cover with vehicles."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/172504423",
+            "url": "https://www.openstreetmap.org/way/172504423",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "liverpool",
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.01321,
+          53.39345
+        ]
+      },
+      "properties": {
+        "id": "merpol-birkenhead-police",
+        "name": "Birkenhead Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Birkenhead",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Territorial force station. UK forces run armed response vehicles rather than a standing tactical building, so mirror firearms cover with vehicles."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/254831414",
+            "url": "https://www.openstreetmap.org/way/254831414",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "wirral",
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.0062,
+          53.35008
+        ]
+      },
+      "properties": {
+        "id": "merpol-bebington",
+        "name": "Bebington Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Wirral",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Territorial force station. UK forces run armed response vehicles rather than a standing tactical building, so mirror firearms cover with vehicles."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — node/2595462928",
+            "url": "https://www.openstreetmap.org/node/2595462928",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "wirral",
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.0567,
+          53.40134
+        ]
+      },
+      "properties": {
+        "id": "merpol-laird-street",
+        "name": "Laird Street Community Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Birkenhead",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Territorial force station. UK forces run armed response vehicles rather than a standing tactical building, so mirror firearms cover with vehicles."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — node/14031073994",
+            "url": "https://www.openstreetmap.org/node/14031073994",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "wirral",
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.09896,
+          53.38004
+        ]
+      },
+      "properties": {
+        "id": "merpol-upton",
+        "name": "Upton Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Wirral",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Territorial force station. UK forces run armed response vehicles rather than a standing tactical building, so mirror firearms cover with vehicles."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — node/2245135439",
+            "url": "https://www.openstreetmap.org/node/2245135439",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "wirral",
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.04061,
+          53.42221
+        ]
+      },
+      "properties": {
+        "id": "merpol-wallasey-police",
+        "name": "Wallasey Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Wallasey",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Territorial force station. UK forces run armed response vehicles rather than a standing tactical building, so mirror firearms cover with vehicles."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — node/2441813957",
+            "url": "https://www.openstreetmap.org/node/2441813957",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "wirral",
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.02138,
+          53.47229
+        ]
+      },
+      "properties": {
+        "id": "merpol-crosby-police",
+        "name": "Crosby Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Territorial force station. UK forces run armed response vehicles rather than a standing tactical building, so mirror firearms cover with vehicles."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/507325949",
+            "url": "https://www.openstreetmap.org/way/507325949",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "sefton",
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.05677,
+          53.55822
+        ]
+      },
+      "properties": {
+        "id": "merpol-formby-police",
+        "name": "Formby Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Formby",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Territorial force station. UK forces run armed response vehicles rather than a standing tactical building, so mirror firearms cover with vehicles."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — node/623719007",
+            "url": "https://www.openstreetmap.org/node/623719007",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "sefton",
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.779,
+          53.45238
+        ]
+      },
+      "properties": {
+        "id": "merpol-eccleston",
+        "name": "Eccleston Community Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "St Helens",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "562 Burrow's Lane"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Territorial force station. UK forces run armed response vehicles rather than a standing tactical building, so mirror firearms cover with vehicles."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/1198841665",
+            "url": "https://www.openstreetmap.org/way/1198841665",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "st-helens",
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.64365,
+          53.45347
+        ]
+      },
+      "properties": {
+        "id": "merpol-newton-le-willows-police",
+        "name": "Newton-le-Willows Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Newton-le-Willows",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Territorial force station. UK forces run armed response vehicles rather than a standing tactical building, so mirror firearms cover with vehicles."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — node/13891375401",
+            "url": "https://www.openstreetmap.org/node/13891375401",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "st-helens",
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.73726,
+          53.45617
+        ]
+      },
+      "properties": {
+        "id": "merpol-st-helens-police",
+        "name": "St Helens Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "St Helens",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "recommended": false,
+          "notes": "Territorial force station. UK forces run armed response vehicles rather than a standing tactical building, so mirror firearms cover with vehicles."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — node/13676967075",
+            "url": "https://www.openstreetmap.org/node/13676967075",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "st-helens",
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.83731,
+          53.41152
+        ]
+      },
+      "properties": {
+        "id": "merpol-huyton",
+        "name": "Huyton Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Lathom Road",
+          "postal_code": "L36 9XU"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "notes": "Territorial force station with a published public counter."
+        },
+        "sources": [
+          {
+            "title": "Police stations — Knowsley Council",
+            "url": "https://www.knowsley.gov.uk/knowsley-offer/community-safety/local-policing/police-stations",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode L36 9XU — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/L36%209XU",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "knowsley",
+        "attributes": {
+          "public_counter_hours": "10am–8pm Mon–Fri, 10am–6pm Sat"
+        },
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.88345,
+          53.48194
+        ]
+      },
+      "properties": {
+        "id": "merpol-kirkby",
+        "name": "Kirkby Police Station",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Police",
+          "type": "police_department",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Webster Drive",
+          "postal_code": "L32 8RF"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "notes": "Territorial force station with a published public counter."
+        },
+        "sources": [
+          {
+            "title": "Police stations — Knowsley Council",
+            "url": "https://www.knowsley.gov.uk/knowsley-offer/community-safety/local-policing/police-stations",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode L32 8RF — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/L32%208RF",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "high",
+        "last_verified": "2026-08-17",
+        "subtype": "station",
+        "subregion_id": "knowsley",
+        "attributes": {
+          "public_counter_hours": "10am–6pm Tue–Fri"
+        },
+        "significance": "Merseyside Police firearms, dog and marine capability is force-wide; which station hosts what is not published, so no units are recorded here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.97693,
+          53.40818
+        ]
+      },
+      "properties": {
+        "id": "btp-liverpool",
+        "name": "British Transport Police — Liverpool",
+        "category": "police_national",
+        "status": "active",
+        "agency": {
+          "name": "British Transport Police",
+          "type": "national_police",
+          "level": "national"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "notes": "National force policing the railway — a separate agency from the territorial force, with no US equivalent."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — node/13989721057",
+            "url": "https://www.openstreetmap.org/node/13989721057",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "custody",
+        "subregion_id": "liverpool",
+        "significance": "British Transport Police custody facility. BTP polices the rail network across Great Britain and has no state-level tier above it."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.01524,
+          53.3907
+        ]
+      },
+      "properties": {
+        "id": "mersey-tunnels-police",
+        "name": "Mersey Tunnels Police",
+        "category": "police_local",
+        "status": "active",
+        "agency": {
+          "name": "Mersey Tunnels Police",
+          "type": "other",
+          "level": "regional",
+          "parent": "Merseytravel"
+        },
+        "address": {
+          "city": "Wirral",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Police Station"
+          ],
+          "notes": "A small statutory force policing the Mersey tunnels only — a genuine local oddity worth a small station if you want fidelity."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — node/4112851097",
+            "url": "https://www.openstreetmap.org/node/4112851097",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "special_force",
+        "subregion_id": "wirral",
+        "significance": "Statutory special police force operated by Merseytravel, policing the Queensway and Kingsway road tunnels under the Mersey."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.92739,
+          53.46323
+        ]
+      },
+      "properties": {
+        "id": "nwas-fazakerley",
+        "name": "Fazakerley Ambulance Station",
+        "category": "ems",
+        "status": "active",
+        "agency": {
+          "name": "North West Ambulance Service NHS Trust",
+          "type": "ems_agency",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Lower Lane",
+          "postal_code": "L9 7AE"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Ambulance Station"
+          ],
+          "recommended": true,
+          "notes": "NHS ambulance trust station. UK crews are paramedic/technician rather than ALS/BLS, and helicopters are charity-run from outside the county."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/1147593498",
+            "url": "https://www.openstreetmap.org/way/1147593498",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "low",
+        "last_verified": "2026-08-17",
+        "subtype": "third_service",
+        "subregion_id": "liverpool",
+        "significance": "NWAS does not publish station-by-station vehicle allocations, so no units are recorded. Double-crewed ambulances and rapid-response vehicles are the trust's standard resources."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.97904,
+          53.39175
+        ]
+      },
+      "properties": {
+        "id": "nwas-toxteth",
+        "name": "Toxteth Ambulance Station",
+        "category": "ems",
+        "status": "active",
+        "agency": {
+          "name": "North West Ambulance Service NHS Trust",
+          "type": "ems_agency",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Ambulance Station"
+          ],
+          "recommended": true,
+          "notes": "NHS ambulance trust station. UK crews are paramedic/technician rather than ALS/BLS, and helicopters are charity-run from outside the county."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — node/299317179",
+            "url": "https://www.openstreetmap.org/node/299317179",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "low",
+        "last_verified": "2026-08-17",
+        "subtype": "third_service",
+        "subregion_id": "liverpool",
+        "significance": "NWAS does not publish station-by-station vehicle allocations, so no units are recorded. Double-crewed ambulances and rapid-response vehicles are the trust's standard resources."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.04114,
+          53.41796
+        ]
+      },
+      "properties": {
+        "id": "nwas-wallasey",
+        "name": "Wallasey Ambulance Station",
+        "category": "ems",
+        "status": "active",
+        "agency": {
+          "name": "North West Ambulance Service NHS Trust",
+          "type": "ems_agency",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Wallasey",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Ambulance Station"
+          ],
+          "recommended": true,
+          "notes": "NHS ambulance trust station. UK crews are paramedic/technician rather than ALS/BLS, and helicopters are charity-run from outside the county."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — node/5413951622",
+            "url": "https://www.openstreetmap.org/node/5413951622",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "low",
+        "last_verified": "2026-08-17",
+        "subtype": "third_service",
+        "subregion_id": "wirral",
+        "significance": "NWAS does not publish station-by-station vehicle allocations, so no units are recorded. Double-crewed ambulances and rapid-response vehicles are the trust's standard resources."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.11225,
+          53.40394
+        ]
+      },
+      "properties": {
+        "id": "nwas-moreton",
+        "name": "Moreton Ambulance Station",
+        "category": "ems",
+        "status": "active",
+        "agency": {
+          "name": "North West Ambulance Service NHS Trust",
+          "type": "ems_agency",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Wirral",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Ambulance Station"
+          ],
+          "recommended": true,
+          "notes": "NHS ambulance trust station. UK crews are paramedic/technician rather than ALS/BLS, and helicopters are charity-run from outside the county."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/242183984",
+            "url": "https://www.openstreetmap.org/way/242183984",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "low",
+        "last_verified": "2026-08-17",
+        "subtype": "third_service",
+        "subregion_id": "wirral",
+        "significance": "NWAS does not publish station-by-station vehicle allocations, so no units are recorded. Double-crewed ambulances and rapid-response vehicles are the trust's standard resources."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.10178,
+          53.32999
+        ]
+      },
+      "properties": {
+        "id": "nwas-heswall",
+        "name": "Heswall Ambulance Station",
+        "category": "ems",
+        "status": "active",
+        "agency": {
+          "name": "North West Ambulance Service NHS Trust",
+          "type": "ems_agency",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Wirral",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Ambulance Station"
+          ],
+          "recommended": true,
+          "notes": "NHS ambulance trust station. UK crews are paramedic/technician rather than ALS/BLS, and helicopters are charity-run from outside the county."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/324249190",
+            "url": "https://www.openstreetmap.org/way/324249190",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "low",
+        "last_verified": "2026-08-17",
+        "subtype": "third_service",
+        "subregion_id": "wirral",
+        "significance": "NWAS does not publish station-by-station vehicle allocations, so no units are recorded. Double-crewed ambulances and rapid-response vehicles are the trust's standard resources."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.83781,
+          53.41411
+        ]
+      },
+      "properties": {
+        "id": "nwas-huyton",
+        "name": "Huyton Ambulance Station",
+        "category": "ems",
+        "status": "active",
+        "agency": {
+          "name": "North West Ambulance Service NHS Trust",
+          "type": "ems_agency",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Ambulance Station"
+          ],
+          "recommended": true,
+          "notes": "NHS ambulance trust station. UK crews are paramedic/technician rather than ALS/BLS, and helicopters are charity-run from outside the county."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/487135291",
+            "url": "https://www.openstreetmap.org/way/487135291",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "low",
+        "last_verified": "2026-08-17",
+        "subtype": "third_service",
+        "subregion_id": "knowsley",
+        "significance": "NWAS does not publish station-by-station vehicle allocations, so no units are recorded. Double-crewed ambulances and rapid-response vehicles are the trust's standard resources."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.78259,
+          53.41903
+        ]
+      },
+      "properties": {
+        "id": "nwas-whiston",
+        "name": "Whiston Ambulance Station",
+        "category": "ems",
+        "status": "active",
+        "agency": {
+          "name": "North West Ambulance Service NHS Trust",
+          "type": "ems_agency",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Prescot",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Ambulance Station"
+          ],
+          "recommended": true,
+          "notes": "NHS ambulance trust station. UK crews are paramedic/technician rather than ALS/BLS, and helicopters are charity-run from outside the county."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/916423742",
+            "url": "https://www.openstreetmap.org/way/916423742",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "low",
+        "last_verified": "2026-08-17",
+        "subtype": "third_service",
+        "subregion_id": "knowsley",
+        "significance": "NWAS does not publish station-by-station vehicle allocations, so no units are recorded. Double-crewed ambulances and rapid-response vehicles are the trust's standard resources."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.8825,
+          53.48157
+        ]
+      },
+      "properties": {
+        "id": "nwas-kirkby",
+        "name": "Kirkby Ambulance Station",
+        "category": "ems",
+        "status": "active",
+        "agency": {
+          "name": "North West Ambulance Service NHS Trust",
+          "type": "ems_agency",
+          "level": "regional"
+        },
+        "address": {
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Webster Drive",
+          "postal_code": "L32 8SJ"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Ambulance Station"
+          ],
+          "recommended": true,
+          "notes": "NHS ambulance trust station. UK crews are paramedic/technician rather than ALS/BLS, and helicopters are charity-run from outside the county."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/1157042859",
+            "url": "https://www.openstreetmap.org/way/1157042859",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "low",
+        "last_verified": "2026-08-17",
+        "subtype": "third_service",
+        "subregion_id": "knowsley",
+        "significance": "NWAS does not publish station-by-station vehicle allocations, so no units are recorded. Double-crewed ambulances and rapid-response vehicles are the trust's standard resources."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.72799,
+          53.45655
+        ]
+      },
+      "properties": {
+        "id": "sja-st-helens",
+        "name": "St John Ambulance — St Helens Division",
+        "category": "ems",
+        "status": "active",
+        "agency": {
+          "name": "St John Ambulance",
+          "type": "aid_organization",
+          "level": "private"
+        },
+        "address": {
+          "city": "St Helens",
+          "county": "Merseyside",
+          "country": "GB"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Ambulance Station"
+          ],
+          "notes": "Voluntary aid organisation providing event cover and NHS surge support — not a 999 first-response station."
+        },
+        "sources": [
+          {
+            "title": "OpenStreetMap — way/326643404",
+            "url": "https://www.openstreetmap.org/way/326643404",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "low",
+        "last_verified": "2026-08-17",
+        "subtype": "voluntary",
+        "subregion_id": "st-helens",
+        "significance": "Voluntary aid organisation division. Vehicles and staffing not published."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.96599,
+          53.47287
+        ]
+      },
+      "properties": {
+        "id": "mfrs-headquarters",
+        "name": "Merseyside Fire & Rescue Service Headquarters",
+        "category": "dispatch",
+        "status": "active",
+        "agency": {
+          "name": "Merseyside Fire and Rescue Service",
+          "type": "fire_department",
+          "level": "regional",
+          "parent": "Merseyside Fire and Rescue Authority"
+        },
+        "address": {
+          "city": "Bootle",
+          "county": "Merseyside",
+          "country": "GB",
+          "street": "Bridle Road",
+          "postal_code": "L30 4YD"
+        },
+        "units": [],
+        "game": {
+          "building_types": [
+            "Dispatch Center"
+          ],
+          "notes": "UK 999 calls are answered by BT and passed to each service's own control room — there is no single combined PSAP per area, so a dispatch building here represents the fire service's control only."
+        },
+        "sources": [
+          {
+            "title": "Merseyside Fire & Rescue Service — Community Fire Stations",
+            "url": "https://www.merseyfire.gov.uk/about/community-fire-stations/",
+            "retrieved": "2026-08-17"
+          },
+          {
+            "title": "Postcode L30 4YD — ONS Postcode Directory via postcodes.io",
+            "url": "https://api.postcodes.io/postcodes/L30%204YD",
+            "retrieved": "2026-08-17"
+          }
+        ],
+        "confidence": "medium",
+        "last_verified": "2026-08-17",
+        "subtype": "service_control",
+        "subregion_id": "sefton",
+        "significance": "Service headquarters at Bridle Road, Bootle. UK emergency call handling is per-service rather than through a consolidated 911-style centre."
+      }
+    }
+  ]
+}
