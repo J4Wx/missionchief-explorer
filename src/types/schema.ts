@@ -12,7 +12,14 @@ export interface RegionFeatureCollection {
      */
     region_id: string
     name: string
+    /**
+     * ISO 3166-1 alpha-2 of the region itself, e.g. US, GB (not UK). Must match the region_id prefix.
+     */
     country: string
+    /**
+     * ISO 3166-1 alpha-2 of the Mission Chief edition this region's `game` blocks are written against (US = missionchief.com, GB = missionchief.co.uk). Usually the same as `country`. See docs/02-domain-model.md § Editions.
+     */
+    game_edition?: string
     /**
      * [lng, lat] default map center.
      *
@@ -31,16 +38,21 @@ export interface RegionFeatureCollection {
       id: string
       name: string
       /**
-       * Kind of local division, for labeling/grouping in the UI.
+       * Kind of local division, for labeling/grouping in the UI. `township`/`precinct` are US divisions; `ward`/`unitary_authority` UK; `commune`/`province`/`region` cover most of Europe.
        */
       level?:
         | 'borough'
         | 'county'
+        | 'unitary_authority'
         | 'municipality'
         | 'district'
         | 'township'
+        | 'commune'
+        | 'ward'
         | 'precinct'
         | 'sector'
+        | 'region'
+        | 'province'
         | 'neighborhood'
         | 'other'
       /**
@@ -89,6 +101,9 @@ export interface Facility {
    */
   id: string
   name: string
+  /**
+   * Controlled vocabulary; see docs/02-domain-model.md. Some values are specific to a country's structure: sheriff/state_le/federal_le describe the US tiers, police_national covers countries whose national forces sit directly above local ones.
+   */
   category:
     | 'fire'
     | 'ems'
@@ -96,6 +111,7 @@ export interface Facility {
     | 'sheriff'
     | 'state_le'
     | 'federal_le'
+    | 'police_national'
     | 'hospital'
     | 'clinic'
     | 'prison'
@@ -103,6 +119,9 @@ export interface Facility {
     | 'tow'
     | 'dispatch'
     | 'coast_guard'
+    | 'sea_rescue'
+    | 'mountain_rescue'
+    | 'civil_protection'
     | 'ranger'
   subtype?: string
   /**
@@ -116,25 +135,44 @@ export interface Facility {
       | 'fire_department'
       | 'police_department'
       | 'sheriff_office'
+      | 'national_police'
       | 'state_agency'
       | 'federal_agency'
       | 'ems_agency'
       | 'hospital_system'
       | 'corrections'
+      | 'military'
+      | 'rescue_service'
+      | 'aid_organization'
       | 'private'
       | 'other'
-    level?: 'municipal' | 'county' | 'state' | 'federal' | 'private' | 'other'
+    /**
+     * Tier of government the agency answers to. `state`/`federal` are the US tiers; `regional`/`national` cover countries with no state layer (e.g. an NHS ambulance trust is `regional`, HM Prison Service `national`).
+     */
+    level?: 'municipal' | 'district' | 'county' | 'regional' | 'state' | 'national' | 'federal' | 'private' | 'other'
     parent?: string | null
   }
   designation?: string | null
+  /**
+   * At least city + country. `state` and `county` are the first- and second-level administrative areas; many countries have no first level, so `state` is optional (schema_version 2).
+   */
   address: {
     street?: string
+    /**
+     * Town/city as locally addressed (a UK post town, a US city).
+     */
     city: string
+    /**
+     * Second-level administrative area: US county, UK county or unitary authority, German Kreis.
+     */
     county?: string
-    state: string
+    /**
+     * First-level administrative area where one exists: US state, German Land, Australian state. Omit for countries that have none (the UK addresses by post town + postcode).
+     */
+    state?: string
     postal_code?: string
     /**
-     * ISO 3166-1 alpha-2, e.g. US.
+     * ISO 3166-1 alpha-2, e.g. US, GB (not UK), DE.
      */
     country: string
   }
@@ -180,11 +218,11 @@ export interface Facility {
     attributes?: {}
   }[]
   /**
-   * Controlled capability tags, e.g. hazmat, swat, trauma_level_1.
+   * Controlled capability tags, e.g. hazmat, swat. Trauma capability uses the country-neutral tiers `trauma_major`/`trauma_unit` so hospitals filter across regions; the country's own designation (ACS `trauma_level_1`, a UK Major Trauma Centre) is named in attributes.trauma_designation. See docs/02-domain-model.md.
    */
   specialties?: string[]
   /**
-   * Category-specific structured extras (hospital beds/trauma_level, jail capacity/security_level, etc.).
+   * Category-specific structured extras (hospital beds/trauma_designation, jail capacity/security_level, etc.). Loosely validated on purpose — see docs/03-data-schema.md for the conventional keys.
    */
   attributes?: {}
   game: {

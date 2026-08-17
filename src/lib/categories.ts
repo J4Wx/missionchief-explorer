@@ -46,7 +46,12 @@ export interface GroupMeta {
 }
 
 export const GROUP_META: Record<CategoryGroup, GroupMeta> = {
-  fire: { label: 'Fire', color: '#be384f', ink: '#ffffff' }, //       5.43:1
+  // Labelled "Fire & rescue", not "Fire": schema_version 2 added sea/mountain
+  // rescue and civil protection, which are rescue services rather than fire
+  // brigades. They join this group deliberately — a *sixth* group would mean
+  // re-deriving the whole mode-invariant palette, and the label carries the
+  // widened meaning at no cost to the colors.
+  fire: { label: 'Fire & rescue', color: '#be384f', ink: '#ffffff' }, // 5.43:1
   medical: { label: 'Medical', color: '#09a773', ink: '#0f172a' }, // 5.77:1
   law: { label: 'Law enforcement', color: '#3a7deb', ink: '#0f172a' }, // 4.52:1
   corrections: { label: 'Corrections', color: '#a158b9', ink: '#ffffff' }, // 4.55:1
@@ -71,12 +76,16 @@ export interface CategoryMeta {
 
 export const CATEGORY_META: Record<Category, CategoryMeta> = {
   fire: { label: 'Fire', group: 'fire', code: 'FD' },
+  sea_rescue: { label: 'Sea rescue', group: 'fire', code: 'SR' },
+  mountain_rescue: { label: 'Mountain rescue', group: 'fire', code: 'MR' },
+  civil_protection: { label: 'Civil protection', group: 'fire', code: 'CP' },
   ems: { label: 'EMS', group: 'medical', code: 'EM' },
   hospital: { label: 'Hospital', group: 'medical', code: 'H' },
   clinic: { label: 'Clinic', group: 'medical', code: 'CL' },
   police_local: { label: 'Police', group: 'law', code: 'PD' },
   sheriff: { label: 'Sheriff', group: 'law', code: 'SO' },
   state_le: { label: 'State LE', group: 'law', code: 'ST' },
+  police_national: { label: 'National police', group: 'law', code: 'NP' },
   federal_le: { label: 'Federal LE', group: 'law', code: 'FE' },
   coast_guard: { label: 'Coast Guard', group: 'law', code: 'CG' },
   ranger: { label: 'Ranger', group: 'law', code: 'RG' },

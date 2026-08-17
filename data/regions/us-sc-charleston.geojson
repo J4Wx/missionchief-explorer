@@ -4,6 +4,7 @@
     "region_id": "us-sc-charleston",
     "name": "Charleston, SC (Tri-County Lowcountry)",
     "country": "US",
+    "game_edition": "US",
     "center": [
       -79.95,
       32.85
@@ -255,7 +256,7 @@
     ],
     "generated_by": "agent",
     "generated_at": "2026-08-16",
-    "schema_version": 1
+    "schema_version": 2
   },
   "features": [
     {
@@ -8109,11 +8110,16 @@
           "stroke_center",
           "cardiac_center",
           "pediatric",
-          "helipad"
+          "helipad",
+          "trauma_major"
         ],
         "attributes": {
           "beds": 865,
           "trauma_level": 1,
+          "trauma_designation": {
+            "system": "acs",
+            "label": "Level I"
+          },
           "ed": true,
           "helipad": true,
           "teaching_hospital": true
@@ -8187,10 +8193,15 @@
         "specialties": [
           "trauma_level_1",
           "pediatric",
-          "helipad"
+          "helipad",
+          "trauma_major"
         ],
         "attributes": {
           "trauma_level": 1,
+          "trauma_designation": {
+            "system": "acs",
+            "label": "Level I"
+          },
           "pediatric_trauma": true,
           "ed": true
         },
@@ -8369,11 +8380,16 @@
         "operating_hours": "24_7",
         "units": [],
         "specialties": [
-          "trauma_level_2"
+          "trauma_level_2",
+          "trauma_major"
         ],
         "attributes": {
           "beds": 321,
           "trauma_level": 2,
+          "trauma_designation": {
+            "system": "acs",
+            "label": "Level II"
+          },
           "ed": true
         },
         "game": {
