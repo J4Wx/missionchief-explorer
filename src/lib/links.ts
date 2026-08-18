@@ -17,6 +17,7 @@ export function issueUrl(template: string, fields: Record<string, string> = {}):
 
 export const REGION_REQUEST_TEMPLATE = '01-region-request.yml'
 export const CORRECTION_TEMPLATE = '02-data-correction.yml'
+export const REGION_REVIEW_TEMPLATE = '06-region-review.yml'
 
 /**
  * "This record is wrong" for one facility, with the region, the facility and
@@ -28,5 +29,21 @@ export function correctionUrl(regionId: string, facilityId: string, name: string
     title: `[Correction] ${name} (${regionId})`,
     region: regionId,
     facility: `${facilityId} — ${name}`,
+  })
+}
+
+/**
+ * "This region deserves another look" for one region, with the region and title
+ * filled in. A published region is a first pass, and depth passes are prompted
+ * by a person rather than scheduled (docs/07 Phase 8) — this link is that
+ * prompt, offered on every region whether or not it looks stale.
+ *
+ * `scripts/report.mjs` builds the same URL for its `--stale` output, so the
+ * field names have to agree with the form in both places.
+ */
+export function reviewUrl(regionId: string, name?: string): string {
+  return issueUrl(REGION_REVIEW_TEMPLATE, {
+    title: `[Review] ${name ?? regionId}`,
+    region: regionId,
   })
 }

@@ -12,7 +12,7 @@ import { isInSync, loadComposite, mergeRegion } from './lib/merge.mjs'
 import { die, parseArgs } from './lib/cli.mjs'
 import {
   REGIONS_DIR,
-  applyPins,
+  applyDerived,
   compositeRegionIds,
   indexPath,
   manifestPath,
@@ -132,7 +132,7 @@ for (const regionId of targets) {
     console.warn(`    ! ${regionId} is not in ${indexPath()} — run \`npm run new-region\` to register it`)
   } else {
     entry.file = `${regionId}.geojson`
-    applyPins(entry, region)
+    applyDerived(entry, region)
     wroteIndex = true
   }
 }

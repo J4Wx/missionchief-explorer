@@ -24,6 +24,8 @@ const validRegion = () => ({
     center: [-81.09, 32.08],
     zoom: 11,
     subregions: [{ id: 'downtown', name: 'Downtown', parent: null }],
+    generated_at: '2026-08-01',
+    last_reviewed: '2026-08-01',
     schema_version: 2,
   },
   features: [validFacility()],
@@ -60,6 +62,7 @@ const validEntry = () => ({
   file: 'us-ga-testville.geojson',
   center: [-81.09, 32.08],
   facility_count: 1,
+  last_reviewed: '2026-08-01',
   status: 'published',
 })
 
@@ -82,7 +85,16 @@ function defaultIndex(files) {
     schema_version: 2,
     regions: [
       region
-        ? { ...entry, center: region.metadata.center, facility_count: region.features.length }
+        ? {
+            ...entry,
+            center: region.metadata.center,
+            facility_count: region.features.length,
+            // Mirrored like the pins: a case about something else shouldn't
+            // have to restate the review date to stay drift-free.
+            ...(region.metadata.last_reviewed
+              ? { last_reviewed: region.metadata.last_reviewed }
+              : { last_reviewed: undefined }),
+          }
         : entry,
     ],
   }
@@ -404,6 +416,69 @@ describe('validate.mjs', () => {
         },
       })
       expect(code).toBe(0)
+    })
+  })
+
+  // Review age is mirrored on the same bargain as the pins (docs/03), but with
+  // the opposite failure mode: a *wrong* date fails, a *missing* one only warns.
+  // Phase 8 reports what nobody has done yet; it never blocks on it.
+  describe('review age', () => {
+    it('accepts a registry date that matches the region file', () => {
+      const { code, output } = run()
+      expect(code).toBe(0)
+      expect(output).not.toContain('last_reviewed')
+    })
+
+    it('rejects a registry date that disagrees with the region file', () => {
+      const { code, output } = run({
+        index: { schema_version: 2, regions: [{ ...validEntry(), last_reviewed: '2026-08-09' }] },
+      })
+      expect(code).toBe(1)
+      expect(output).toContain('last_reviewed 2026-08-09 disagrees with')
+    })
+
+    it('rejects a registry date the region file does not claim at all', () => {
+      const region = validRegion()
+      delete region.metadata.last_reviewed
+      const { code, output } = run({
+        index: { schema_version: 2, regions: [validEntry()] },
+        regions: { 'us-ga-testville.geojson': region },
+      })
+      expect(code).toBe(1)
+      expect(output).toContain('the file is the source of truth for it')
+    })
+
+    it('rejects a registry date that is not an ISO date', () => {
+      const { code, output } = run({
+        index: { schema_version: 2, regions: [{ ...validEntry(), last_reviewed: 'August 2026' }] },
+      })
+      expect(code).toBe(1)
+      expect(output).toContain('must be an ISO date')
+    })
+
+    it('warns, but does not fail, when nobody has recorded a review', () => {
+      const region = validRegion()
+      delete region.metadata.last_reviewed
+      const { code, output } = run({ regions: { 'us-ga-testville.geojson': region } })
+      expect(code).toBe(0)
+      expect(output).toContain('has no metadata.last_reviewed')
+      expect(output).toContain("can't be ranked by review age")
+      expect(output).toContain('All region data valid.')
+    })
+
+    it('warns when the review predates the file it describes', () => {
+      const { code, output } = run({
+        index: { schema_version: 2, regions: [{ ...validEntry(), last_reviewed: '2026-07-01' }] },
+        regions: {
+          'us-ga-testville.geojson': (() => {
+            const region = validRegion()
+            region.metadata.last_reviewed = '2026-07-01'
+            return region
+          })(),
+        },
+      })
+      expect(code).toBe(0)
+      expect(output).toContain('predates generated_at')
     })
   })
 

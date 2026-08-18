@@ -1,0 +1,72 @@
+name: Region review request
+description: Ask for a depth pass over a region that's already published — rosters, specialties, stale records.
+title: "[Review] "
+labels: ["data", "stale-data"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A published region is a first pass, not a finished one. Half the fire and EMS
+        records in the catalog still have no apparatus, and every record ages: stations
+        close, rosters change, trauma designations are renewed.
+
+        **This form is the queue a depth pass is taken from.** Nothing re-runs over
+        published data on a schedule — a pass happens because someone asked for it, and a
+        person reviews the diff before it merges (`docs/06 § Depth passes`).
+
+        You don't need to know what's missing. "It's the oldest region and nobody has
+        looked since" is a perfectly good reason — `npm run report -- --stale` says the
+        same thing in numbers.
+  - type: input
+    id: region
+    attributes:
+      label: Region
+      description: The `region_id` or the region's name as shown in the picker.
+      placeholder: us-ga-savannah
+    validations:
+      required: true
+  - type: checkboxes
+    id: focus
+    attributes:
+      label: What's worth working
+      description: Optional — pick anything you already know is thin. Leave it all unticked for a general pass.
+      options:
+        - label: Apparatus rosters — stations with no `units`
+        - label: Specialties and capabilities (hazmat, SWAT, dive, aerial…)
+        - label: Hospital trauma designations, beds, capabilities
+        - label: Records that look out of date (`Verified` date, closures, moves)
+        - label: Coverage — facilities or a whole category the region seems to be missing
+        - label: Declared gaps — write down what was searched and what genuinely isn't public
+  - type: textarea
+    id: detail
+    attributes:
+      label: Anything specific?
+      description: >
+        What you noticed, if anything. Local knowledge is welcome even without a source —
+        it tells the pass where to look, and nothing is written to the data without one.
+      placeholder: |
+        The county merged two volunteer companies in June, and none of the west-side
+        stations carry apparatus.
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources worth trying
+      description: >
+        Optional. Where the answers live — a department's apparatus page, a state fire
+        directory, a published annual report. Half the work in a depth pass is finding
+        which source is authoritative.
+      placeholder: |
+        https://www.example-county.gov/fire/stations — per-station apparatus tables
+  - type: checkboxes
+    id: acknowledgements
+    attributes:
+      label: Before you file
+      options:
+        - label: This is about public information — no personal data, no home addresses, nothing operationally sensitive.
+          required: true
+  - type: checkboxes
+    id: help
+    attributes:
+      label: Can you help?
+      options:
+        - label: I can help work through the sources for this region.

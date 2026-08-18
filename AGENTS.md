@@ -49,6 +49,11 @@ anything structural:
 - **Cite everything** in data records.
 - **No secrets, no PII, public sources only.**
 - **Additive schema changes:** bump `schema_version`, keep validation backward compatible.
+- **Never delete a record because it's thin.** A facility with a building, an address and
+  a source stays, whatever it's missing. Coverage numbers are advisory — no metric in this
+  repo gates a merge or hides a record (`docs/07` Phase 8).
+- **Depth passes are prompted, never scheduled.** Nothing re-runs an agent over published
+  data automatically; a human asks, and a human reads the diff (`docs/06` § Depth passes).
 
 ## Conventions
 
@@ -92,6 +97,14 @@ rejects the last one outright. The country code is **`GB`**, not `UK`. For UK co
 prefer ONS postcode data (`https://api.postcodes.io/postcodes/<postcode>`) over guessing an
 OSM element match; it also returns the `admin_district`, which is the borough.
 
+**Phase 8 — data depth is in progress** (`docs/07`). A published region is a first pass, so
+regions now record `metadata.last_reviewed` (mirrored onto the registry entry), declare what
+they searched and are missing in `metadata.coverage`, and are ranked by
+`npm run report -- --stale` for the next **depth pass** — a second, deeper run over a region
+that already exists, contracted in `docs/06` § Depth passes. The app offers the oldest few as
+"could use a look" and a prefilled review request on every region. All of it is advisory:
+nothing fails, nothing is hidden, and no record is dropped for lacking depth.
+
 Remaining work is the lettered proposals in `docs/08-phase-proposals.md` — **proposals, not
 commitments**; don't start one without it being moved into `docs/07`.
 
@@ -125,6 +138,7 @@ request-issue → queue automation) is still a proposal.
 Dev commands: `npm run dev` · `npm run validate` · `npm run typecheck` · `npm run lint` ·
 `npm test` · `npm run build` (build regenerates types first) ·
 `npm run new-region -- --help` · `npm run merge-region -- --help` ·
+`npm run report` (coverage; `-- --stale` for what to deepen next) ·
 `npm run labels -- --dry-run`.
 Types in `src/types/schema.ts` are generated — run `npm run gen:types` after editing the
 schemas, never hand-edit them.
@@ -150,7 +164,9 @@ Liberty/Dark, no API key), `VITE_REPO_URL` (links in the About panel), `BASE_PAT
 `data/regions/index.json` is both the published list and the **request queue**:
 `status: requested | in_progress | published`. Queued entries have no `file` until one
 exists. Use `npm run new-region` rather than hand-editing it; `npm run validate` checks
-the registry against the files in both directions.
+the registry against the files in both directions. After editing a region file in place —
+a depth pass, a merged correction — run `npm run new-region -- --sync --id <region_id>` to
+copy its facility count and `last_reviewed` back onto the entry.
 
 ### Regions generated in parts
 
@@ -184,10 +200,11 @@ tree (`src/lib/regionTree.ts`, docs/05). `admin` is the middle segment of the `r
 and the validator fails a disagreement; `admin_name` is the label, and its absence is a
 warning, not an error. `new-region` derives the code and takes `--admin-name`.
 
-Published entries also carry `center` and `facility_count` — the region's pin on the
-**global map** (docs/05). They duplicate the region file so the landing view can plot every
-region without downloading any (docs/04's "never ship all regions at once"), and
-`npm run validate` compares both against the file: **add facilities and the count must move
-with them**, or the build fails with the number it expected. Don't hand-edit them —
-re-running `npm run new-region -- --id <id> --name "…" --force` copies both out of the data
-file.
+Published entries also carry `center`, `facility_count` and `last_reviewed` — the region's
+pin on the **global map** and its review age (docs/05). They duplicate the region file so the
+landing view can plot every region, and rank which one has waited longest for a depth pass,
+without downloading any (docs/04's "never ship all regions at once"). `npm run validate`
+compares all three against the file: **add facilities and the count must move with them**, or
+the build fails with the number it expected. A *wrong* review date fails the same way; a
+*missing* one only warns, because Phase 8 never fails for information nobody has yet. Don't
+hand-edit them — `npm run new-region -- --sync --id <id>` copies them out of the data file.

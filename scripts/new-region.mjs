@@ -12,13 +12,14 @@
 //
 // Run: npm run new-region -- --help
 import { existsSync, mkdirSync } from 'node:fs'
+import { join } from 'node:path'
 import { loadComposite, mergeRegion } from './lib/merge.mjs'
 import { die, parseArgs } from './lib/cli.mjs'
 import {
   PARTS_DIR,
   REGIONS_DIR,
   SCHEMA_VERSION,
-  applyPins,
+  applyDerived,
   indexPath,
   manifestPath,
   partPath,
@@ -65,6 +66,10 @@ Options:
   --scaffold           also write an empty region .geojson to fill in
   --force              overwrite an existing entry / file
   --list               print the current queue and exit
+  --sync               re-copy the fields the registry mirrors out of the region
+                       files (pin, facility count, review date) — what to run
+                       after a depth pass edits a region in place; with --id,
+                       just that one
   --batch <file.json>  queue many regions at once; the file is a JSON array of
                        objects with the same keys as the flags above
   --help               show this
@@ -143,6 +148,8 @@ function baseMetadata(spec) {
     subregions: spec.subregions ?? [],
     generated_by: 'agent',
     generated_at: today(),
+    // A first pass is a review: the clock docs/07 Phase 8 ranks starts here.
+    last_reviewed: today(),
     schema_version: SCHEMA_VERSION,
   }
 }
@@ -337,7 +344,7 @@ function syncMerged(regionId, index) {
   const entry = index.regions?.find((r) => r.region_id === regionId)
   if (entry) {
     entry.file = `${regionId}.geojson`
-    applyPins(entry, region)
+    applyDerived(entry, region)
   }
   return { region, included, total: manifest.parts?.length ?? 0 }
 }
@@ -400,7 +407,7 @@ function addRegion(index, spec, force) {
   // a scaffolded region and re-running this is enough to keep them in step. A
   // still-queued region records only the --center it was asked for, if any.
   const data = wroteFile || hasFile ? readRegion(filePath) : null
-  if (data) applyPins(entry, data)
+  if (data) applyDerived(entry, data)
   else if (spec.center) entry.center = spec.center
 
   if (spec.note) entry.note = spec.note
@@ -486,6 +493,39 @@ function addPart(index, args) {
   return true
 }
 
+/**
+ * Re-copy the fields a registry entry mirrors out of its region file. A depth
+ * pass (docs/06 § Depth passes) edits a published region in place — bumping
+ * `metadata.last_reviewed`, and often the facility count with it — and this is
+ * how that reaches the registry, since `index.json` is this script's to write
+ * and nobody else's. `npm run validate` fails on the drift this fixes.
+ */
+function syncRegistry(index, only) {
+  let synced = 0
+  let seen = 0
+  for (const entry of index.regions) {
+    if (only && entry.region_id !== only) continue
+    seen++
+    if (!entry.file) continue
+    const path = join(REGIONS_DIR, entry.file)
+    if (!existsSync(path)) {
+      console.warn(`  ! ${entry.region_id} points at ${entry.file}, which doesn't exist`)
+      continue
+    }
+    const before = JSON.stringify(entry)
+    applyDerived(entry, readJson(path))
+    if (JSON.stringify(entry) === before) continue
+    synced++
+    console.log(
+      `  ✓ ${entry.region_id} — ${entry.facility_count} facilities` +
+        `${entry.last_reviewed ? `, reviewed ${entry.last_reviewed}` : ''}`,
+    )
+  }
+  if (only && seen === 0) die(`"${only}" is not in ${INDEX_PATH}`)
+  console.log(synced === 0 ? '  · registry already matches the region files' : '')
+  return synced
+}
+
 // ── main ──────────────────────────────────────────────────────────────────────
 const args = parseArgs(process.argv.slice(2))
 
@@ -499,6 +539,16 @@ index.regions ??= []
 
 if (args.list) {
   listQueue(index)
+  process.exit(0)
+}
+
+if (args.sync === true) {
+  const only = typeof args.id === 'string' ? args.id : null
+  const synced = syncRegistry(index, only)
+  if (synced > 0) {
+    writeJson(INDEX_PATH, index)
+    console.log(`Registry written: ${INDEX_PATH}`)
+  }
   process.exit(0)
 }
 

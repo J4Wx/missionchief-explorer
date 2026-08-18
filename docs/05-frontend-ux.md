@@ -67,6 +67,17 @@ Once a region is open (responsive → stacked on mobile):
   picker (`src/lib/regionTree.ts`), each row a button carrying the region's facility count.
 - Arrow keys move between rows; hover/focus highlights the matching pin.
 
+### Could use a look (`StaleRegions`)
+- Under the region browser on the landing view: the few published regions longest without a
+  whole-region pass, from the registry's `last_reviewed` (docs/07 Phase 8) — so the ranking
+  costs no region downloads.
+- Framed as an invitation, not a warning. An old date means nobody has been back, not that
+  the data is wrong; nothing here dims a region, hides it, or marks it untrustworthy.
+- Each row: the region (opens it), how long it's been in plain language, and a **Request a
+  review** link that opens the region-review issue form prefilled.
+- Hidden below three published regions, where "the oldest" is most of the catalog and the
+  ranking implies something it doesn't mean.
+
 ### Region picker
 - Fed by `data/regions/index.json`; published entries only.
 - **Nested**: a searchable listbox grouped **country → first-level division → region**
@@ -167,9 +178,13 @@ Once a region is open (responsive → stacked on mobile):
   **Request a region** and **Report a correction** issue forms directly, with a PR as the
   alternative rather than the only path.
 - Lists **coverage** straight from `index.json` — including `requested` and
-  `in_progress` regions, so the queue is public — and a provenance block for the region
-  currently open (facility count, confidence split, `generated_by`/`generated_at`, and
-  the distinct source domains it cites).
+  `in_progress` regions, so the queue is public — with each published region's review age
+  and its own **Request a review** link, so any region can be sent for a deeper pass
+  whether or not it looks stale.
+- A provenance block for the region currently open: facility count, confidence split,
+  `generated_by`/`generated_at`, when it was last reviewed as a whole, the distinct source
+  domains it cites, and its **declared gaps** — what the region is known *not* to carry, so
+  a blank space isn't read as "there is nothing there" (`metadata.coverage`, docs/03).
 - Carries the attribution for OpenStreetMap, OpenFreeMap and MapLibre, and the
   "unofficial fan project" disclaimer.
 

@@ -299,6 +299,90 @@ assertions, and renaming a facet's URL param fails the format test. (The round-t
 *don't* catch that rename — it is symmetric — which is why the wire format is pinned
 separately.)
 
+## Phase 8 — Data-depth passes + coverage reporting 🚧
+
+**The mechanism shipped 2026-08-18; the first depth pass is pending, by design** — see the
+last scope item. Promoted from **proposal B** in
+[08 — Phase Proposals](08-phase-proposals.md), approved the same day. The catalog's headline value is "what runs from this house", and half the
+fire/EMS records don't have it: 65 of 127 across the two original regions, and 22 of 137 in
+Buffalo. That is a *depth* problem, and depth is won by a second pass over a region that is
+already published — which nothing in the repo currently plans, triggers or measures.
+
+Two rules were set with the approval, and they decide the shape of everything below:
+
+1. **Depth passes are prompted by a human, never automatic.** No schedule re-runs the agent
+   over published data. The repo's job is to make it obvious which region has waited
+   longest; a person then asks for the pass and reviews the diff.
+2. **Nothing fails for want of information.** Coverage numbers are advisory — reported,
+   never blocking, never a publication gate. A thin region beats no region, and a facility
+   with a building, an address and a source beats one deleted for lacking a roster.
+   `npm run validate` stays the only hard gate: it judges whether data is well-formed and
+   sourced, not whether it is complete.
+
+### Scope
+
+- [x] **Region review age** — `metadata.last_reviewed` on the region file (additive; the
+      date a whole-region pass last happened, as opposed to `generated_at`, which never
+      moves again, and per-record `last_verified`), mirrored onto the registry entry and
+      checked against the file by `npm run validate` the same way `center` and
+      `facility_count` are. Backfilled from `generated_at` on all five published regions.
+      The asymmetry is deliberate: a **wrong** date fails, a **missing** one warns.
+      `npm run new-region -- --sync` copies the field back onto the registry after a pass
+      edits a region in place, so `index.json` still has exactly one writer.
+- [x] **Declared gaps** — `metadata.coverage` (`searched`, `gaps[].what/reason/count`,
+      `note`), documented in `docs/03`. Backfilled for **Charleston** (tow operators, 911
+      centers) and **Buffalo** (five unplaceable departments, volunteer rosters, and the
+      rest of its recorded gap list) from what those regions' registry notes already said.
+      The other three published regions declare nothing yet, which the report names as
+      something to fill in rather than an error.
+- [x] **`npm run report`** (`scripts/report.mjs`, metrics in `scripts/lib/coverage.mjs`) —
+      unit coverage by category, specialty tagging, confidence mix, trauma completeness
+      (split three ways: designated, stated as none, never stated), declared gaps, review
+      age. `--stale` ranks regions worst-first and names the next depth pass with a
+      prefilled issue link; `--json` emits the same numbers; `--region` and `--as-of`
+      narrow or pin the run.
+- [x] **Advisory coverage in CI** — a job-summary step in `.github/workflows/ci.yml`,
+      `continue-on-error` so that even a broken report can't turn the build red.
+- [x] **Region-review issue form** (`.github/ISSUE_TEMPLATE/06-region-review.yml`, labelled
+      `data` + `stale-data`) and `reviewUrl()` in `src/lib/links.ts`, deep-linked from every
+      published region in the About panel and from the landing view.
+- [x] **Review age in the UI** — `src/lib/staleness.ts` ranks the registry;
+      `src/ui/StaleRegions.tsx` offers the oldest three on the landing view as "could use a
+      look" (hidden below three published regions, where the ranking says nothing); the
+      About panel shows each region's review age, a review link, and — for the open region —
+      when it was last reviewed plus its declared gaps.
+- [x] **Depth-pass contract** — `docs/06` § Depth passes over a published region: how a
+      pass is triggered (review issue, `--stale`, or a maintainer asking), what it targets,
+      and the rules that only apply to a second pass — never delete a record you couldn't
+      deepen, never invent to fill a number, don't re-date what you didn't check, and a pass
+      that finds nothing still bumps `last_reviewed` and says so.
+- [ ] **A depth pass run from that queue.** Not done, and deliberately not automated: by
+      rule 1 the pass starts when a person asks for one. `npm run report -- --stale`
+      currently names **`us-ga-savannah`** (reviewed 2026-08-14, 50% fire/EMS unit coverage,
+      no declared coverage block) as where it would pay off first.
+
+### Tests
+
+`scripts/report.test.mjs` (15) asserts the metric functions directly — what counts as a
+unit-bearing category, the three-way hospital split, ranking a never-reviewed region first —
+and runs the CLI as a subprocess for the contract that matters: a region with no depth at
+all is *reported*, exit code 0. `scripts/new-region.test.mjs` (7) covers `--sync`,
+`scripts/validate.test.mjs` gained 6 for the review-date rules (wrong fails, missing warns),
+and `src/lib/staleness.test.ts` (10), `src/ui/StaleRegions.test.tsx` (6) and a new
+`src/ui/AboutPanel.test.tsx` (7) cover the app side — the first test of that panel at all.
+**51 new tests, 351 across 22 files.**
+
+### Exit
+
+Met except the first pass itself: `npm run report -- --stale` names the region most in need
+of attention, the app surfaces that ranking and lets anyone request a review of any region
+in one click, and `docs/06` says what a pass does when someone takes it. The loop closes the
+first time a depth pass lands and moves a region's numbers and its `last_reviewed` — which
+is a data PR, prompted by a human, not something this phase could ship on its own.
+
+No threshold anywhere blocks a merge or hides a record: `npm run validate` still judges only
+whether data is well-formed and sourced, and the CI report is a comment on a job summary.
+
 ## Region growth (not a phase)
 
 Regions added outside a phase, recorded here only where they changed what the catalog can

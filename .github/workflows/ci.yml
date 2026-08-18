@@ -27,3 +27,26 @@ jobs:
         run: npm test
       - name: Build
         run: npm run build
+      # Advisory, and deliberately last: coverage numbers are a prompt for a
+      # human to request a depth pass (docs/07 Phase 8), never a gate. It writes
+      # to the job summary and `continue-on-error` guarantees the contract even
+      # if the script itself breaks — a report can't be what turns CI red.
+      - name: Coverage report (advisory)
+        if: always()
+        continue-on-error: true
+        run: |
+          {
+            echo '## Data coverage'
+            echo
+            echo '```'
+            npm run report --silent
+            echo '```'
+            echo
+            echo '<details><summary>Review age — what a depth pass should take next</summary>'
+            echo
+            echo '```'
+            npm run report --silent -- --stale
+            echo '```'
+            echo
+            echo '</details>'
+          } >> "$GITHUB_STEP_SUMMARY"
