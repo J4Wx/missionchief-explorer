@@ -1,32 +1,44 @@
 // Validates every region data file against the JSON Schemas and the extra
 // integrity rules documented in docs/03-data-schema.md and docs/04-architecture.md.
 // Run: npm run validate  (also runs in CI)
-import { readdirSync, readFileSync } from 'node:fs'
+import { readdirSync } from 'node:fs'
 import { basename, join } from 'node:path'
 import Ajv2020 from 'ajv/dist/2020.js'
 import addFormats from 'ajv-formats'
+import { isInSync, loadComposite, mergeRegion } from './lib/merge.mjs'
+import {
+  MANIFEST_FILE,
+  REGIONS_DIR as DEFAULT_REGIONS_DIR,
+  SCHEMA_VERSION,
+  compositeRegionIds,
+  readJson,
+  subtreeIds,
+} from './lib/regions.mjs'
 
 // The real data directory by default. An alternative can be passed in so the
 // rules below can be exercised against deliberately broken fixtures — see
 // scripts/validate.test.mjs.
-const REGIONS_DIR = process.argv[2] ?? 'data/regions'
+const REGIONS_DIR = process.argv[2] ?? DEFAULT_REGIONS_DIR
 const SCHEMAS_DIR = 'schemas'
 // Mirrors scripts/new-region.mjs and the RegionIndexEntry type in src/types/app.ts.
+// Part manifests reuse it: a part is queued, claimed and published the same way.
 const VALID_STATUSES = new Set(['requested', 'in_progress', 'published'])
-// Current data schema version (docs/03-data-schema.md). 2 = internationalized:
-// `state` optional, ISO-2 country codes, country-neutral trauma tiers.
-const SCHEMA_VERSION = 2
 // Trauma tags/attributes that encode the American College of Surgeons levels.
 // They mean nothing outside the US system, so they are only valid on US
 // records — every other country states its own designation instead (docs/02).
 const ACS_ONLY_SPECIALTIES = /^trauma_level_\d$/
 
-const readJson = (p) => JSON.parse(readFileSync(p, 'utf8'))
-
 const ajv = new Ajv2020({ allErrors: true, strict: false })
 addFormats(ajv)
-ajv.addSchema(readJson(join(SCHEMAS_DIR, 'facility.schema.json')), 'facility.schema.json')
-const validateRegion = ajv.compile(readJson(join(SCHEMAS_DIR, 'region.schema.json')))
+// Registered by filename, which is how the schemas $ref each other: the part
+// and manifest schemas reuse the region schema's metadata, sub-region and
+// feature definitions rather than restating them.
+for (const name of ['facility', 'region', 'region-manifest', 'region-part']) {
+  ajv.addSchema(readJson(join(SCHEMAS_DIR, `${name}.schema.json`)), `${name}.schema.json`)
+}
+const validateRegion = ajv.getSchema('region.schema.json')
+const validateManifest = ajv.getSchema('region-manifest.schema.json')
+const validatePart = ajv.getSchema('region-part.schema.json')
 
 let errorCount = 0
 const fail = (file, msg) => {
@@ -238,6 +250,134 @@ for (const file of files) {
 
   if (errorCount === errorsBefore) {
     console.log(`  ✓ ${file} (${data.features.length} facilities, ${subs.length} sub-regions)`)
+  }
+}
+
+// ── regions generated in parts ────────────────────────────────────────────────
+// A composite region's metadata lives in data/regions/parts/<id>/region.json and
+// its facilities in one file per part, so the region file above is a build
+// artifact. These checks are what let a borough be generated on its own without
+// two parts quietly claiming the same facility — or the merged file drifting
+// from what the parts now say (docs/06 § Regions generated in parts).
+for (const regionId of compositeRegionIds(REGIONS_DIR)) {
+  const where = `parts/${regionId}`
+  let composite
+  try {
+    composite = loadComposite(regionId, REGIONS_DIR)
+  } catch (err) {
+    fail(where, `can't read ${MANIFEST_FILE}: ${err.message}`)
+    continue
+  }
+  const { manifest, parts, unreadable, stray } = composite
+
+  if (!validateManifest(manifest)) {
+    for (const e of validateManifest.errors ?? []) fail(`${where}/${MANIFEST_FILE}`, `${e.instancePath || '/'} ${e.message}`)
+    continue
+  }
+  for (const { id, message } of unreadable) fail(`${where}/${id}.geojson`, `is not readable JSON: ${message}`)
+  for (const file of stray) {
+    fail(`${where}/${file}`, `is not listed in ${MANIFEST_FILE} — every part file must be declared`)
+  }
+
+  const meta = manifest.metadata
+  if (meta.region_id !== regionId) {
+    fail(`${where}/${MANIFEST_FILE}`, `region_id "${meta.region_id}" disagrees with the directory name`)
+  }
+
+  const manifestSubs = meta.subregions ?? []
+  const declared = new Set(manifestSubs.map((s) => s.id))
+  const partIds = new Set()
+  // Facility ids only have to be unique within the merged region, which is a
+  // rule two agents working in parallel can break without either file being
+  // wrong on its own — so say which two parts collided.
+  const facilityOwner = new Map()
+
+  for (const part of manifest.parts ?? []) {
+    const partWhere = `${where}/${part.id}.geojson`
+    if (partIds.has(part.id)) fail(`${where}/${MANIFEST_FILE}`, `duplicate part id "${part.id}"`)
+    partIds.add(part.id)
+
+    if (part.subregion_id != null && !declared.has(part.subregion_id)) {
+      fail(`${where}/${MANIFEST_FILE}`, `part "${part.id}" covers undeclared sub-region "${part.subregion_id}"`)
+    }
+
+    const data = parts.get(part.id)
+    if (!data) {
+      // The manifest is the part-level request queue, so a part with no file is
+      // the normal mid-generation state — unless it claims to be finished.
+      if (part.status === 'published') fail(`${where}/${MANIFEST_FILE}`, `part "${part.id}" is published but ${part.id}.geojson does not exist`)
+      continue
+    }
+
+    if (!validatePart(data)) {
+      for (const e of validatePart.errors ?? []) fail(partWhere, `${e.instancePath || '/'} ${e.message}`)
+      continue
+    }
+    if (data.part.region_id !== regionId) {
+      fail(partWhere, `part.region_id "${data.part.region_id}" disagrees with the region it sits under`)
+    }
+    if (data.part.part_id !== part.id) {
+      fail(partWhere, `part.part_id "${data.part.part_id}" disagrees with the filename`)
+    }
+    if (data.part.schema_version > SCHEMA_VERSION) {
+      fail(partWhere, `schema_version ${data.part.schema_version} is newer than this validator knows (${SCHEMA_VERSION})`)
+    }
+
+    // A part may only add divisions *inside* the region's declared ones. That
+    // is the rule that keeps parallel parts from colliding: a top-level
+    // division belongs to the manifest, which one PR owns at a time.
+    const own = data.part.subregions ?? []
+    const ownIds = new Set(own.map((s) => s.id))
+    for (const sub of own) {
+      if (declared.has(sub.id)) fail(partWhere, `sub-region "${sub.id}" is already declared in ${MANIFEST_FILE}`)
+      if (sub.parent == null) {
+        fail(partWhere, `sub-region "${sub.id}" has no parent — a part may only nest divisions inside the region's own`)
+      } else if (!declared.has(sub.parent) && !ownIds.has(sub.parent)) {
+        fail(partWhere, `sub-region "${sub.id}" has unresolved parent "${sub.parent}"`)
+      }
+    }
+
+    // Every facility in a borough file belongs to that borough. Without this a
+    // part can silently annex another one's facilities and the merged file
+    // still validates.
+    const lane = part.subregion_id ? subtreeIds([...manifestSubs, ...own], part.subregion_id) : null
+    for (const feat of data.features) {
+      const id = feat.properties.id
+      const owner = facilityOwner.get(id)
+      if (owner) fail(partWhere, `facility "${id}" is also in part "${owner}"`)
+      else facilityOwner.set(id, part.id)
+
+      if (!lane) continue
+      const sub = feat.properties.subregion_id
+      if (sub == null) {
+        warn(partWhere, `facility "${id}" has no subregion_id — part "${part.id}" covers "${part.subregion_id}"`)
+      } else if (!lane.has(sub)) {
+        fail(partWhere, `facility "${id}" is in sub-region "${sub}", outside part "${part.id}" ("${part.subregion_id}")`)
+      }
+    }
+  }
+
+  // The merged file is generated, and the only thing keeping it honest is that
+  // re-merging reproduces it. Anything else — a hand edit, a forgotten merge —
+  // shows up here rather than in the app.
+  const { region: merged, included, pending } = mergeRegion(manifest, parts)
+  const target = `${regionId}.geojson`
+  if (!files.includes(target)) {
+    fail(where, `has no merged region file — run \`npm run merge-region -- --id ${regionId}\``)
+  } else {
+    const committed = readJson(join(REGIONS_DIR, target))
+    if (!isInSync(committed, merged)) {
+      fail(
+        target,
+        `is out of date with its ${included.length} part(s) — run \`npm run merge-region -- --id ${regionId}\`` +
+          ` (merging gives ${merged.features.length} facilities, the file has ${(committed.features ?? []).length})`,
+      )
+    } else {
+      console.log(
+        `  ✓ ${where} (${included.length}/${manifest.parts?.length ?? 0} parts merged` +
+          `${pending.length > 0 ? `, ${pending.length} pending` : ''})`,
+      )
+    }
   }
 }
 

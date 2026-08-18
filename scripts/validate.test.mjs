@@ -6,10 +6,11 @@
 // disk: a broken fixture is only meaningful next to the valid one it differs
 // from, and inlining the difference makes each test say what it breaks.
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
+import { mergeRegion } from './lib/merge.mjs'
 
 const SCRIPT = 'scripts/validate.mjs'
 
@@ -91,13 +92,24 @@ function defaultIndex(files) {
  * Write a regions directory and run the validator over it.
  * `regions` maps a filename to its contents; `index` is the registry.
  */
-function run({ index, regions } = {}) {
+function run({ index, regions, parts } = {}) {
   const dir = mkdtempSync(join(tmpdir(), 'dispatch-atlas-validate-'))
   dirs.push(dir)
   const files = regions ?? { 'us-ga-testville.geojson': validRegion() }
   writeFileSync(join(dir, 'index.json'), JSON.stringify(index ?? defaultIndex(files)))
   for (const [file, data] of Object.entries(files)) {
     writeFileSync(join(dir, file), JSON.stringify(data))
+  }
+
+  // A region generated in parts keeps its manifest and part files one level
+  // down, in parts/<region_id>/ — which is also what keeps them out of the flat
+  // *.geojson scan the validator and the app both do over region files.
+  for (const [regionId, partFiles] of Object.entries(parts ?? {})) {
+    const partDir = join(dir, 'parts', regionId)
+    mkdirSync(partDir, { recursive: true })
+    for (const [file, data] of Object.entries(partFiles)) {
+      writeFileSync(join(partDir, file), JSON.stringify(data))
+    }
   }
 
   // Errors go to stderr and warnings to stdout's sibling stream, so both are
@@ -111,6 +123,75 @@ function runBroken(mutate) {
   const region = validRegion()
   mutate(region)
   return run({ regions: { 'us-ga-testville.geojson': region } })
+}
+
+/**
+ * The manifest of a region generated in parts: two districts, one generated and
+ * one still queued — the normal mid-generation state.
+ */
+const validManifest = () => ({
+  metadata: {
+    region_id: 'us-ga-testville',
+    name: 'Testville',
+    country: 'US',
+    center: [-81.09, 32.08],
+    zoom: 11,
+    subregions: [
+      { id: 'downtown', name: 'Downtown', level: 'district', parent: null },
+      { id: 'uptown', name: 'Uptown', level: 'district', parent: null },
+    ],
+    schema_version: 2,
+  },
+  parts: [
+    { id: 'downtown', name: 'Downtown', subregion_id: 'downtown', status: 'published' },
+    { id: 'uptown', name: 'Uptown', subregion_id: 'uptown', status: 'requested' },
+  ],
+})
+
+/** One part file, holding a single facility in the division it covers. */
+function validPart(id, { subregion_id = id, regionId = 'us-ga-testville', partId = id } = {}) {
+  return {
+    type: 'FeatureCollection',
+    part: {
+      region_id: regionId,
+      part_id: partId,
+      subregions: [],
+      generated_at: '2026-08-18',
+      schema_version: 2,
+    },
+    features: [validFacility({ id: `testville-${id}-1`, subregion_id })],
+  }
+}
+
+/**
+ * Write a composite region — manifest, part files, and the merged region file
+ * the two produce — and validate it. `merged` mutates that merged file to
+ * simulate drift, or is `null` for a region whose merge was never run.
+ */
+function runComposite({ manifest, parts, merged, extraPartFiles, index } = {}) {
+  const spec = validManifest()
+  manifest?.(spec)
+  const partData = parts ?? { downtown: validPart('downtown') }
+
+  // Cloned before any mutation, because the merge carries the part files' own
+  // Feature objects through — on disk these are separate files, and a test
+  // about editing the merged one must not reach back into its parts.
+  const region = structuredClone(mergeRegion(spec, new Map(Object.entries(partData))).region)
+  merged?.(region)
+  const regions = merged === null ? {} : { 'us-ga-testville.geojson': region }
+
+  const partFiles = { 'region.json': spec, ...extraPartFiles }
+  for (const [id, data] of Object.entries(partData)) partFiles[`${id}.geojson`] = data
+
+  const queued = { ...validEntry(), status: 'in_progress', center: spec.metadata.center }
+  delete queued.file
+  delete queued.facility_count
+
+  return run({
+    index: index ?? (merged === null ? { schema_version: 2, regions: [queued] } : defaultIndex(regions)),
+    regions,
+    parts: { 'us-ga-testville': partFiles },
+  })
 }
 
 describe('validate.mjs', () => {
@@ -541,5 +622,159 @@ describe('validate.mjs', () => {
     })
     expect(code).toBe(1)
     expect(output).toContain('Validation FAILED with 2 error(s).')
+  })
+
+  // A region generated in parts (docs/06) is the same data arriving in pieces:
+  // the manifest owns the metadata, one file per borough owns the facilities,
+  // and the region file the app loads is generated from both. These are the
+  // rules that make generating a borough at a time safe.
+  describe('regions generated in parts', () => {
+    it('passes a composite region whose merged file is up to date', () => {
+      const { code, output } = runComposite()
+      expect(code).toBe(0)
+      expect(output).toContain('parts/us-ga-testville (1/2 parts merged, 1 pending)')
+    })
+
+    it('rejects a merged file that has drifted from its parts', () => {
+      const { code, output } = runComposite({
+        merged: (region) => region.features.pop(),
+      })
+      expect(code).toBe(1)
+      expect(output).toContain('is out of date with its 1 part(s)')
+      expect(output).toContain('npm run merge-region -- --id us-ga-testville')
+    })
+
+    it('rejects a merged file edited by hand rather than re-merged', () => {
+      const { code, output } = runComposite({
+        merged: (region) => {
+          region.features[0].properties.name = 'Renamed in the merged file'
+        },
+      })
+      expect(code).toBe(1)
+      expect(output).toContain('is out of date')
+    })
+
+    it('rejects a composite region with no merged file at all', () => {
+      const { code, output } = runComposite({ merged: null })
+      expect(code).toBe(1)
+      expect(output).toContain('has no merged region file')
+    })
+
+    it('rejects a part file the manifest does not list', () => {
+      const { code, output } = runComposite({
+        extraPartFiles: { 'harlem.geojson': validPart('harlem') },
+      })
+      expect(code).toBe(1)
+      expect(output).toContain('harlem.geojson] is not listed in region.json')
+    })
+
+    it('rejects the same facility appearing in two parts', () => {
+      const uptown = validPart('uptown', { subregion_id: 'uptown' })
+      uptown.features[0].properties.id = validPart('downtown').features[0].properties.id
+      const { code, output } = runComposite({ parts: { downtown: validPart('downtown'), uptown } })
+      expect(code).toBe(1)
+      expect(output).toContain('is also in part "downtown"')
+    })
+
+    it('rejects a facility that belongs to another part’s sub-region', () => {
+      const { code, output } = runComposite({
+        parts: { downtown: validPart('downtown', { subregion_id: 'uptown' }) },
+      })
+      expect(code).toBe(1)
+      expect(output).toContain('outside part "downtown"')
+    })
+
+    it('warns — but passes — on a facility with no sub-region at all', () => {
+      const { code, output } = runComposite({
+        parts: { downtown: validPart('downtown', { subregion_id: null }) },
+      })
+      expect(code).toBe(0)
+      expect(output).toContain('has no subregion_id')
+    })
+
+    it('accepts a part nesting its own divisions under the one it covers', () => {
+      const part = validPart('downtown', { subregion_id: 'riverside' })
+      part.part.subregions = [
+        { id: 'riverside', name: 'Riverside', level: 'neighborhood', parent: 'downtown' },
+      ]
+      const { code } = runComposite({ parts: { downtown: part } })
+      expect(code).toBe(0)
+    })
+
+    it('rejects a part declaring a top-level division of its own', () => {
+      const part = validPart('downtown')
+      part.part.subregions = [{ id: 'westside', name: 'Westside', parent: null }]
+      const { code, output } = runComposite({ parts: { downtown: part } })
+      expect(code).toBe(1)
+      expect(output).toContain('a part may only nest divisions inside')
+    })
+
+    it('rejects a part re-declaring a division the manifest owns', () => {
+      const part = validPart('downtown')
+      part.part.subregions = [{ id: 'uptown', name: 'Uptown again', parent: 'downtown' }]
+      const { code, output } = runComposite({ parts: { downtown: part } })
+      expect(code).toBe(1)
+      expect(output).toContain('is already declared in region.json')
+    })
+
+    it('rejects a part covering a sub-region nobody declared', () => {
+      const { code, output } = runComposite({
+        manifest: (m) => {
+          m.parts[0].subregion_id = 'nowhere'
+        },
+      })
+      expect(code).toBe(1)
+      expect(output).toContain('covers undeclared sub-region "nowhere"')
+    })
+
+    it('rejects a part marked published with no file', () => {
+      const { code, output } = runComposite({ parts: {} })
+      expect(code).toBe(1)
+      expect(output).toContain('part "downtown" is published but downtown.geojson does not exist')
+    })
+
+    it('allows a part still queued with no file', () => {
+      const { code, output } = runComposite()
+      expect(code).toBe(0)
+      expect(output).not.toContain('uptown.geojson does not exist')
+    })
+
+    it('rejects a manifest whose region_id disagrees with its directory', () => {
+      const { code, output } = runComposite({
+        manifest: (m) => {
+          m.metadata.region_id = 'us-ga-elsewhere'
+        },
+      })
+      expect(code).toBe(1)
+      expect(output).toContain('disagrees with the directory name')
+    })
+
+    it('rejects a part file whose part_id disagrees with its filename', () => {
+      const { code, output } = runComposite({
+        parts: { downtown: validPart('downtown', { partId: 'somewhere-else' }) },
+      })
+      expect(code).toBe(1)
+      expect(output).toContain('part.part_id "somewhere-else" disagrees with the filename')
+    })
+
+    it('rejects a part claiming to belong to another region', () => {
+      const { code, output } = runComposite({
+        parts: { downtown: validPart('downtown', { regionId: 'us-ga-elsewhere' }) },
+      })
+      expect(code).toBe(1)
+      expect(output).toContain('disagrees with the region it sits under')
+    })
+
+    it('still applies the whole facility rule set, via the merged file', () => {
+      // The country-specific rules run over the merged region, which is where
+      // the region's own country lives — a part file has no country of its own.
+      const part = validPart('downtown')
+      part.features[0].properties.address.country = 'GB'
+      part.features[0].properties.specialties = ['trauma_level_1']
+      const { code, output } = runComposite({ parts: { downtown: part } })
+      expect(code).toBe(1)
+      expect(output).toContain('[us-ga-testville.geojson] facility')
+      expect(output).toContain('carries ACS-only trauma_level_1')
+    })
   })
 })

@@ -51,6 +51,9 @@ The platform lets you:
 - **`schemas/facility.schema.json`** — JSON Schema for a single facility record.
 - **`schemas/region.schema.json`** — JSON Schema for a region GeoJSON file.
 - **`data/regions/index.json`** — registry of available regions.
+- **`data/regions/parts/<region_id>/`** — for a region too big to research in one pass, the
+  manifest and per-borough files that `npm run merge-region` assembles into its region
+  file ([docs/06](docs/06-data-generation-agent.md#regions-generated-in-parts)).
 - **`data/regions/example-springfield.geojson`** — an illustrative (fictional) sample
   showing the shape of real data.
 

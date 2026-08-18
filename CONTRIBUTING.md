@@ -60,7 +60,8 @@ npm run new-region -- --id us-ny-buffalo --name "Buffalo, NY (Erie County)" --co
 
 That appends a `requested` entry to the registry. Add `--scaffold` to also write an
 empty, schema-valid region file to fill in. Run `npm run new-region -- --help` for the
-full flag list, and `npm run new-region -- --list` to see the current queue.
+full flag list, and `npm run new-region -- --list` to see the current queue — including
+the per-borough queue of any region being generated in parts (below).
 
 ## Generating a region
 
@@ -86,6 +87,34 @@ copies both back out of the file — no hand-editing.
 
 **One region per pull request.** It keeps review tractable and the data auditable. Keep
 app changes in separate PRs from data changes.
+
+### A region too big for one pass
+
+A metro like New York City is not one sitting's work. Those are generated **one borough at
+a time** — the parts live in `data/regions/parts/<region_id>/` and merge into the single
+region file the app loads, so the split is in how the data is *made*, not in what a player
+sees:
+
+```bash
+# queue the region and its boroughs
+npm run new-region -- --id us-ny-nyc --name "New York City, NY" \
+  --admin-name "New York" --center -73.97,40.7 --zoom 10 --part-level borough \
+  --parts "manhattan:Manhattan,brooklyn:Brooklyn,queens:Queens,bronx:The Bronx,staten-island:Staten Island"
+
+# claim one, research it, then assemble
+npm run new-region -- --id us-ny-nyc --part manhattan --status in_progress --scaffold
+npm run merge-region -- --id us-ny-nyc
+npm run validate
+```
+
+Then it's **one part per pull request**, each with its own coverage and gaps. Your PR
+touches your part file, your line of the manifest, and the regenerated region file —
+never another borough's data, and never the merged file by hand. `npm run validate` fails
+if the merged file has drifted from the parts it claims to be made of, so re-running
+`merge-region` is always the fix. The rules are in
+[`docs/06`](docs/06-data-generation-agent.md#regions-generated-in-parts); the one worth
+knowing up front is that facility ids must be unique across the whole region, so prefix
+them per borough (`nyc-mn-e004`).
 
 Describe in the PR what you covered, what you couldn't find, and where confidence is
 low. Known gaps stated up front are far more useful than silent ones.

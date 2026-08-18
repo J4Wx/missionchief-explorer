@@ -15,6 +15,7 @@
     "validate": "node scripts/validate.mjs",
     "gen:types": "node scripts/gen-types.mjs",
     "new-region": "node scripts/new-region.mjs",
+    "merge-region": "node scripts/merge-region.mjs",
     "labels": "node scripts/sync-labels.mjs"
   },
   "dependencies": {

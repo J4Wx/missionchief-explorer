@@ -33,6 +33,9 @@ anything structural:
 - Follow `docs/06-data-generation-agent.md` to the letter.
 - Output: `data/regions/<region_id>.geojson` (valid per `schemas/region.schema.json`) +
   an `index.json` entry.
+- A region too big for one pass is generated **one part at a time** into
+  `data/regions/parts/<region_id>/`, merged by `npm run merge-region` — see the registry
+  section below and `docs/06 § Regions generated in parts`.
 - **Never fabricate.** Every record cites ≥1 real source; unknowns stay unknown
   (`null` / `[]` / `confidence: low`). Public data only; no personal or operationally
   sensitive info.
@@ -51,12 +54,15 @@ anything structural:
 
 ## Conventions
 
-- IDs: lowercase kebab-case; `region_id` = `<country>-<admin>-<name>`, where `<country>` is
+- IDs: lowercase kebab-case, and facility ids are unique across a whole region — which
+  includes every part of one generated in parts, so prefix them per part (`nyc-mn-e004`).
+  `region_id` = `<country>-<admin>-<name>`, where `<country>` is
   the **ISO 3166-1 alpha-2** code, lowercased (`us-ga-savannah`, `gb-mersey-liverpool`).
   `npm run validate` fails if the prefix disagrees with `metadata.country`.
 - Coordinates: GeoJSON `[lng, lat]`, WGS84, ~5 decimals.
 - Dates: ISO 8601.
-- Commit/PR scope: one region per data PR; keep app changes separate from data changes.
+- Commit/PR scope: one region per data PR — or one *part* per PR for a region generated in
+  parts; keep app changes separate from data changes.
 
 ## Current state
 
@@ -101,6 +107,14 @@ No `?region` in the URL *is* that view. The MapLibre plumbing both maps share �
 per-theme style swap, motion, the no-basemap notice — is `src/map/basemap.tsx`; add layers by
 handing `useBasemap` an `install` callback, never by building a second map by hand.
 
+**Part-generated regions landed** (2026-08-18, outside a phase): a region too big for one
+agent run is now generated a borough at a time under `data/regions/parts/<region_id>/` and
+merged into the ordinary region file by `npm run merge-region` (`scripts/lib/merge.mjs`,
+`schemas/region-{manifest,part}.schema.json`). Nothing about the app or the data schema
+changed — the merged file is an ordinary region file, and the merge is checked by
+`npm run validate`. See the registry section below. Nothing uses it yet: the first
+candidate is NYC, and queueing it is a data decision, not a tooling one.
+
 **Contribution intake landed** (2026-08-17, part of proposal C, ahead of the phase):
 `.github/ISSUE_TEMPLATE/` holds five issue forms — region request, data correction, app
 bug, feature/idea, schema/vocabulary addition. The correction form is deep-linked from
@@ -112,7 +126,8 @@ request-issue → queue automation) is still a proposal.
 
 Dev commands: `npm run dev` · `npm run validate` · `npm run typecheck` · `npm run lint` ·
 `npm test` · `npm run build` (build regenerates types first) ·
-`npm run new-region -- --help` · `npm run labels -- --dry-run`.
+`npm run new-region -- --help` · `npm run merge-region -- --help` ·
+`npm run labels -- --dry-run`.
 Types in `src/types/schema.ts` are generated — run `npm run gen:types` after editing the
 schemas, never hand-edit them.
 
@@ -138,6 +153,32 @@ Liberty/Dark, no API key), `VITE_REPO_URL` (links in the About panel), `BASE_PAT
 `status: requested | in_progress | published`. Queued entries have no `file` until one
 exists. Use `npm run new-region` rather than hand-editing it; `npm run validate` checks
 the registry against the files in both directions.
+
+### Regions generated in parts
+
+A region too big for one agent run (NYC and its five boroughs is the motivating case) is
+generated a part at a time under `data/regions/parts/<region_id>/`: `region.json` — the
+manifest, which owns the region's `metadata` including its sub-region list, and queues the
+parts with the same `requested | in_progress | published` statuses — plus one
+`<part_id>.geojson` per part, holding facilities and nothing else. `npm run merge-region`
+assembles them into the ordinary `data/regions/<region_id>.geojson` the app loads. The
+split is in the *generation*; there is still one region, one registry entry, one file.
+
+What this buys is parallel work, so the rules that make parallel work safe are enforced by
+`npm run validate`, not left to reviewers:
+
+- The merged file is regenerated, never hand-edited. Validation re-runs the merge and
+  fails on any drift, naming the command that fixes it. On a git conflict in that file,
+  take either side and re-merge.
+- A facility belongs to exactly one part, and must sit in the sub-region its part covers.
+  Facilities that serve the whole region (agency HQs, federal offices) go in a part with
+  no `subregion_id`, not in whichever borough they happen to stand in.
+- A part may nest sub-regions inside its own via `parent`, but top-level divisions belong
+  to the manifest — one PR at a time owns that.
+- One part per PR, each stating its own coverage and gaps. Don't touch another part's file.
+
+Claim a part with `npm run new-region -- --id <region_id> --part <part_id> --scaffold`;
+`--list` shows the parts under their region. Full contract: `docs/06`.
 
 Entries also carry `admin` + `admin_name` (`"ga"` / `"Georgia"`, `"mersey"` /
 `"Merseyside"`) — the division level of the region picker's country → division → region
