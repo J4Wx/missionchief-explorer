@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dispatch-atlas/schemas/region-manifest.schema.json",
+  "title": "Region parts manifest",
+  "description": "data/regions/parts/<region_id>/region.json — the core metadata of a region that is generated in parts (one file per borough/division), plus the list of those parts. `npm run merge-region` turns this and the part files into data/regions/<region_id>.geojson.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["metadata", "parts"],
+  "properties": {
+    "metadata": {
+      "description": "Exactly the metadata block of the merged region file, and the only place it is written. Sub-regions declared here are the region-wide divisions (the boroughs); a part may add divisions *inside* its own.",
+      "$ref": "region.schema.json#/properties/metadata"
+    },
+    "parts": {
+      "type": "array",
+      "description": "The units of generation, in the order their facilities appear in the merged file. Doubles as the part-level request queue, exactly as data/regions/index.json does for whole regions: a part may sit at `requested` with no file at all.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "description": "Unique-within-region part slug. The part's file is always <id>.geojson next to this manifest."
+          },
+          "name": { "type": "string", "minLength": 1 },
+          "subregion_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "description": "The sub-region this part covers. Must be declared in metadata.subregions. Every facility in the part must sit in it or one of its descendants — that is what keeps two parts from claiming the same facility. Omit it for a part that is deliberately region-wide (an HQ/citywide part)."
+          },
+          "status": {
+            "type": "string",
+            "enum": ["requested", "in_progress", "published"],
+            "description": "requested = queued, no file yet; in_progress = claimed; published = generated and merged."
+          },
+          "note": { "type": "string" }
+        }
+      }
+    }
+  }
+}

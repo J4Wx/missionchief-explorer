@@ -30,6 +30,9 @@ Mission Chief planning.
      **city** → **districts/neighborhoods** (or police precincts).
    - Give each a stable `id`, `name`, `level`, and (where known) `center`/`zoom`/`bbox`.
    - Skip sub-regions only for genuinely small regions where narrowing adds no value.
+   - If the region is too big to research in one pass, this is also the division it gets
+     **generated** in — see [Regions generated in parts](#regions-generated-in-parts)
+     before starting, because the choice is hard to change later.
 2. **Seed from OpenStreetMap (primary discovery source).** Query the Overpass API for
    emergency-services features in the bounding box (see queries below). OSM gives you
    locations, names, and often operator/agency tags for the bulk of facilities.
@@ -92,6 +95,101 @@ Useful OSM tags to read: `name`, `operator`, `operator:type`, `emergency`, `amen
   the region bbox.
 - **Deduplicate.** Merge OSM + official records for the same physical facility into one.
 
+## Regions generated in parts
+
+Some regions are too big for one pass. New York City is the standard example: five
+boroughs, ~2,000 facilities, dozens of agencies — research quality falls off long before
+the end, the PR is unreviewable, and one failed run loses the lot. Such a region is
+generated **one part at a time** and assembled into a single region file.
+
+What splits is the **generation**, not the region. There is still one `region_id`, one
+registry entry, one file the app loads, one map with one set of boroughs in its sub-region
+filter. A player never sees the seam.
+
+**Split when** the region has a natural division whose parts each carry enough facilities
+to be a session's work (roughly 150+), or when one pass plainly can't source the whole
+thing carefully. **Don't split otherwise** — Buffalo's 191 facilities across 44 sub-regions
+were one pass, and a manifest for a region one agent can finish is just overhead.
+
+### Layout
+
+```
+data/regions/
+├─ us-ny-nyc.geojson              # merged — generated, committed, never hand-edited
+└─ parts/us-ny-nyc/
+   ├─ region.json                 # the manifest: region metadata + the part list
+   ├─ manhattan.geojson           # one part per borough
+   ├─ brooklyn.geojson
+   └─ citywide.geojson            # the region-wide part (see below)
+```
+
+- **The manifest owns the region.** `metadata` is exactly the metadata block of the merged
+  file — including `subregions`, the borough list — and the only place it is written.
+  `parts[]` lists the units of generation with a `status` each. It is the part-level
+  request queue in the same way `index.json` is the region-level one: a part sits at
+  `requested` with no file at all until someone claims it.
+- **A part owns its facilities and nothing else.** `part.region_id`, `part.part_id`, its
+  `features`, and optionally `part.subregions` for divisions *inside* the borough it covers
+  (neighborhoods, precincts) — each of which must nest under an existing sub-region via
+  `parent`. Top-level divisions belong to the manifest, so two parts written in parallel
+  can't collide on one.
+- **The merged file is a build artifact** that happens to be committed, because the app
+  bundles `data/regions/*.geojson` as-is. `npm run validate` re-runs the merge and fails if
+  the committed file has drifted from its parts, so it can't rot.
+
+### Workflow
+
+```bash
+# 1. queue the region and its parts (one PR, no data yet)
+npm run new-region -- --id us-ny-nyc --name "New York City, NY" \
+  --admin-name "New York" --center -73.97,40.7 --zoom 10 --part-level borough \
+  --parts "manhattan:Manhattan,brooklyn:Brooklyn,queens:Queens,bronx:The Bronx,staten-island:Staten Island"
+
+# 2. claim one part and scaffold its file
+npm run new-region -- --id us-ny-nyc --part manhattan --status in_progress --scaffold
+
+# 3. generate it — the main workflow above, bounded to that borough
+
+# 4. assemble and check
+npm run merge-region -- --id us-ny-nyc
+npm run validate
+
+# 5. one PR per part: the part file, its manifest line, the merged file, the registry count
+```
+
+`npm run new-region -- --list` shows each part under its region, so the queue reads as the
+work it actually is. A part added after the fact (`--part staten-island --name "Staten
+Island"`) declares its sub-region too.
+
+### Rules that exist only because parts are written in parallel
+
+- **Stay in your lane.** Every facility in a part must sit in the sub-region the part
+  covers, or one nested inside it. The validator fails a part that annexes another's
+  facilities — which is otherwise invisible, because the merged file is still valid.
+- **Facility ids are unique across the whole region, not the part.** Prefix them with the
+  part (`nyc-mn-e004`, `nyc-bk-e207`) and the question never comes up. The validator names
+  both parts when two collide.
+- **Region-wide facilities go in one region-wide part.** An FDNY headquarters, a port
+  authority, an FBI field office belong to no borough. Give them a part with no
+  `subregion_id` (`citywide`) rather than filing them under whichever borough they
+  physically sit in, or two parts will both claim them and a third round of edits will
+  drop them. Add one with
+  `npm run new-region -- --id <region_id> --part citywide --subregion none`.
+- **Touch only your own part.** A part PR edits its own file and its own line of the
+  manifest. Changing the borough list, the center or the zoom is a manifest-level change,
+  and belongs in its own PR.
+- **Never hand-edit the merged file.** Re-run `merge-region`. On a git conflict in it, take
+  either side and re-run — the parts are the source of truth, and part order in the merged
+  file follows the manifest, so two boroughs' facilities never interleave.
+- **Coverage and gaps are reported per part.** The region's registry `note` describes the
+  whole; each part PR states what it covered and what it couldn't, so a half-generated
+  region says so honestly instead of looking finished at 40%.
+
+**Definition of done for a part:** `npm run merge-region` then `npm run validate` pass,
+every record cites ≥1 source, its facilities are all in its own sub-region, and its status
+in the manifest is `published`. **For the region:** every part published, and the registry
+entry moved to `published` — until then it stays `in_progress`, however many parts are in.
+
 ## Non-US regions
 
 Discovery is unchanged — OSM/Overpass tags are international. **Enrichment and
@@ -152,11 +250,27 @@ to prevent.
 > confidence honestly, and never fabricate units or capabilities. Run `npm run validate`
 > and fix all errors before finishing. Summarize coverage and gaps.
 
+For one part of a region generated in parts:
+
+> You are generating **one part** of the Dispatch Atlas region `{region_id}`: the part
+> `{part_id}`, covering **{BOROUGH}**. Follow `docs/06-data-generation-agent.md` — including
+> § Regions generated in parts — and `docs/03-data-schema.md` exactly. Read
+> `data/regions/parts/{region_id}/region.json` first: it declares the region's sub-regions
+> and which one your part covers. Write **only**
+> `data/regions/parts/{region_id}/{part_id}.geojson` and your own line of that manifest.
+> Every facility must sit in your part's sub-region (or one you nest inside it via
+> `part.subregions`), carry an id prefixed for your part, and cite ≥1 real source. Facilities
+> that serve the whole region belong to the region-wide part, not yours — leave them out.
+> Then run `npm run merge-region -- --id {region_id}` and `npm run validate`, fix all errors,
+> and summarize what you covered and what you couldn't.
+
 ## Scaling to many regions
 
-- One PR per region keeps reviews tractable and data auditable.
+- One PR per region keeps reviews tractable and data auditable — or one per **part**, for
+  a region generated in parts (above), which is the same bargain one level down.
 - A batch runner can fan out over a list of regions, but each still validates
-  independently and merges on its own.
+  independently and merges on its own. Parts of one region can likewise be generated in
+  parallel; the lane and id rules above are what make that safe.
 - Track requested/queued regions in `index.json` (`status: requested | in_progress | published`).
   `scripts/new-region.mjs` owns that file — don't hand-edit it:
 

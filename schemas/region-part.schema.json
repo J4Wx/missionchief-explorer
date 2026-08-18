@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dispatch-atlas/schemas/region-part.schema.json",
+  "title": "Region part FeatureCollection",
+  "description": "data/regions/parts/<region_id>/<part_id>.geojson — one generation unit (typically one borough) of a region assembled from parts. Carries facilities only; the region's metadata lives once, in the manifest.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["type", "part", "features"],
+  "properties": {
+    "type": { "const": "FeatureCollection" },
+    "part": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["region_id", "part_id", "schema_version"],
+      "properties": {
+        "region_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "description": "The region this part belongs to — the merged file's region_id, not a slug of its own."
+        },
+        "part_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "description": "Must match the manifest entry and the filename."
+        },
+        "name": { "type": "string", "minLength": 1 },
+        "subregions": {
+          "description": "Divisions *inside* this part (neighborhoods or precincts within the borough). Each must nest under a sub-region via `parent` — a part never declares a top-level division, so two parts generated in parallel can't collide.",
+          "$ref": "region.schema.json#/properties/metadata/properties/subregions"
+        },
+        "generated_by": { "type": "string", "enum": ["agent", "human"] },
+        "generated_at": { "type": "string", "format": "date" },
+        "schema_version": { "type": "integer", "minimum": 1 },
+        "note": { "type": "string" }
+      }
+    },
+    "features": { "$ref": "region.schema.json#/properties/features" }
+  }
+}

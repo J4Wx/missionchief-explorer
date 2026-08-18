@@ -5,27 +5,48 @@
 // with no data file at all, which is how a batch of regions gets asked for in
 // one go and picked up by the generation agent one at a time (docs/06).
 //
+// A region too big for one agent run (--split) gets the same treatment one
+// level down: a manifest under data/regions/parts/<id>/ that owns the region's
+// metadata and queues its parts, so each borough is generated, reviewed and
+// merged on its own. `npm run merge-region` assembles them.
+//
 // Run: npm run new-region -- --help
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { existsSync, mkdirSync } from 'node:fs'
+import { loadComposite, mergeRegion } from './lib/merge.mjs'
+import { die, parseArgs } from './lib/cli.mjs'
+import {
+  PARTS_DIR,
+  REGIONS_DIR,
+  SCHEMA_VERSION,
+  applyPins,
+  indexPath,
+  manifestPath,
+  partPath,
+  partsDir,
+  readJson,
+  regionPath,
+  writeJson,
+} from './lib/regions.mjs'
 
-const REGIONS_DIR = 'data/regions'
-const INDEX_PATH = join(REGIONS_DIR, 'index.json')
+const INDEX_PATH = indexPath()
 const STATUSES = ['requested', 'in_progress', 'published']
 const ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 const COUNTRY_PATTERN = /^[A-Z]{2}$/
-// Keep in step with scripts/validate.mjs and docs/03-data-schema.md.
-const SCHEMA_VERSION = 2
+// The sub-region kinds are the schema's list, read rather than repeated.
+const SUBREGION_LEVELS =
+  readJson('schemas/region.schema.json').properties.metadata.properties.subregions.items
+    .properties.level.enum
 
 const USAGE = `
 Scaffold a Dispatch Atlas region.
 
 Usage:
   npm run new-region -- --id <region_id> --name "<Display name>" [options]
+  npm run new-region -- --id <region_id> --part <part_id> [options]
   npm run new-region -- --list
   npm run new-region -- --batch <file.json>
 
-Required (unless --list / --batch):
+Required (unless --list / --batch / --part):
   --id <slug>          region_id, e.g. us-ny-buffalo  (lowercase kebab-case)
   --name "<text>"      display name, e.g. "Buffalo, NY (Erie County)"
 
@@ -48,6 +69,18 @@ Options:
                        objects with the same keys as the flags above
   --help               show this
 
+Regions generated in parts (docs/06 — for metros too big for one agent run):
+  --split              generate this region one part at a time: writes the
+                       manifest data/regions/parts/<id>/region.json and the
+                       merged region file it produces (implies --scaffold)
+  --parts "<list>"     the parts to queue, comma-separated "id:Display Name"
+                       (implies --split), e.g. "manhattan:Manhattan,bronx:The Bronx"
+  --part-level <level> what kind of division the parts are (default: borough)
+                       one of: ${SUBREGION_LEVELS.join(', ')}
+  --part <part_id>     add or claim ONE part of a split region, with --id
+  --subregion <id>     the sub-region that part covers (default: the part id;
+                       "none" for a deliberately region-wide part)
+
 Examples:
   # queue a request for the agent to pick up later (country US, from the id)
   npm run new-region -- --id us-ny-buffalo --name "Buffalo, NY (Erie County)" \\
@@ -61,34 +94,17 @@ Examples:
   npm run new-region -- --id us-ny-buffalo --name "Buffalo, NY" \\
     --center -78.8784,42.8864 --zoom 11 --scaffold --status in_progress
 
+  # a metro generated a borough at a time
+  npm run new-region -- --id us-ny-nyc --name "New York City, NY" \\
+    --admin-name "New York" --center -73.97,40.7 --zoom 10 --part-level borough \\
+    --parts "manhattan:Manhattan,brooklyn:Brooklyn,queens:Queens,bronx:The Bronx,staten-island:Staten Island"
+
+  # claim one borough and scaffold its file
+  npm run new-region -- --id us-ny-nyc --part manhattan --status in_progress --scaffold
+
   # queue a whole batch
   npm run new-region -- --batch regions-wanted.json
 `
-
-function parseArgs(argv) {
-  const args = {}
-  for (let i = 0; i < argv.length; i++) {
-    const token = argv[i]
-    if (!token.startsWith('--')) die(`unexpected argument "${token}" (see --help)`)
-    const key = token.slice(2)
-    const next = argv[i + 1]
-    if (next === undefined || next.startsWith('--')) {
-      args[key] = true
-    } else {
-      args[key] = next
-      i++
-    }
-  }
-  return args
-}
-
-function die(message) {
-  console.error(`✗ ${message}`)
-  process.exit(1)
-}
-
-const readJson = (p) => JSON.parse(readFileSync(p, 'utf8'))
-const writeJson = (p, value) => writeFileSync(p, `${JSON.stringify(value, null, 2)}\n`)
 
 /** Parse "--center lng,lat" into [lng, lat], validating the range. */
 function parseCenter(value) {
@@ -111,25 +127,134 @@ function readRegion(path) {
   }
 }
 
+const today = () => new Date().toISOString().slice(0, 10)
+
+/** The metadata block shared by a plain region file and a parts manifest. */
+function baseMetadata(spec) {
+  return {
+    region_id: spec.id,
+    name: spec.name,
+    country: spec.country,
+    game_edition: spec.edition,
+    // [0, 0] is Null Island — a placeholder to replace with the real center,
+    // and one that stands out on the map if it ever isn't.
+    center: spec.center ?? [0, 0],
+    zoom: spec.zoom,
+    subregions: spec.subregions ?? [],
+    generated_by: 'agent',
+    generated_at: today(),
+    schema_version: SCHEMA_VERSION,
+  }
+}
+
 /** An empty region file that already passes `npm run validate`. */
 function emptyRegion(spec) {
+  return { type: 'FeatureCollection', metadata: baseMetadata(spec), features: [] }
+}
+
+/** An empty part file for one borough, ready for the agent that claims it. */
+function emptyPart(regionId, part) {
   return {
     type: 'FeatureCollection',
-    metadata: {
-      region_id: spec.id,
-      name: spec.name,
-      country: spec.country,
-      game_edition: spec.edition,
-      // [0, 0] is Null Island — a placeholder to replace with the real center,
-      // and one that stands out on the map if it ever isn't.
-      center: spec.center ?? [0, 0],
-      zoom: spec.zoom,
+    part: {
+      region_id: regionId,
+      part_id: part.id,
+      ...(part.name ? { name: part.name } : {}),
       subregions: [],
       generated_by: 'agent',
-      generated_at: new Date().toISOString().slice(0, 10),
+      generated_at: today(),
       schema_version: SCHEMA_VERSION,
     },
     features: [],
+  }
+}
+
+/** Turn "manhattan:Manhattan,bronx:The Bronx" (or a batch array) into parts. */
+function parseParts(raw, level) {
+  if (raw === undefined || raw === true) return []
+  const entries = Array.isArray(raw)
+    ? raw
+    : String(raw)
+        .split(',')
+        .map((chunk) => {
+          const [id, ...rest] = chunk.split(':')
+          return { id: id.trim(), name: rest.join(':').trim() || undefined }
+        })
+
+  return entries.map((entry) => {
+    const id = String(entry.id ?? '').trim()
+    if (!ID_PATTERN.test(id)) {
+      die(`part id "${id}" must be lowercase kebab-case, e.g. staten-island`)
+    }
+    return {
+      id,
+      // Without a display name the part is still usable, but the sub-region it
+      // creates would be labeled with its slug — so fall back to a readable one.
+      name: entry.name ?? titleize(id),
+      level,
+      status: entry.status ?? 'requested',
+      note: entry.note,
+    }
+  })
+}
+
+const titleize = (id) => id.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ')
+
+/** Normalize + validate one region spec from flags or a batch file entry. */
+function toSpec(raw) {
+  const id = raw.id
+  const name = raw.name
+  if (typeof id !== 'string' || !id) die('--id is required (see --help)')
+  if (typeof name !== 'string' || !name) die(`--name is required for "${id}"`)
+  if (!ID_PATTERN.test(id)) {
+    die(`region_id "${id}" must be lowercase kebab-case, e.g. us-ny-buffalo`)
+  }
+
+  const status = raw.status ?? 'requested'
+  if (!STATUSES.includes(status)) {
+    die(`status "${status}" for "${id}" must be one of: ${STATUSES.join(', ')}`)
+  }
+
+  const level = raw['part-level'] ?? raw.part_level ?? 'borough'
+  if (!SUBREGION_LEVELS.includes(level)) {
+    die(`--part-level "${level}" must be one of: ${SUBREGION_LEVELS.join(', ')}`)
+  }
+  const parts = parseParts(raw.parts, level)
+  const split = raw.split === true || raw.split === 'true' || parts.length > 0
+
+  // A split region's metadata lives in its manifest, and the merged file it
+  // produces is written from there — so it is always scaffolded, never empty.
+  const scaffold = split || raw.scaffold === true || raw.scaffold === 'true'
+  // A published entry with no data file would break the app's region picker.
+  if (status === 'published' && !scaffold && !existsSync(regionPath(id))) {
+    die(`"${id}" is marked published but ${id}.geojson does not exist — add --scaffold`)
+  }
+
+  const country = countryOf(raw, id)
+  const edition = raw.edition === undefined ? country : String(raw.edition).toUpperCase()
+  if (!COUNTRY_PATTERN.test(edition)) {
+    die(`--edition "${raw.edition}" must be an ISO 3166-1 alpha-2 code, e.g. US, GB`)
+  }
+
+  const { admin, admin_name } = adminOf(raw, id)
+
+  return {
+    id,
+    name,
+    country,
+    admin,
+    admin_name,
+    edition,
+    status,
+    note: typeof raw.note === 'string' ? raw.note : undefined,
+    scaffold,
+    split,
+    parts,
+    // One sub-region per part, so a facility can say which borough it is in
+    // from day one and the manifest's `subregion_id` references resolve.
+    subregions: parts.map((p) => ({ id: p.id, name: p.name, level: p.level, parent: null })),
+    center: raw.center ? parseCenter(raw.center) : undefined,
+    zoom: raw.zoom === undefined ? 11 : Number(raw.zoom),
   }
 }
 
@@ -177,50 +302,6 @@ function adminOf(raw, id) {
   return { admin: code, admin_name: typeof name === 'string' ? name : undefined }
 }
 
-/** Normalize + validate one region spec from flags or a batch file entry. */
-function toSpec(raw) {
-  const id = raw.id
-  const name = raw.name
-  if (typeof id !== 'string' || !id) die('--id is required (see --help)')
-  if (typeof name !== 'string' || !name) die(`--name is required for "${id}"`)
-  if (!ID_PATTERN.test(id)) {
-    die(`region_id "${id}" must be lowercase kebab-case, e.g. us-ny-buffalo`)
-  }
-
-  const status = raw.status ?? 'requested'
-  if (!STATUSES.includes(status)) {
-    die(`status "${status}" for "${id}" must be one of: ${STATUSES.join(', ')}`)
-  }
-
-  const scaffold = raw.scaffold === true || raw.scaffold === 'true'
-  // A published entry with no data file would break the app's region picker.
-  if (status === 'published' && !scaffold && !existsSync(join(REGIONS_DIR, `${id}.geojson`))) {
-    die(`"${id}" is marked published but ${id}.geojson does not exist — add --scaffold`)
-  }
-
-  const country = countryOf(raw, id)
-  const edition = raw.edition === undefined ? country : String(raw.edition).toUpperCase()
-  if (!COUNTRY_PATTERN.test(edition)) {
-    die(`--edition "${raw.edition}" must be an ISO 3166-1 alpha-2 code, e.g. US, GB`)
-  }
-
-  const { admin, admin_name } = adminOf(raw, id)
-
-  return {
-    id,
-    name,
-    country,
-    admin,
-    admin_name,
-    edition,
-    status,
-    note: typeof raw.note === 'string' ? raw.note : undefined,
-    scaffold,
-    center: raw.center ? parseCenter(raw.center) : undefined,
-    zoom: raw.zoom === undefined ? 11 : Number(raw.zoom),
-  }
-}
-
 function listQueue(index) {
   const regions = index.regions ?? []
   if (regions.length === 0) {
@@ -235,9 +316,30 @@ function listQueue(index) {
     for (const r of group) {
       const file = r.file ? `→ ${r.file}` : '(no file yet)'
       console.log(`  ${r.region_id.padEnd(width)}  ${r.name}  ${file}`)
+      // A split region has a queue of its own; a flat list of regions would
+      // show it as one line of work when it is a dozen.
+      if (existsSync(manifestPath(r.region_id))) {
+        for (const part of readJson(manifestPath(r.region_id)).parts ?? []) {
+          const has = existsSync(partPath(r.region_id, part.id)) ? '' : ' (no file yet)'
+          console.log(`  ${' '.repeat(width)}    · ${part.id} — ${part.status}${has}`)
+        }
+      }
     }
   }
   console.log()
+}
+
+/** Write the merged region file for a split region, and pin the registry to it. */
+function syncMerged(regionId, index) {
+  const { manifest, parts } = loadComposite(regionId)
+  const { region, included } = mergeRegion(manifest, parts)
+  writeJson(regionPath(regionId), region)
+  const entry = index.regions?.find((r) => r.region_id === regionId)
+  if (entry) {
+    entry.file = `${regionId}.geojson`
+    applyPins(entry, region)
+  }
+  return { region, included, total: manifest.parts?.length ?? 0 }
 }
 
 /** Add or replace one registry entry + optional data file. Returns a summary. */
@@ -247,11 +349,31 @@ function addRegion(index, spec, force) {
     die(`"${spec.id}" is already in ${INDEX_PATH} (use --force to replace it)`)
   }
 
-  const filePath = join(REGIONS_DIR, `${spec.id}.geojson`)
+  const filePath = regionPath(spec.id)
   const hasFile = existsSync(filePath)
   let wroteFile = false
 
-  if (spec.scaffold) {
+  if (spec.split) {
+    const manifest = manifestPath(spec.id)
+    if (existsSync(manifest) && !force) {
+      die(`${manifest} already exists (use --force to replace it)`)
+    }
+    mkdirSync(partsDir(spec.id), { recursive: true })
+    writeJson(manifest, {
+      metadata: baseMetadata(spec),
+      parts: spec.parts.map((p) => ({
+        id: p.id,
+        name: p.name,
+        subregion_id: p.id,
+        status: p.status,
+        ...(p.note ? { note: p.note } : {}),
+      })),
+    })
+    // The merged file is written from the manifest, never by hand — including
+    // the empty one, so it matches what `merge-region` will produce later.
+    writeJson(filePath, mergeRegion({ metadata: baseMetadata(spec), parts: [] }, new Map()).region)
+    wroteFile = true
+  } else if (spec.scaffold) {
     if (hasFile && !force) {
       die(`${filePath} already exists (use --force to overwrite it)`)
     }
@@ -278,9 +400,8 @@ function addRegion(index, spec, force) {
   // a scaffolded region and re-running this is enough to keep them in step. A
   // still-queued region records only the --center it was asked for, if any.
   const data = wroteFile || hasFile ? readRegion(filePath) : null
-  const center = data ? data.metadata?.center : spec.center
-  if (center) entry.center = center
-  if (data) entry.facility_count = data.features?.length ?? 0
+  if (data) applyPins(entry, data)
+  else if (spec.center) entry.center = spec.center
 
   if (spec.note) entry.note = spec.note
 
@@ -288,6 +409,81 @@ function addRegion(index, spec, force) {
   else index.regions[existing] = entry
 
   return { entry, wroteFile, replaced: existing !== -1 }
+}
+
+/**
+ * Add or claim one part of a split region. This is the borough-level twin of
+ * queueing a region: it edits the manifest, optionally writes an empty part
+ * file, and re-merges so the region file never lags its manifest.
+ */
+function addPart(index, args) {
+  const regionId = args.id
+  const partId = args.part
+  if (typeof regionId !== 'string' || !regionId) die('--part needs --id <region_id> too')
+  if (typeof partId !== 'string' || !ID_PATTERN.test(partId)) {
+    die(`--part "${partId}" must be lowercase kebab-case, e.g. staten-island`)
+  }
+  if (!existsSync(manifestPath(regionId))) {
+    die(
+      `"${regionId}" is not generated in parts — no ${manifestPath(regionId)}.\n` +
+        `  start one with: npm run new-region -- --id ${regionId} --name "…" --parts "…"`,
+    )
+  }
+
+  const manifest = readJson(manifestPath(regionId))
+  manifest.parts ??= []
+  const status = args.status ?? 'in_progress'
+  if (!STATUSES.includes(status)) {
+    die(`status "${status}" must be one of: ${STATUSES.join(', ')}`)
+  }
+
+  const subregions = (manifest.metadata.subregions ??= [])
+  const requested = args.subregion === undefined ? partId : String(args.subregion)
+  const subregionId = requested === 'none' ? undefined : requested
+  const name = typeof args.name === 'string' ? args.name : titleize(partId)
+
+  if (subregionId && !subregions.some((s) => s.id === subregionId)) {
+    if (args.subregion !== undefined) {
+      die(`--subregion "${subregionId}" is not declared in ${manifestPath(regionId)}`)
+    }
+    // A part named after a division nobody declared yet is a new division —
+    // the common case when a region gains a borough after it was queued.
+    const level = args['part-level'] ?? subregions[0]?.level ?? 'borough'
+    if (!SUBREGION_LEVELS.includes(level)) {
+      die(`--part-level "${level}" must be one of: ${SUBREGION_LEVELS.join(', ')}`)
+    }
+    subregions.push({ id: subregionId, name, level, parent: null })
+  }
+
+  const existing = manifest.parts.findIndex((p) => p.id === partId)
+  const entry = {
+    id: partId,
+    name,
+    ...(subregionId ? { subregion_id: subregionId } : {}),
+    status,
+    ...(typeof args.note === 'string' ? { note: args.note } : {}),
+  }
+  if (existing === -1) manifest.parts.push(entry)
+  else manifest.parts[existing] = { ...manifest.parts[existing], ...entry }
+
+  writeJson(manifestPath(regionId), manifest)
+
+  const file = partPath(regionId, partId)
+  let wroteFile = false
+  if (args.scaffold === true && (!existsSync(file) || args.force === true)) {
+    writeJson(file, emptyPart(regionId, entry))
+    wroteFile = true
+  } else if (args.scaffold === true) {
+    die(`${file} already exists (use --force to overwrite it)`)
+  }
+
+  const { total } = syncMerged(regionId, index)
+  console.log(
+    `  ✓ ${existing === -1 ? 'queued' : 'updated'} part ${regionId}/${partId} (${status})` +
+      `${wroteFile ? ` + ${file}` : ''}`,
+  )
+  console.log(`    · ${total} part(s) in ${manifestPath(regionId)}`)
+  return true
 }
 
 // ── main ──────────────────────────────────────────────────────────────────────
@@ -303,6 +499,15 @@ index.regions ??= []
 
 if (args.list) {
   listQueue(index)
+  process.exit(0)
+}
+
+if (args.part !== undefined) {
+  addPart(index, args)
+  writeJson(INDEX_PATH, index)
+  console.log(`\nRegistry written: ${INDEX_PATH}`)
+  console.log('\nNext: generate the part per docs/06-data-generation-agent.md, then run')
+  console.log(`\`npm run merge-region -- --id ${args.id}\` and \`npm run validate\`.`)
   process.exit(0)
 }
 
@@ -324,6 +529,11 @@ for (const spec of specs) {
   const { entry, wroteFile, replaced } = addRegion(index, spec, args.force === true)
   const what = replaced ? 'updated' : 'queued'
   console.log(`  ✓ ${what} ${entry.region_id} (${entry.status})${wroteFile ? ` + ${entry.file}` : ''}`)
+  if (spec.split) {
+    console.log(
+      `    · ${spec.parts.length} part(s) queued in ${REGIONS_DIR}/${PARTS_DIR}/${spec.id}/region.json`,
+    )
+  }
 }
 
 writeJson(INDEX_PATH, index)
@@ -333,5 +543,12 @@ const needsData = specs.filter((s) => s.status !== 'published')
 if (needsData.length > 0) {
   console.log(
     `\nNext: generate the data per docs/06-data-generation-agent.md, then run \`npm run validate\`.`,
+  )
+}
+const split = specs.filter((s) => s.split)
+if (split.length > 0) {
+  console.log(
+    `Parts are claimed one at a time with \`npm run new-region -- --id ${split[0].id} --part <part_id> --scaffold\`,\n` +
+      'and assembled with `npm run merge-region -- --id ' + split[0].id + '`.',
   )
 }

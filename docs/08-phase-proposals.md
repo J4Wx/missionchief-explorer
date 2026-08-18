@@ -216,6 +216,9 @@ without opening the picker, no cross-region search, and no guard on payload size
 - [ ] **Cross-region search** — matches feed into the right region's deep link.
 - [ ] **Payload budget in CI** — fail on a region file over the `docs/04` target (~1–2 MB)
       or a bundle regression, with the "split large metros by sub-area" guidance applied.
+      Note this is about the *payload*: splitting a metro's **generation** into parts
+      landed separately (2026-08-18, `docs/06 § Regions generated in parts`) and merges
+      back into one file, so it doesn't move this number — `merge-region` only warns.
 - [ ] **Batch generation runbook** — queue → agent run → per-region PR, using the existing
       `--batch` support; target set of ~10 regions chosen for variety (a large metro, a
       rural county, a volunteer-heavy area) rather than whatever's easiest.
