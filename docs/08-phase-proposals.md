@@ -11,9 +11,9 @@
 > so the letters here never imply a schedule.
 >
 > **Already promoted out of this slate:** international region support (decision 2 below)
-> is committed as **Phase 6** in `docs/07`, and the test foundation (proposal A) as
-> **Phase 7**. Everything below is still a proposal, and B–F all assume Phase 6's
-> `schema_version: 2` has landed first.
+> is committed as **Phase 6** in `docs/07`, the test foundation (proposal A) as **Phase 7**,
+> and the data-depth work (proposal B) as **Phase 8**. Everything below is still a proposal,
+> and C–F all assume Phase 6's `schema_version: 2` has landed first.
 >
 > **Partly landed:** the contribution-intake half of **C** (issue forms, the correction
 > deep link, `.github/labels.yml` and its sync workflow) shipped on 2026-08-17 without
@@ -34,7 +34,7 @@ Charleston, 201 facilities):
 | Hospitals with a `trauma_level` attribute | **6 / 15** | Trauma level gates in-game patient delivery. |
 | Confidence distribution | 23 high / 138 medium / 40 low | Honest, but weighted toward "found the building, not the roster". |
 | ~~Automated tests~~ | ~~**none**~~ → 247, in CI | **Closed by Phase 7.** No end-to-end path though — see the dropped Playwright item. |
-| Source-link rot / staleness detection | none | Every record has `last_verified`, nothing ever re-checks it. |
+| Source-link rot / staleness detection | none | Every record has `last_verified`, nothing ever re-checks it, and no region records when it was last *reviewed* — so there's no way to say which region deserves the next pass. |
 | Contribution path for a non-coder | **issue forms** | Five forms, correction prefilled from the detail panel (part of C, landed 2026-08-17). What arrives is still triaged and merged by hand. |
 | Cross-region view | **global map** | The landing view pins every published region from the registry (part of E, landed 2026-08-17). Cross-region *search* still doesn't exist. |
 
@@ -47,13 +47,13 @@ here respects both.
 | # | Proposal | Value | Effort | Depends on |
 | --- | --- | --- | --- | --- |
 | ~~A~~ | ~~Test & regression foundation~~ | **Approved — Phase 7 in `docs/07`** | — | — |
-| B | Data-depth pass + quality gates | **Highest** (core promise) | M | A for gates |
+| ~~B~~ | ~~Data-depth passes + coverage reporting~~ | **Approved — Phase 8 in `docs/07`** | — | — |
 | C | Freshness, link rot & community corrections | High | M *(intake half landed)* | — |
-| D | Build-plan output (schema v2 `game` vocab) | **Highest** (product thesis) | M | B helps |
+| D | Build-plan output (schema v2 `game` vocab) | **Highest** (product thesis) | M | Phase 8 helps |
 | E | Multi-region scale & cross-region index | Medium–High | M–L *(global map landed)* | A, C |
 | F | Coverage-gap & proximity overlay | Medium (novel) | M | E optional |
 
-**Recommended order:** ~~A~~ → B → D → C → E → F. A first because everything after
+**Recommended order:** ~~A~~ → ~~B~~ → D → C → E → F. A first because everything after
 it edits shared logic; B and D before E because scaling to twenty thin regions is
 worth less than two deep ones plus a real planning payoff. C can run in parallel with
 anything — and with its issue forms and labels already in, what's left of it is CI.
@@ -73,38 +73,18 @@ for what shipped. One item from the proposal was **not** taken:
 
 ---
 
-## B — Data-depth pass + quality gates
+## ~~B — Data-depth passes + coverage reporting~~
 
-**Why.** This is the gap between what the product promises and what it currently shows.
-Half the fire/EMS houses have `units: []`, and only 22% of records carry a specialty tag.
-The schema and the agent contract already forbid guessing, so the fix is a *second pass*
-over published regions, not a schema change — plus a way to tell "unknown" apart from
-"nobody looked yet", which today is indistinguishable.
+**Approved 2026-08-18 — now [Phase 8 in `docs/07`](07-roadmap.md#phase-8--data-depth-passes--coverage-reporting-)**,
+which carries the scope and exit criteria. Nothing was dropped on the way across. The two
+rules the approval set are worth repeating here, because C, E and F all inherit them:
 
-**Scope**
-- [ ] **Enrichment-pass contract** — an addendum to `docs/06` for a *depth* run over an
-      already-published region: take the existing file, target `units: []` records and
-      untagged specialties, work official apparatus rosters / trauma designations /
-      capacity filings, raise `confidence`, bump `last_verified`. One PR per region, diff
-      reviewable against the published file.
-- [ ] **Declared gaps in region metadata** (additive schema bump, following Phase 6's
-      version 2): a
-      `metadata.coverage` block recording what was searched and what is *known* to be
-      uncovered (e.g. Charleston's tow operators and 911 centers — currently prose in an
-      `index.json` note). Lets the UI say "not covered here" instead of implying absence.
-- [ ] **`scripts/report.mjs` (`npm run report`)** — per-region and total coverage
-      metrics: unit coverage by category, specialty tagging, confidence mix, trauma-level
-      completeness, records past a staleness threshold. Prints a table; emits JSON for CI.
-- [ ] **Quality gates in CI** — warn (not fail) below thresholds; fail on regressions
-      against the committed report baseline, so a new region can't dilute coverage
-      silently.
-- [ ] **Data-quality scorecard in the About panel** — per-region coverage/confidence
-      readout next to the existing provenance, plus declared gaps.
-- [ ] Depth pass executed on both published regions.
-
-**Exit:** ≥80% of fire/EMS facilities in every published region either carry ≥1 sourced
-unit or fall under a declared gap; hospitals all carry trauma level or an explicit
-unknown; `npm run report` is the number both CI and the About panel read.
+1. **Depth passes are prompted by a human, never automatic** — the repo makes it obvious
+   which region has waited longest; a person triggers the pass and reads the diff.
+2. **Nothing fails for want of information** — coverage numbers are advisory, never a gate
+   on merging or on displaying a record. Improving data by hand is the fix; deleting good
+   data to satisfy a metric is not. `npm run validate` (well-formed, sourced) stays the only
+   hard gate.
 
 ---
 
@@ -134,7 +114,7 @@ needs to be credible.
       form is deep-linked from `FacilityDetail` with region, facility and title prefilled
       (`correctionUrl()` in `src/lib/links.ts`), and `AboutPanel` links the region-request
       and correction forms directly. Every form that asks for a data change requires a
-      source.
+      source. Phase 8 added a sixth, region review request, on the same pattern.
 - [x] **Label set as code** — `.github/labels.yml` is the source of truth (GitHub silently
       drops labels an issue form names but the repo doesn't have), synced by
       `scripts/sync-labels.mjs` / `npm run labels` from `.github/workflows/labels.yml`:
@@ -294,7 +274,7 @@ published UK regions tag it (Norfolk 6 inshore / 3 all-weather, Merseyside 3 / 1
       point nearest the gap ("20 km of coast between Wells and Cromer; nearest candidate
       site here"), not the gap's centroid.
 - [ ] **Disable, don't guess** — a constrained category with no declared corridor is
-      unavailable in the overlay, and says why. Same principle as B's declared gaps: say
+      unavailable in the overlay, and says why. Same principle as Phase 8's declared gaps: say
       "not covered here" instead of implying absence. It matters more here, because the
       output is a confident-looking recommendation rather than a blank space.
 - [ ] **Honest labeling** — straight-line distance, not routed drive time; stated in the
@@ -327,23 +307,33 @@ reason — the overlay never proposes an inland lifeboat station.
 
 ## Decisions needed before these are scheduled
 
-1. **Depth vs breadth.** B/D (make two regions excellent and actionable) before E
-   (many regions), or the reverse? The recommendation above is depth-first; breadth-first
-   is defensible if the goal is attracting contributors.
+1. ~~**Depth vs breadth.**~~ **Decided 2026-08-18: depth first.** B was approved as
+   Phase 8 ahead of E, so the catalog gets a way to deepen and re-review the regions it has
+   before it grows. D (the planning payoff those deeper regions feed) stays next in line;
+   E's breadth push comes after.
 2. ~~**Non-US scope.**~~ **Decided: on the roadmap, and next.** The schema leans US
    (`address.state` required, ACS trauma levels, a category vocab built around
    sheriff/state/federal LE), so this is a schema and domain-model phase rather than a
    data PR — see **Phase 6** in `docs/07` for the scope. The target is the **UK edition**
    (one of the 24 listed in `docs/02` § Editions); UI translation is explicitly out of that
-   phase's scope. Two knock-ons for this slate:
+   phase's scope. Knock-ons for this slate:
    - Phase 6 claims `schema_version: 2`, so **D**'s controlled `game.building_types`
      vocabulary becomes version 3 unless the two ship together.
+   - **B** (now Phase 8) added two optional `metadata` fields (`last_reviewed`,
+     `coverage`) plus a registry mirror of the review date. Both are additive and readable
+     by an old client, so they rode `schema_version: 2` rather than claiming a bump.
    - **E**'s region target should be set after Phase 6, so it can include a non-US metro.
    - **F**'s `metadata.siting` block is a third additive bump on the same pile; if D and F
      land near each other, spend one version number, not two.
-3. **Staleness window.** C proposes 12 months for `last_verified` before a record is
-   flagged. Fire apparatus moves more often than jails; a per-category window is possible
-   but more machinery.
+3. **Staleness windows.** Two different clocks, both advisory — nothing fails or is
+   hidden when a window is passed, it only changes what the report ranks first:
+   - *Per record* (C): 12 months proposed for `last_verified` before a record is flagged in
+     the tracking issue. Fire apparatus moves more often than jails; a per-category window
+     is possible but more machinery.
+   - *Per region* (B): how old `metadata.last_reviewed` gets before the region surfaces in
+     `--stale` and in the UI's "could use a look" list. This one is a sort key more than a
+     threshold, so it can start as "oldest three, always shown" and only acquire a number
+     if the ranking gets noisy at ~10 regions.
 4. **CI budget.** ~~A's Playwright job~~ and C's weekly link check both add CI minutes.
    **Decided for A (2026-08-17): Playwright dropped**, so Phase 7 added only the Vitest
    step (~15s). The question is still open for C's weekly link check, and for reviving

@@ -256,6 +256,42 @@
     ],
     "generated_by": "agent",
     "generated_at": "2026-08-16",
+    "last_reviewed": "2026-08-16",
+    "coverage": {
+      "searched": [
+        "fire",
+        "ems",
+        "police_local",
+        "sheriff",
+        "state_le",
+        "federal_le",
+        "coast_guard",
+        "hospital",
+        "clinic",
+        "jail",
+        "prison",
+        "ranger",
+        "tow",
+        "dispatch"
+      ],
+      "gaps": [
+        {
+          "what": "tow operators",
+          "categories": [
+            "tow"
+          ],
+          "reason": "no public addresses"
+        },
+        {
+          "what": "911 centers",
+          "categories": [
+            "dispatch"
+          ],
+          "reason": "no public addresses"
+        }
+      ],
+      "note": "Backfilled 2026-08-18 from this region's registry note (docs/07 Phase 8) — a record of what the original pass covered, not a fresh survey."
+    },
     "schema_version": 2
   },
   "features": [

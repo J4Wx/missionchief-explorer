@@ -13,6 +13,7 @@ import { Legend } from './map/Legend'
 import { bboxOf, toPosition, type Position } from './lib/geo'
 import { pinnedFacilityCount, regionPins } from './lib/regionPins'
 import { RegionBrowser } from './ui/RegionBrowser'
+import { StaleRegions } from './ui/StaleRegions'
 import { subtreeIds } from './lib/subregions'
 import {
   computeFacets,
@@ -311,6 +312,10 @@ export default function App() {
                 onSelect={changeRegion}
                 onHover={setHoveredRegionId}
               />
+              {/* Where the next depth pass would pay off (docs/07 Phase 8) —
+                  under the coverage list, because it's a suggestion for
+                  contributors rather than part of choosing a region. */}
+              <StaleRegions regions={regions} onSelect={changeRegion} />
             </div>
           </aside>
 

@@ -24,9 +24,13 @@ The platform lets you:
 > regions — **Liverpool / Merseyside** and **Norwich / Norfolk**. Adding regions is
 > routine; see [CONTRIBUTING.md](CONTRIBUTING.md).
 >
-> Candidates for what comes next are in
-> [08 — Phase Proposals](docs/08-phase-proposals.md) — the largest known gap is data *depth*
-> (published apparatus rosters are thin), not coverage.
+> **Phase 8 — data depth** is under way: the largest known gap is depth (published apparatus
+> rosters are thin), not coverage, so regions now record when they were last reviewed as a
+> whole and what they're known to be missing, `npm run report` measures it, and any region
+> can be sent back for a deeper pass from the app. Nothing is re-generated on a schedule and
+> no coverage number gates anything — thin data is kept and improved, never dropped.
+>
+> Further candidates are in [08 — Phase Proposals](docs/08-phase-proposals.md).
 
 ---
 
@@ -66,6 +70,7 @@ npm run validate   # validate all data files against the JSON Schema
 npm run build      # produce static site in dist/
 
 npm run new-region -- --help    # register or scaffold a region
+npm run report -- --stale       # which region has waited longest for a deeper pass
 ```
 
 The basemap defaults to [OpenFreeMap](https://openfreemap.org/) (no API key), one style

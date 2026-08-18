@@ -231,6 +231,84 @@ unfamiliar: an English fire service's appliance list is not a US apparatus roste
 guessing at one because the shape looks similar is exactly the failure this contract exists
 to prevent.
 
+## Depth passes over a published region
+
+A published region is a **first** pass. Discovery finds the buildings; the apparatus
+rosters, specialties, trauma designations and capacities behind them are won one source at
+a time, and today about half the catalog's fire and EMS records still carry no units at
+all. A **depth pass** is a second run over a region that already exists — same contract,
+narrower target.
+
+**A depth pass is always prompted.** Nothing here re-runs an agent over published data on
+a schedule, and nothing should: an unattended pass would rewrite sourced records with
+nobody reading the diff. One starts from exactly three places:
+
+- a **region-review issue** (`.github/ISSUE_TEMPLATE/06-region-review.yml`, linked from
+  every region in the app), or
+- whatever `npm run report -- --stale` puts at the top of its list, or
+- a maintainer asking for a region to be deepened.
+
+- **Input:** the published `data/regions/<region_id>.geojson`, plus an optional focus —
+  units, specialties, hospitals, one sub-region.
+- **Output:** the same file, edited in place. One region per PR, reviewable as a diff
+  against what was published.
+
+### Workflow
+
+1. **See where the region actually stands.** `npm run report -- --region <region_id>`
+   prints unit coverage by category, specialty tagging, the confidence mix, trauma
+   completeness and what gaps are already declared.
+2. **Target the thin records**, in the order the value sits: fire/EMS houses with
+   `units: []`, hospitals with no trauma statement, facilities with no `specialties`,
+   records whose `last_verified` is oldest, anything at `confidence: low`.
+3. **Work the sources** exactly as a first pass does — official department and agency
+   pages, open-data portals, published rosters and annual reports first; enthusiast
+   registries as `medium`/`low`, always cited. The guardrails below are unchanged: no
+   fabrication, public sources only, unknowns stay unknown.
+4. **Edit in place.** Update the records you improved and leave the rest alone. A record
+   you could not improve stays exactly as it is — see the rules below.
+5. **Declare what you searched and couldn't find** in `metadata.coverage` (`docs/03`):
+   the categories you covered, and each gap with the reason it's a gap. This is how "we
+   looked and it isn't public" stops looking identical to "nobody looked".
+6. **Move the dates.** `last_verified` on every record you actually checked;
+   `metadata.last_reviewed` to the date of the pass — once, for the region.
+7. **Sync the registry:** `npm run new-region -- --sync --id <region_id>`, which copies
+   the new review date and facility count onto the `index.json` entry.
+   (`index.json` is that script's to write — don't hand-edit it.)
+8. **Validate:** `npm run validate` must pass.
+9. **Open a PR** that says what moved: the `npm run report -- --region <region_id>` numbers
+   before and after, what you added, and what you looked for and couldn't find.
+
+### Rules specific to a depth pass
+
+- **Never delete a record because you couldn't deepen it.** A facility with a confirmed
+  building, an address and a source is the product working as intended; an empty `units`
+  array is a to-do, not a defect. Removing it to raise a percentage is the one outcome
+  this whole loop exists to prevent.
+- **Never invent to fill a number.** The report is advisory and no threshold gates
+  anything, so 20% unit coverage that is true beats 80% that isn't.
+- **Don't touch what you didn't verify.** Leave `confidence` where it is unless a source
+  actually moved it, and don't re-date `last_verified` on records you only read past.
+- **Lower a confidence when the evidence says so.** A pass that finds a station closed, a
+  roster withdrawn or a source rotted is a successful pass; record it.
+- **A pass that finds nothing still counts** — bump `metadata.last_reviewed`, declare what
+  you searched in `metadata.coverage`, and say so in the PR. "Looked, found nothing new"
+  is information, and it stops the next pass repeating the same dead ends.
+
+### Suggested prompt (template)
+
+> You are running a **depth pass** over the existing Dispatch Atlas region `{region_id}`.
+> Follow `docs/06-data-generation-agent.md` § Depth passes and `docs/03-data-schema.md`.
+> Start from `npm run report -- --region {region_id}`, then work the thin records —
+> `units: []` first, then untagged specialties, hospitals with no trauma statement, and the
+> oldest `last_verified` dates — using official sources. Edit
+> `data/regions/{region_id}.geojson` in place; never remove or invent a record, and leave
+> anything you couldn't verify exactly as it is. Record what you searched and what is
+> genuinely not public in `metadata.coverage`, bump `last_verified` on the records you
+> checked and `metadata.last_reviewed` once, then run
+> `npm run new-region -- --sync --id {region_id}` and `npm run validate`. Summarize the
+> before/after numbers and what you couldn't find.
+
 ## Quality bar per category
 
 - **Fire/EMS:** house-by-house where possible; apparatus list is the headline value.

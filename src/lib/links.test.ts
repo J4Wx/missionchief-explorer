@@ -1,5 +1,12 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { CORRECTION_TEMPLATE, REPO_URL, correctionUrl, issueUrl } from './links'
+import {
+  CORRECTION_TEMPLATE,
+  REGION_REVIEW_TEMPLATE,
+  REPO_URL,
+  correctionUrl,
+  issueUrl,
+  reviewUrl,
+} from './links'
 
 afterEach(() => {
   vi.unstubAllEnvs()
@@ -44,5 +51,21 @@ describe('correctionUrl', () => {
     const raw = correctionUrl('us-ga-savannah', 'ems-1', 'Chatham EMS #1 & Rescue')
     expect(raw).not.toContain('#1')
     expect(new URL(raw).searchParams.get('facility')).toBe('ems-1 — Chatham EMS #1 & Rescue')
+  })
+})
+
+describe('reviewUrl', () => {
+  // Field ids in .github/ISSUE_TEMPLATE/06-region-review.yml, and the same
+  // prefill scripts/report.mjs writes into its --stale output.
+  it('prefills the review form with the region and a titled subject', () => {
+    const url = new URL(reviewUrl('us-ga-savannah', 'Savannah, GA (Chatham County)'))
+    expect(url.searchParams.get('template')).toBe(REGION_REVIEW_TEMPLATE)
+    expect(url.searchParams.get('region')).toBe('us-ga-savannah')
+    expect(url.searchParams.get('title')).toBe('[Review] Savannah, GA (Chatham County)')
+  })
+
+  it('falls back to the region id when there is no display name', () => {
+    const url = new URL(reviewUrl('us-ga-savannah'))
+    expect(url.searchParams.get('title')).toBe('[Review] us-ga-savannah')
   })
 })

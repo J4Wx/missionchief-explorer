@@ -133,6 +133,19 @@ A citation is the only real requirement. Update the record's `sources[]`,
 Every facility panel in the app has its own **Report a correction** link, which opens the
 form with that region and facility already filled in — usually the fastest route.
 
+### Asking for a region to be looked at again
+
+A published region is a *first* pass, not a finished one — plenty of stations still have no
+apparatus listed, and every record ages. **Request a review** opens an issue asking for a
+**depth pass** over a whole region; the link is on every region in the About panel, and on
+the "could use a look" list the app shows when no region is open. You don't need to know
+what's missing — "it's the oldest region and nobody has been back" is reason enough.
+
+Nothing is re-generated on a schedule. A region is revisited because someone asked, and a
+person reviews the diff before it merges (`docs/06` § Depth passes). `npm run report --
+--stale` is the same queue in numbers, and a thin region is never "fixed" by deleting
+records: data only ever gets added or corrected, with a source.
+
 ## Working on the app
 
 ```bash
@@ -143,9 +156,12 @@ npm run typecheck
 npm run lint
 npm test           # Vitest — app logic, UI panels, and the data validator
 npm run build      # regenerates types, then builds
+npm run report     # coverage per region; `-- --stale` ranks what to deepen next
 ```
 
-All five checks run in CI (`.github/workflows/ci.yml`) and must pass. Every pull
+All five checks run in CI (`.github/workflows/ci.yml`) and must pass. `npm run report`
+also runs there, but only ever as a comment on the job summary: coverage numbers are
+advisory and never fail a build. Every pull
 request also gets an ephemeral preview deploy — see
 [`docs/forge-preview-deploys.md`](docs/forge-preview-deploys.md).
 
@@ -175,6 +191,10 @@ A few conventions that aren't obvious from the code:
   `.github/workflows/labels.yml` syncs it on merge to `main`, and
   `npm run labels -- --dry-run` previews a change. Issue forms apply labels *by name* and
   GitHub silently drops any that don't exist, so a new label goes in that file first.
+- **Coverage numbers never gate anything.** `npm run report` measures depth and review age
+  (`scripts/lib/coverage.mjs`), and CI publishes it — but no threshold blocks a merge, hides
+  a record, or justifies dropping one. `npm run validate` (schema-valid, sourced) is the
+  only hard gate on data.
 - **Project links live in `src/lib/links.ts`.** `REPO_URL` (overridable with
   `VITE_REPO_URL`) and the issue-form helpers — including the prefilled correction link on
   every facility panel — so a fork changes one file.

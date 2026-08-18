@@ -762,6 +762,67 @@
   ],
   "generated_by": "agent",
   "generated_at": "2026-08-17",
+  "last_reviewed": "2026-08-17",
+  "coverage": {
+   "searched": [
+    "fire",
+    "ems",
+    "police_local",
+    "sheriff",
+    "state_le",
+    "federal_le",
+    "coast_guard",
+    "hospital",
+    "jail",
+    "prison",
+    "tow",
+    "dispatch"
+   ],
+   "gaps": [
+    {
+     "what": "apparatus rosters outside Buffalo and Grand Island",
+     "categories": [
+      "fire"
+     ],
+     "reason": "Erie County departments do not publish them per station"
+    },
+    {
+     "what": "five fire departments (Depew, Highland Hose, Lawtons, Newstead, North Boston)",
+     "categories": [
+      "fire"
+     ],
+     "reason": "neither OpenStreetMap nor Nominatim could place them",
+     "count": 5
+    },
+    {
+     "what": "tow operators, and 911 PSAPs other than the county centre",
+     "categories": [
+      "tow",
+      "dispatch"
+     ],
+     "reason": "no sourced addresses found"
+    },
+    {
+     "what": "Mercy Flight's air base, the Border Patrol sector headquarters and the Erie County Sheriff's investigative division",
+     "categories": [
+      "ems",
+      "federal_le",
+      "sheriff"
+     ],
+     "reason": "no sourced coordinates",
+     "count": 3
+    },
+    {
+     "what": "Troop A's other Erie County stations, and the village police departments OpenStreetMap does not map",
+     "categories": [
+      "state_le",
+      "police_local"
+     ],
+     "reason": "not mapped in OpenStreetMap and no published addresses found"
+    }
+   ],
+   "note": "Backfilled 2026-08-18 from this region's registry note (docs/07 Phase 8) — a record of what the original pass covered, not a fresh survey."
+  },
   "schema_version": 2
  },
  "features": [

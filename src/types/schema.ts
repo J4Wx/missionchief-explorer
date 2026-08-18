@@ -77,6 +77,79 @@ export interface RegionFeatureCollection {
     }[]
     generated_by?: 'agent' | 'human'
     generated_at?: string
+    /**
+     * ISO date a pass over the whole region last happened — first publication, or a depth pass since (docs/06 § Depth passes). Unlike generated_at it moves; unlike a facility's last_verified it describes the region rather than one record. Mirrored onto the registry entry so review age can be ranked without downloading the file.
+     */
+    last_reviewed?: string
+    /**
+     * What a pass over this region actually covered, so "nobody looked here" can be told apart from "nothing is there". Optional: an absent block means no one has declared coverage yet, which is a reporting signal rather than an error.
+     */
+    coverage?: {
+      /**
+       * Categories deliberately searched for. A category listed here with no facilities is a real absence; one missing from this list was never looked for.
+       */
+      searched?: (
+        | 'fire'
+        | 'ems'
+        | 'police_local'
+        | 'sheriff'
+        | 'state_le'
+        | 'federal_le'
+        | 'police_national'
+        | 'hospital'
+        | 'clinic'
+        | 'prison'
+        | 'jail'
+        | 'tow'
+        | 'dispatch'
+        | 'coast_guard'
+        | 'sea_rescue'
+        | 'mountain_rescue'
+        | 'civil_protection'
+        | 'ranger'
+      )[]
+      /**
+       * Known holes — things the region has that this file does not carry, stated rather than left to look like absence.
+       */
+      gaps?: {
+        /**
+         * What is missing, in a player's words: "tow operators", "volunteer apparatus rosters".
+         */
+        what: string
+        /**
+         * Categories the gap falls under, where it maps onto them.
+         */
+        categories?: (
+          | 'fire'
+          | 'ems'
+          | 'police_local'
+          | 'sheriff'
+          | 'state_le'
+          | 'federal_le'
+          | 'police_national'
+          | 'hospital'
+          | 'clinic'
+          | 'prison'
+          | 'jail'
+          | 'tow'
+          | 'dispatch'
+          | 'coast_guard'
+          | 'sea_rescue'
+          | 'mountain_rescue'
+          | 'civil_protection'
+          | 'ranger'
+        )[]
+        /**
+         * Why it is missing — no public addresses, rosters not published centrally, the only aggregator blocks automated access.
+         */
+        reason: string
+        /**
+         * How many records are known to be missing, where that number is known.
+         */
+        count?: number
+      }[]
+      note?: string
+    }
     schema_version: number
   }
   features: {

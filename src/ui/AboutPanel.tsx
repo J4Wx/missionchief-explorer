@@ -6,7 +6,14 @@
 // `?about=1` so it can be shared as an answer to "where is this data from?".
 import { useEffect, useRef, type ReactNode } from 'react'
 import type { Facility, RegionFeatureCollection, RegionIndexEntry } from '../types/app'
-import { CORRECTION_TEMPLATE, REGION_REQUEST_TEMPLATE, REPO_URL, issueUrl } from '../lib/links'
+import {
+  CORRECTION_TEMPLATE,
+  REGION_REQUEST_TEMPLATE,
+  REPO_URL,
+  issueUrl,
+  reviewUrl,
+} from '../lib/links'
+import { ageInDays, formatReviewAge, todayIso } from '../lib/staleness'
 
 interface Props {
   regions: RegionIndexEntry[]
@@ -65,6 +72,7 @@ export function AboutPanel({ regions, region, onClose }: Props) {
 
   const meta = region?.metadata
   const features = region?.features ?? []
+  const today = todayIso()
 
   const byConfidence = features.reduce<Partial<Record<Facility['confidence'], number>>>(
     (acc, f) => {
@@ -162,6 +170,12 @@ export function AboutPanel({ regions, region, onClose }: Props) {
           </Section>
 
           <Section title="Coverage">
+            <p className="mb-2 text-ink-muted">
+              A published region is a first pass, not a finished one. Any of them can be
+              sent back for a deeper look — rosters, specialties, anything that has changed
+              since. Nothing is re-run automatically; a region is revisited because someone
+              asked.
+            </p>
             <ul className="space-y-2">
               {regions.map((entry) => (
                 <li key={entry.region_id} className="flex flex-wrap items-baseline gap-x-2">
@@ -172,6 +186,21 @@ export function AboutPanel({ regions, region, onClose }: Props) {
                     {STATUS_LABEL[entry.status]}
                   </span>
                   <code className="text-xs text-ink-faint">{entry.region_id}</code>
+                  {entry.status === 'published' && (
+                    <>
+                      <span className="text-xs text-ink-faint">
+                        {formatReviewAge(ageInDays(entry.last_reviewed, today))}
+                      </span>
+                      <a
+                        href={reviewUrl(entry.region_id, entry.name)}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="ml-auto shrink-0 text-xs text-accent underline hover:text-ink"
+                      >
+                        Request a review ↗
+                      </a>
+                    </>
+                  )}
                   {entry.note && (
                     <p className="w-full text-xs text-ink-faint">{entry.note}</p>
                   )}
@@ -200,10 +229,36 @@ export function AboutPanel({ regions, region, onClose }: Props) {
                   />
                 )}
                 {meta.generated_at && <Row label="Generated" value={meta.generated_at} />}
+                <Row
+                  label="Reviewed"
+                  value={
+                    meta.last_reviewed
+                      ? `${meta.last_reviewed} — ${formatReviewAge(ageInDays(meta.last_reviewed, today))}`
+                      : 'no whole-region pass recorded'
+                  }
+                />
                 <Row label="Distinct sources" value={`${hosts.length} domains`} />
               </dl>
               {hosts.length > 0 && (
                 <p className="mt-2 break-words text-xs text-ink-faint">{hosts.join(', ')}</p>
+              )}
+              {/* Declared gaps (docs/03) — what this region is known *not* to
+                  carry, so a blank space isn't read as "there is nothing here". */}
+              {meta.coverage?.gaps && meta.coverage.gaps.length > 0 && (
+                <div className="mt-3">
+                  <p className="font-medium text-ink">Known gaps in this region</p>
+                  <ul className="mt-1 list-disc space-y-0.5 pl-4 text-ink-muted">
+                    {meta.coverage.gaps.map((gap) => (
+                      <li key={gap.what}>
+                        {gap.what}
+                        {gap.count !== undefined && ` (${gap.count})`} — {gap.reason}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {meta.coverage?.note && (
+                <p className="mt-2 text-xs text-ink-faint">{meta.coverage.note}</p>
               )}
             </Section>
           )}
@@ -223,6 +278,11 @@ export function AboutPanel({ regions, region, onClose }: Props) {
               <ExternalLink href={issueUrl(CORRECTION_TEMPLATE)}>
                 Report a correction
               </ExternalLink>
+              {meta && (
+                <ExternalLink href={reviewUrl(meta.region_id, meta.name)}>
+                  Request a review of {meta.name}
+                </ExternalLink>
+              )}
               <ExternalLink href={`${REPO_URL}/blob/main/CONTRIBUTING.md`}>
                 Contribution guide
               </ExternalLink>

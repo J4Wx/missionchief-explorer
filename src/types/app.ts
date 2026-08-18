@@ -44,6 +44,14 @@ export interface RegionIndexEntry {
    */
   facility_count?: number
   /**
+   * ISO date of the last whole-region pass, copied from the region file's
+   * `metadata.last_reviewed`. Same bargain as `center`: it lives here so the
+   * app can rank which region has waited longest for a depth pass without
+   * downloading any of them (docs/07 Phase 8). Absent means nobody recorded
+   * one — which sorts *first*, not last.
+   */
+  last_reviewed?: string
+  /**
    * Absent until the region has a data file. The registry doubles as the
    * request queue, so `requested` (and early `in_progress`) entries are
    * registered before anything exists to point at — see scripts/new-region.mjs.

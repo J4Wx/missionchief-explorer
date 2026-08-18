@@ -16,6 +16,7 @@
     "gen:types": "node scripts/gen-types.mjs",
     "new-region": "node scripts/new-region.mjs",
     "merge-region": "node scripts/merge-region.mjs",
+    "report": "node scripts/report.mjs",
     "labels": "node scripts/sync-labels.mjs"
   },
   "dependencies": {

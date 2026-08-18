@@ -36,15 +36,21 @@ export function compositeRegionIds(dir = REGIONS_DIR) {
 }
 
 /**
- * Copy the global-map pin fields (docs/05) out of a region file onto its
- * registry entry. They duplicate the data file so the landing view can plot
- * every region without downloading one, and `npm run validate` fails when the
- * two disagree — so every writer of index.json goes through here.
+ * Copy the fields a registry entry duplicates out of its region file: the
+ * global-map pin (docs/05) and the region's review age (docs/03). They exist on
+ * the entry so the landing view can plot every region — and rank which one has
+ * waited longest for a look — without downloading one, and `npm run validate`
+ * fails when a copy disagrees with the file, so every writer of index.json goes
+ * through here.
  */
-export function applyPins(entry, region) {
-  const center = region?.metadata?.center
-  if (center) entry.center = center
+export function applyDerived(entry, region) {
+  const meta = region?.metadata
+  if (meta?.center) entry.center = meta.center
   if (region) entry.facility_count = region.features?.length ?? 0
+  // Cleared rather than left behind: a stale review date is worse than none,
+  // and the validator would fail on it anyway.
+  if (meta?.last_reviewed) entry.last_reviewed = meta.last_reviewed
+  else if (region) delete entry.last_reviewed
   return entry
 }
 

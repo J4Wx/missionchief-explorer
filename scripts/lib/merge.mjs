@@ -83,6 +83,11 @@ export function mergeRegion(manifest, parts) {
       subregions,
       ...(meta.generated_by ? { generated_by: meta.generated_by } : {}),
       ...(generatedAt ? { generated_at: generatedAt } : {}),
+      // Region-level, so the manifest owns them: a part covers one borough and
+      // has no standing to say when the region was last reviewed, or what the
+      // region as a whole is known to be missing.
+      ...(meta.last_reviewed ? { last_reviewed: meta.last_reviewed } : {}),
+      ...(meta.coverage ? { coverage: meta.coverage } : {}),
       schema_version: meta.schema_version,
     },
     features,

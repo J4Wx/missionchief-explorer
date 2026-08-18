@@ -136,6 +136,16 @@ A real record, from [`us-ga-savannah.geojson`](../data/regions/us-ga-savannah.ge
     ],
     "generated_by": "agent",         // agent | human
     "generated_at": "2026-08-14",
+    "last_reviewed": "2026-08-14",   // last whole-region pass; moves, generated_at doesn't
+    // Optional, and Savannah hasn't declared one yet — what a region that has
+    // looks like (Charleston's, shortened):
+    // "coverage": {
+    //   "searched": ["fire", "ems", "police_local", "hospital", "tow", "dispatch"],
+    //   "gaps": [
+    //     { "what": "tow operators", "categories": ["tow"], "reason": "no public addresses" }
+    //   ],
+    //   "note": "Free text for anything the two lists above can't say."
+    // },
     "schema_version": 2
   },
   "features": [ /* Facility Features */ ]
@@ -150,8 +160,36 @@ A real record, from [`us-ga-savannah.geojson`](../data/regions/us-ga-savannah.ge
 | `game_edition` | — | ISO-2 of the Mission Chief **edition** the `game` blocks target (`US` → missionchief.com, `GB` → missionchief.co.uk). Usually the same as `country`; set it on new regions. See [02 § Editions](02-domain-model.md#editions). |
 | `center` / `zoom` | ✅ | Default map view. |
 | `subregions` | — | Local divisions; see below. |
-| `generated_by` / `generated_at` | — | Provenance of the file itself. |
+| `generated_by` / `generated_at` | — | Provenance of the file itself. `generated_at` is the date it was first built and never moves again. |
+| `last_reviewed` | — | ISO date a pass over the **whole region** last happened — first publication, or a depth pass since ([06 § Depth passes](06-data-generation-agent.md#depth-passes-over-a-published-region)). Set it on every published region: it is what `npm run report -- --stale` ranks and what the app shows as review age. Mirrored onto the registry entry. |
+| `coverage` | — | What was searched, and what is *known* to be missing. See below. |
 | `schema_version` | ✅ | Current is **2**. |
+
+`last_reviewed` is a third date and the three do different jobs, so don't collapse them:
+`generated_at` records when the file was built, a facility's `last_verified` records when
+*that record* was last checked against its sources, and `last_reviewed` records when anyone
+last worked the region as a whole. A depth pass bumps `last_reviewed` and the
+`last_verified` of the records it touched; a one-facility correction bumps only that
+record's `last_verified`.
+
+### `coverage` — declared gaps
+
+Optional, and the difference between "we looked and there is nothing" and "nobody looked".
+An absent block means nobody has declared coverage for the region yet — that shows up in
+`npm run report` as something to fill in, and is never an error.
+
+| Field | Req? | Notes |
+| --- | --- | --- |
+| `searched` | — | Categories deliberately searched for. A category listed here with **no** facilities in the file is a real absence; one missing from the list was never looked for. |
+| `gaps[].what` | ✅ | What is missing, in a player's words — "tow operators", "volunteer apparatus rosters". |
+| `gaps[].categories` | — | The categories it falls under, where it maps onto them. |
+| `gaps[].reason` | ✅ | Why it is missing. "No public addresses", not "TODO" — a gap with no reason is just an excuse. |
+| `gaps[].count` | — | How many records are known to be missing, where the number is known (five departments that couldn't be placed). |
+| `note` | — | Free text for what the structured fields can't say. |
+
+A declared gap is **not** a licence to thin a region: nothing in the app or CI treats a gap
+as a reason to drop records, and no coverage number gates publication (Phase 8). It exists
+so the UI can say "not covered here" instead of implying absence.
 
 Region files are registered in [`data/regions/index.json`](../data/regions/index.json) so
 the app can list available regions without scanning the filesystem. An entry carries
@@ -164,12 +202,15 @@ once one exists, and an optional `note`:
 | `admin_name` | — | Display name for it — "Georgia", "Merseyside". The picker labels the group with the bare code without it, so set it. Meaningless alone: `admin_name` without `admin` fails. |
 | `center` | ✅ *(published)* | `[lng, lat]` — the region's pin on the global map, copied from the file's `metadata.center`. |
 | `facility_count` | — | How many facilities the file holds, for the pin's bubble and the region list. Absent is a warning, not an error. |
+| `last_reviewed` | — | Copy of the file's `metadata.last_reviewed`, so the app can rank review age across regions without downloading any of them. Absent on a published entry is a warning. |
 
-`center` and `facility_count` are **duplicated on purpose**: the global map is the landing
-view, and plotting every region has to cost nothing, so it reads the registry rather than
-downloading region files (`docs/04`'s "never ship all regions at once"). The validator
-compares both against the file whenever the entry points at one, so the copy can't drift —
-a data PR that adds facilities and forgets the count fails with the number it should be.
+`center`, `facility_count` and `last_reviewed` are **duplicated on purpose**: the global map
+is the landing view, and plotting every region — or ranking which one has waited longest for
+a look — has to cost nothing, so it reads the registry rather than downloading region files
+(`docs/04`'s "never ship all regions at once"). The validator compares all three against the
+file whenever the entry points at one, so the copies can't drift — a data PR that adds
+facilities and forgets the count fails with the number it should be. `npm run new-region`
+and `npm run merge-region` write them for you.
 
 Use `npm run new-region` rather than hand-editing the registry; it derives `admin` from
 the id, takes `--admin-name`, and copies `center`/`facility_count` out of the data file

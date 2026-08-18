@@ -27,6 +27,8 @@ const VALID_STATUSES = new Set(['requested', 'in_progress', 'published'])
 // They mean nothing outside the US system, so they are only valid on US
 // records — every other country states its own designation instead (docs/02).
 const ACS_ONLY_SPECIALTIES = /^trauma_level_\d$/
+// The registry has no JSON Schema, so its dates are shape-checked here.
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
 
 const ajv = new Ajv2020({ allErrors: true, strict: false })
 addFormats(ajv)
@@ -131,6 +133,22 @@ for (const entry of entries) {
     warn(where, 'has no facility_count — the global map will pin it without a count')
   }
 
+  // Review age (docs/03), mirrored on the same bargain as `center`: the app
+  // ranks which region has waited longest for a depth pass from the registry
+  // alone, so the copy is checked against the file. A region that has never
+  // recorded one only warns — Phase 8 doesn't fail for missing information.
+  if (entry.last_reviewed !== undefined) {
+    if (!ISO_DATE.test(entry.last_reviewed)) {
+      fail(where, `last_reviewed "${entry.last_reviewed}" must be an ISO date (YYYY-MM-DD)`)
+    } else if (source && !source.meta.last_reviewed) {
+      fail(where, `has last_reviewed but ${entry.file} does not — the file is the source of truth for it`)
+    } else if (source && source.meta.last_reviewed !== entry.last_reviewed) {
+      fail(where, `last_reviewed ${entry.last_reviewed} disagrees with ${entry.file} (${source.meta.last_reviewed})`)
+    }
+  } else if (entry.status === 'published') {
+    warn(where, 'has no last_reviewed — it can\'t be ranked by review age (`npm run report -- --stale`)')
+  }
+
   // The region picker groups by country → division, so `admin` has to agree
   // with the division segment of the region_id it claims to describe.
   const adminFromId = entry.region_id.split('-').length > 2
@@ -185,6 +203,17 @@ for (const file of files) {
   const prefix = meta.region_id.split('-')[0]
   if (prefix !== meta.country.toLowerCase()) {
     fail(file, `region_id "${meta.region_id}" starts with "${prefix}-" but country is "${meta.country}"`)
+  }
+
+  // 3d. review age. Without it the region can't be ranked for a depth pass
+  //     (docs/07 Phase 8), which is worth saying — but it is missing
+  //     information, so it warns. A date behind the file's own generation is
+  //     usually a typo, though a region that gained a part after its last
+  //     review is legitimately in that state, so that warns too.
+  if (!meta.last_reviewed) {
+    warn(file, 'has no metadata.last_reviewed — set it to the date the region was last worked (docs/03)')
+  } else if (meta.generated_at && meta.last_reviewed < meta.generated_at) {
+    warn(file, `last_reviewed ${meta.last_reviewed} predates generated_at ${meta.generated_at}`)
   }
 
   // 4. sub-region referential integrity
