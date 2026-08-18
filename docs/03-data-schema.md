@@ -21,17 +21,19 @@ Validation is enforced by `npm run validate` (and in CI). See
 
 ## Facility record
 
+A real record, from [`us-ga-savannah.geojson`](../data/regions/us-ga-savannah.geojson):
+
 ```jsonc
 {
-  "id": "spfd-station-5",            // stable, unique-within-region slug
-  "name": "Springfield Fire Station 5",
+  "id": "sfd-station-1",             // stable, unique-within-region slug
+  "name": "Savannah Fire Station 1",
   "category": "fire",                // see Domain Model controlled vocab
   "subtype": "career",               // optional finer detail
-  "subregion_id": "downtown",        // optional; references metadata.subregions[].id
+  "subregion_id": "midtown-savannah",// optional; references metadata.subregions[].id
   "status": "active",                // active | closed | planned | unknown
 
   "agency": {
-    "name": "Springfield Fire Department",
+    "name": "Savannah Fire & Emergency Services",
     "type": "fire_department",       // fire_department | police_department |
                                      // sheriff_office | national_police | state_agency |
                                      // federal_agency | ems_agency | hospital_system |
@@ -44,13 +46,13 @@ Validation is enforced by `npm run validate` (and in CI). See
     "parent": null                   // optional parent agency name
   },
 
-  "designation": "Station 5",        // station/precinct/post number as used locally
+  "designation": "Station 1",        // station/precinct/post number as used locally
   "address": {
-    "street": "123 Main St",
-    "city": "Springfield",
-    "county": "Sangamon",
-    "state": "IL",
-    "postal_code": "62701",
+    "street": "535 E 63rd St",
+    "city": "Savannah",
+    "county": "Chatham",
+    "state": "GA",
+    "postal_code": "31405",
     "country": "US"
   },
 
@@ -59,41 +61,37 @@ Validation is enforced by `npm run validate` (and in CI). See
 
   "units": [
     {
-      "type": "engine",             // Unit vocab from Domain Model
-      "designation": "Engine 5",
-      "count": 1,
-      "attributes": { "pump_gpm": 1500, "tank_gal": 500 }
+      "type": "engine",              // Unit vocab from Domain Model
+      "designation": "Engine 1",
+      "count": 1
+      // "attributes": { "pump_gpm": 1500, "tank_gal": 500 }  — optional, when published
     },
-    {
-      "type": "ladder",
-      "designation": "Truck 5",
-      "count": 1,
-      "attributes": { "aerial_ft": 100, "platform": true }
-    }
+    { "type": "ladder", "designation": "Truck 1", "count": 1 },
+    { "type": "rehab", "designation": "Rehab 1", "count": 1 }
   ],
 
-  "specialties": ["technical_rescue", "hazmat"],
+  "specialties": [],                 // capability tags — e.g. ["technical_rescue", "hazmat"]
 
-  "attributes": {                    // category-specific free-form (validated loosely)
-    // hospital:  beds, ed_beds, trauma_level, helipad, stroke_center, cardiac_center
-    // prison/jail: inmate_capacity, security_level
-    // police:    swat, k9, patrol_beats
-  },
+  "attributes": {},                  // category-specific free-form (validated loosely)
+                                     // hospital:  beds, ed_beds, trauma_level, helipad,
+                                     //            stroke_center, cardiac_center
+                                     // prison/jail: inmate_capacity, security_level
+                                     // police:    swat, k9, patrol_beats
 
   "game": {
     "building_types": ["Fire Station"],
     "recommended": true,             // optional: worth building early?
-    "notes": "Busy downtown house — pair an engine + truck + rescue to mirror it."
+    "notes": "Midtown career house with an engine + truck; solid all-round early build."
   },
 
-  "significance": "Downtown first-due; houses the department's only heavy rescue.",
+  "significance": "Midtown first-due engine/truck company.",
 
   "sources": [
-    { "title": "Springfield FD — Stations", "url": "https://example.gov/fd/stations",
-      "retrieved": "2026-08-13" }
+    { "title": "Savannah Fire stations & apparatus — GeorgiaFireSource",
+      "url": "https://www.georgiafiresource.com/SavannahFD.htm", "retrieved": "2026-08-14" }
   ],
-  "confidence": "high",              // high | medium | low
-  "last_verified": "2026-08-13"
+  "confidence": "medium",            // high | medium | low
+  "last_verified": "2026-08-14"
 }
 ```
 
@@ -127,17 +125,17 @@ Validation is enforced by `npm run validate` (and in CI). See
 {
   "type": "FeatureCollection",
   "metadata": {
-    "region_id": "us-il-springfield",
-    "name": "Springfield, IL",
+    "region_id": "us-ga-savannah",
+    "name": "Savannah, GA (Chatham County)",
     "country": "US",
-    "center": [-89.65, 39.80],       // [lng, lat] default map center
+    "center": [-81.10, 32.05],       // [lng, lat] default map center
     "zoom": 11,
     "subregions": [                  // optional local-level divisions (see below)
-      { "id": "downtown", "name": "Downtown", "level": "district",
-        "parent": null, "center": [-89.648, 39.80], "zoom": 13 }
+      { "id": "downtown-savannah", "name": "Downtown / Historic District",
+        "level": "district", "parent": null, "center": [-81.091, 32.076], "zoom": 14 }
     ],
     "generated_by": "agent",         // agent | human
-    "generated_at": "2026-08-13",
+    "generated_at": "2026-08-14",
     "schema_version": 2
   },
   "features": [ /* Facility Features */ ]

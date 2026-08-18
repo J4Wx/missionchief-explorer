@@ -7,7 +7,7 @@ validated state.
 
 - [x] Project plan & docs (`docs/`).
 - [x] Normalized data schema (`schemas/facility.schema.json`, `region.schema.json`).
-- [x] Sample/fixture region (`data/regions/example-springfield.geojson`) + `index.json`.
+- [x] Region registry (`data/regions/index.json`) + region file format.
 - [x] Agent operating contract (`docs/06`, `AGENTS.md`).
 
 ## Phase 1 — App scaffold & validation ✅
@@ -18,8 +18,8 @@ validated state.
 - [x] Generate TS types from the schema (`scripts/gen-types.mjs` → `src/types/schema.ts`).
 - [x] Load `index.json` + a region file (via `import.meta.glob`, lazy per region); render a
       list of facilities with a working region picker and sub-region filter.
-- **Exit:** ✅ app builds, `validate`/`typecheck`/`lint`/`build` all pass and run in CI, the
-  example region renders as a list.
+- **Exit:** ✅ app builds, `validate`/`typecheck`/`lint`/`build` all pass and run in CI, a
+  region renders as a list.
 
 ## Phase 2 — Map & detail ✅
 

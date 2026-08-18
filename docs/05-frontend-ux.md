@@ -87,7 +87,7 @@ Once a region is open (responsive → stacked on mobile):
   `aria-activedescendant` for the active option, focus handed back to the trigger on
   close, and a click outside dismisses like a native menu.
 - Selecting a region loads its GeoJSON and recenters the map to `metadata.center/zoom`.
-- Persist last-used region in the URL (`?region=us-il-springfield`); **no `region` param is
+- Persist last-used region in the URL (`?region=us-ga-savannah`); **no `region` param is
   the global map**, so the bare URL is the coverage view and every region link is explicit.
 
 ### Sub-region picker

@@ -33,8 +33,6 @@ These are non-negotiable, for humans and agents alike:
   [`schemas/facility.schema.json`](schemas/facility.schema.json). Adding a category, unit
   type, or specialty means updating the schema **and**
   [`docs/02-domain-model.md`](docs/02-domain-model.md) in the same change.
-- **`example-springfield.geojson` is fictional.** It demonstrates the schema. Never cite
-  it, never copy numbers out of it.
 
 ## Requesting a region
 

@@ -253,17 +253,6 @@ describe('validate.mjs', () => {
       expect(output).toContain('filename should be "us-ga-testville.geojson"')
     })
 
-    it('exempts the bundled example fixtures from the naming rule', () => {
-      const { code } = run({
-        index: {
-          schema_version: 2,
-          regions: [{ ...validEntry(), file: 'example-testville.geojson' }],
-        },
-        regions: { 'example-testville.geojson': validRegion() },
-      })
-      expect(code).toBe(0)
-    })
-
     it('rejects a region file nobody registered', () => {
       const { code, output } = run({
         index: { schema_version: 2, regions: [] },
