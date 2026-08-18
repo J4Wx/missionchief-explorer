@@ -164,9 +164,8 @@ for (const file of files) {
 
   const meta = data.metadata
 
-  // 2. Real region files must be named <region_id>.geojson.
-  //    The bundled "example-*" fixtures are exempt from this naming rule.
-  if (!file.startsWith('example-') && basename(file, '.geojson') !== meta.region_id) {
+  // 2. Region files must be named <region_id>.geojson.
+  if (basename(file, '.geojson') !== meta.region_id) {
     fail(file, `filename should be "${meta.region_id}.geojson" to match region_id`)
   }
 

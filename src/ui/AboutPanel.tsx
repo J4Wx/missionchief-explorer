@@ -208,16 +208,6 @@ export function AboutPanel({ regions, region, onClose }: Props) {
             </Section>
           )}
 
-          <Section title="A note on the example region">
-            <p className="text-ink-muted">
-              <strong className="font-semibold text-ink">
-                Springfield, IL is a fictional fixture.
-              </strong>{' '}
-              It exists to demonstrate the data format and is not real data — do not use it
-              for anything, and never cite it as a source. Every other region is real.
-            </p>
-          </Section>
-
           <Section title="Request a region, or fix one">
             <p className="text-ink-muted">
               Missing your city? Ask for it, and it gets queued in the region registry for

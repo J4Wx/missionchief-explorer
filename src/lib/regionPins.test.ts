@@ -45,7 +45,7 @@ describe('regionPins', () => {
   })
 
   it('totals the facilities behind the pins, counting an unknown as none', () => {
-    const uncounted = regionEntry({ region_id: 'us-il-springfield', center: [-89.65, 39.8] })
+    const uncounted = regionEntry({ region_id: 'us-ny-buffalo', center: [-78.8, 42.83] })
     expect(pinnedFacilityCount(regionPins([savannah, liverpool, uncounted]))).toBe(130)
   })
 })

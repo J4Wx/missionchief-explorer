@@ -2,21 +2,6 @@
   "schema_version": 1,
   "regions": [
     {
-      "region_id": "us-il-springfield",
-      "name": "Springfield, IL (example)",
-      "country": "US",
-      "admin": "il",
-      "admin_name": "Illinois",
-      "file": "example-springfield.geojson",
-      "center": [
-        -89.65,
-        39.8
-      ],
-      "facility_count": 6,
-      "status": "published",
-      "note": "Illustrative FICTIONAL fixture demonstrating the schema — not real data."
-    },
-    {
       "region_id": "us-ga-savannah",
       "name": "Savannah, GA (Chatham County)",
       "country": "US",

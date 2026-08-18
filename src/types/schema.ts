@@ -8,7 +8,7 @@ export interface RegionFeatureCollection {
   type: 'FeatureCollection'
   metadata: {
     /**
-     * Globally unique region slug, e.g. us-il-springfield.
+     * Globally unique region slug, e.g. us-ga-savannah.
      */
     region_id: string
     name: string

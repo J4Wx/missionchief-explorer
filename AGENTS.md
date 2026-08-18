@@ -49,8 +49,6 @@ anything structural:
 - **Cite everything** in data records.
 - **No secrets, no PII, public sources only.**
 - **Additive schema changes:** bump `schema_version`, keep validation backward compatible.
-- **The `example-springfield.geojson` fixture is FICTIONAL** — a schema demo, not real
-  data. Don't cite it as a source or treat it as ground truth.
 
 ## Conventions
 
@@ -69,8 +67,8 @@ anything structural:
 **Phases 0–5 are complete** — see `docs/07-roadmap.md`. The app scaffold, validation +
 CI, map/legend/detail, filters/search/URL state, the first real region (Savannah, GA),
 PR preview deploys, light/dark theming, the About/provenance panel and the
-`new-region` helper are all in. Five real regions are published (Savannah GA, Charleston SC,
-Buffalo NY, Liverpool GB, Norwich GB) plus the fictional fixture.
+`new-region` helper are all in. Five regions are published (Savannah GA, Charleston SC,
+Buffalo NY, Liverpool GB, Norwich GB); every one of them is real data.
 
 **Phase 6 — international regions is complete** (`docs/07`). `schema_version` is now 2
 (`address.state` optional, ISO-2 country codes, widened category/agency/sub-region

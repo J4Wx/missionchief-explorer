@@ -92,8 +92,6 @@ body:
       options:
         - label: This is public information — no personal data, no home addresses, nothing operationally sensitive.
           required: true
-        - label: I'm not citing `example-springfield.geojson`, which is a fictional schema demo.
-          required: true
   - type: checkboxes
     id: help
     attributes:

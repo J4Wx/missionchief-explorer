@@ -5,7 +5,7 @@ This is the operating contract for the agent that turns **"a player is intereste
 
 ## Objective
 
-Given a place (e.g. "Springfield, IL" or "King County, WA"), produce a normalized,
+Given a place (e.g. "Savannah, GA" or "King County, WA"), produce a normalized,
 well-sourced catalog of its emergency-services facilities per the
 [Data Schema](03-data-schema.md) and [Domain Model](02-domain-model.md), suitable for
 Mission Chief planning.

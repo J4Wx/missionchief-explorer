@@ -16,7 +16,7 @@
         "region_id": {
           "type": "string",
           "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
-          "description": "Globally unique region slug, e.g. us-il-springfield."
+          "description": "Globally unique region slug, e.g. us-ga-savannah."
         },
         "name": { "type": "string" },
         "country": {
